@@ -9,16 +9,18 @@ public class Libro {
   private String titulo;
   private String autor;
   private String genero;
+  private int anno;
   private int ejemplaresDisponibles;
 
   /**
    * Método para la creación de un libro
    */
-  public Libro(String isbn, String titulo, String autor, String genero, int ejemplaresDisponibles) {
+  public Libro(String isbn, String titulo, String autor, String genero, int anno, int ejemplaresDisponibles) {
     this.isbn = isbn;
     this.titulo = titulo;
     this.autor = autor;
     this.genero = genero;
+    this.anno = anno;
     this.ejemplaresDisponibles = ejemplaresDisponibles;
   }
 
@@ -67,7 +69,7 @@ public class Libro {
    */
   public String toString() {
     return "ISBN: " + this.isbn + ". " + this.descripcion() + " (" + this.ejemplaresDisponibles
-        + " ejemplares disponibles). " + "Género: " + this.genero;
+        + " ejemplares disponibles). " + "Género: " + this.genero + ". " + "Año: " + this.anno;
   }
 
 }
