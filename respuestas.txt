@@ -1,0 +1,4 @@
+- ¿Qué pasa si desde el main llamamos al método description de un Libro? ¿Por qué?
+- ¿Podemos añadir varias veces el mismo objeto Libro a una lista? ¿Qué sucede si prestamos uno de ellos?
+- ¿Qué pasa si eliminamos el método toString de la clase Libro? ¿Qué se imprime en el main?
+- ¿Podemos crear un Libro omitiendo el número de ejemplares disponibles en la llamada a su constructor? ¿Cómo podemos modificar el programa para lograrlo?
