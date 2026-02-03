@@ -11,6 +11,10 @@ public class Libro {
     this.ejemplaresDisponibles = ejemplaresDisponibles;
   }
 
+  public boolean estaDisponible(){
+    return this.ejemplaresDisponibles > 0;
+  }
+
   public boolean prestar(){
     if(estaDisponible()){
       this.ejemplaresDisponibles--;
