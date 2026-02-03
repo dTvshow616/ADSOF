@@ -7,7 +7,8 @@
 public class HolaMundo {
   /**
    * Punto de entrada de la aplicación.
-   * El programa muestar en pantalla "Hola Mundo".
+   * El programa muestra en pantalla "Hola Mundo".
+   * 
    * @param args Argumentos de línea de comandos
    */
   public static void main(String[] args) {
