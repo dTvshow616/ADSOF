@@ -4,38 +4,38 @@ public class Libro {
   private String autor;
   private int ejemplaresDisponibles;
 
-  public Libro(String isbn, String titulo, String autor, int ejemplaresDisponibles){
+  public Libro(String isbn, String titulo, String autor, int ejemplaresDisponibles) {
     this.isbn = isbn;
     this.titulo = titulo;
     this.autor = autor;
     this.ejemplaresDisponibles = ejemplaresDisponibles;
   }
 
-  public boolean estaDisponible(){
+  public boolean estaDisponible() {
     return this.ejemplaresDisponibles > 0;
   }
 
-  public boolean prestar(){
-    if(estaDisponible()){
+  public boolean prestar() {
+    if (estaDisponible()) {
       this.ejemplaresDisponibles--;
       return true;
     }
     return false;
   }
 
-  public void devolver(){
+  public void devolver() {
     this.ejemplaresDisponibles++;
   }
 
-
-  private String descripcion(){
+  private String descripcion() {
     String estado = this.estaDisponible() ? "Disponible" : "No Disponible";
-    return "'"+this.titulo + "' de" + this.autor + " [" + estado + "]"; 
+    return "'" + this.titulo + "' de" + this.autor + " [" + estado + "]";
   }
 
   @Override
-  public String toString(){
-    return "ISBN: " + this.isbn + ". " + this.descripcion() + " ("+this.ejemplaresDisponibles+ " ejemplares disponibles)";
+  public String toString() {
+    return "ISBN: " + this.isbn + ". " + this.descripcion() + " (" + this.ejemplaresDisponibles
+        + " ejemplares disponibles)";
   }
-  
+
 }
