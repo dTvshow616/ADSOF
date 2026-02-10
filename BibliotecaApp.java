@@ -1,20 +1,34 @@
 import java.util.*;
 
+/**
+ * Esta clase controla y crea bibliotecas y libros
+ * Autor: Álvaro Gallego y Ana Olsson
+ * Version: 1.0
+ * Nombre del fichero: BibliotecaApp.java
+ */
 public class BibliotecaApp {
+  /**
+ * Punto de entrada de la aplicación
+ * El programa controla 1 o varias Bibliotecas con sus respectivos libros
+ * @param args Argumentos de la línea de comandos
+ */
   public static void main(String[] args) {
-    List<Libro> libros = new ArrayList<>(List.of(
-        new Libro("1", "El Quijote", "Miguel de Cervantes", "Novela", 1957, 5),
-        new Libro("2", "El murciélago", "Jo Nesbo", "Novela", 2015, 1),
-        new Libro("3", "Learn Java", "David Hoffman", "Ciencia", 2015, 6)));
+    Biblioteca b = new Biblioteca("Biblioteca Central");
 
-    libros.get(1).prestar();
-    for (Libro l : libros)
-      System.out.println(l);
+    
+    Libro l2 = new Libro("2", "El murciélago", "Jo Nesbo", "Novela", 2015, 1);
+    Libro l3 = new Libro("3", "Learn Java", "David Hoffman", "Ciencia", 2015, 6);
+    Libro l1 = new Libro("4", "El Quijote", "Miguel de Cervantes", "Novela", 1957, 5);
 
-    libros.get(1).devolver();
-    System.out.println(libros);
+    b.addLibro(l1);
+    b.addLibro(l2);
+    b.addLibro(l3);
 
-    libros.add(new Libro("4", "Con viento solano", "Ignacio Aldecoa", "Historia", 1956, 1));
-    System.out.println(libros);
+    System.out.println(b);
+
+    System.out.println(b.LibrosPorGenero("Ciencia"));
+
+    System.out.println(b.LibrosPosterioresA(1975));
+
   }
 }
