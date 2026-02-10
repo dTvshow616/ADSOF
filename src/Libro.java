@@ -1,8 +1,10 @@
+package src;
+
 /**
- * Esta clase maneja un Libro
- * Autor: Álvaro Gallego y Ana Olsson
+ * Esta clase maneja un src.Libro
+ * Autor: Alvaro Gallego y Ana Olsson
  * Version: 1.0
- * Nombre del fichero: Libro.java
+ * Nombre del fichero: src.Libro.java
  */
 public class Libro {
   private String isbn;
@@ -13,21 +15,32 @@ public class Libro {
   private int ejemplaresDisponibles;
 
   /**
-   * Método para la creación de un libro
+   * Metodo para la creacion de un libro
    * @param isbn String con el isbn del libro
    * @param titulo String con el titulo del libro
    * @param autor String con el autor del libro
-   * @param genero String con el genero del libro
-   * @param anno Año de salida del libro
    * @param ejemplaresDisponibles Cantidad de ejemplares disponibles
+   * @param genero String con el genero del libro
+   * @param anno Anno de salida del libro
    */
-  public Libro(String isbn, String titulo, String autor, String genero, int anno, int ejemplaresDisponibles) {
+  public Libro(String isbn, String titulo, String autor, int ejemplaresDisponibles, String genero, int anno) {
     this.isbn = isbn;
     this.titulo = titulo;
     this.autor = autor;
-    this.genero = genero;
     this.anno = anno;
+    this.genero = genero;
     this.ejemplaresDisponibles = ejemplaresDisponibles;
+  }
+
+  /**
+   * Segundo constructor para el caso de que se cree un libro sin genero y sin anno
+   * @param isbn String con el isbn del libro
+   * @param titulo String con el titulo del libro
+   * @param autor String con el autor del libro
+   * @param ejemplaresDisponibles Cantidad de ejemplares disponibles
+   */
+  public Libro(String isbn, String titulo, String autor, int ejemplaresDisponibles) {
+    this(isbn, titulo, autor, ejemplaresDisponibles, null,0);
   }
 
   /**
@@ -69,15 +82,15 @@ public class Libro {
   }
 
   /**
-   * Devuelve el año del libro
-   * @return año del libro
+   * Devuelve el anno del libro
+   * @return anno del libro
    */
   public int getanno(){
     return this.anno;
   }
 
   /**
-   * El programa devuelve la descripción del libro como "{Título} de {Autor}"",
+   * El programa devuelve la descripcion del libro como "{Título} de {Autor}"",
    * seguido por su estado (Disponible / No Disponible))
    * @return String con la descripcion de un libro
    */
@@ -88,13 +101,18 @@ public class Libro {
  
   @Override
   /**
-   * El programa devuelve toda la información relevante de un libro, incluyendo su
-   * ISBN, la descripción, su número de ejemplares disponibles y el género
+   * El programa devuelve toda la informacion relevante de un libro, incluyendo su
+   * ISBN, la descripcion, su número de ejemplares disponibles y el genero
    * literario al que pertenece
    */
   public String toString() {
-    return "ISBN: " + this.isbn + ". " + this.descripcion() + " (" + this.ejemplaresDisponibles
-        + " ejemplares disponibles). " + "Género: " + this.genero + ". " + "Año: " + this.anno;
+    if (this.genero != null && this.anno > 0) {
+      return "ISBN: " + this.isbn + ". " + this.descripcion() + " (" + this.ejemplaresDisponibles
+              + " ejemplares disponibles). " + "Genero: " + this.genero + ". " + "Anno: " + this.anno;
+    } else {
+      return "ISBN: " + this.isbn + ". " + this.descripcion() + " (" + this.ejemplaresDisponibles
+              + " ejemplares disponibles). ";
+    }
   }
 
 }
