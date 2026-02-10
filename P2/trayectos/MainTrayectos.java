@@ -1,5 +1,11 @@
 package trayectos;
 
+/**
+ * Esta clase controla y crea un trayecto
+ * Autor: Alvaro Gallego y Ana Olsson
+ * Version: 1.0
+ * Nombre del fichero: trayectos.MainTrayectos.java
+ */
 public class MainTrayectos {
     public static void main(String[] args) {
         TramoTrayecto[] trayecto = {
