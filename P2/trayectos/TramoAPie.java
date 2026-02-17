@@ -2,8 +2,8 @@ package trayectos;
 
 /**
  * Esta clase maneja los tramos a pie
- * Autor: Alvaro Gallego y Ana Olsson
- * Version: 1.0
+ * @author Alvaro Gallego y Ana Olsson
+ * @version 1.0
  * Nombre del fichero: trayectos.TramoAPie.java
  */
 public class TramoAPie extends TramoTrayecto {

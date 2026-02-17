@@ -2,8 +2,8 @@ package trayectos;
 
 /**
  * Esta clase controla y crea un trayecto
- * Autor: Alvaro Gallego y Ana Olsson
- * Version: 1.0
+ * @author Alvaro Gallego y Ana Olsson
+ * @version 1.0
  * Nombre del fichero: trayectos.MainTrayectos.java
  */
 public class MainTrayectos {

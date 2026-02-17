@@ -2,8 +2,8 @@ package trayectos;
 
 /**
  * Esta clase maneja los tramos en tren
- * Autor: Alvaro Gallego y Ana Olsson
- * Version: 1.0
+ * @author Alvaro Gallego y Ana Olsson
+ * @version 1.0
  * Nombre del fichero: trayectos.TramoTren.java
  */
 public class TramoTren extends TramoTrayecto {

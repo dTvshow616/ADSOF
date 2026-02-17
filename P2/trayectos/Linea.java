@@ -2,8 +2,8 @@ package trayectos;
 
 /**
  * Esta clase maneja un enum para las lineas del Cercanias
- * Autor: Alvaro Gallego y Ana Olsson
- * Version: 1.0
+ * @author Alvaro Gallego y Ana Olsson
+ * @version 1.0
  * Nombre del fichero: trayectos.Linea.java
  */
 public enum Linea {
