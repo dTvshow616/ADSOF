@@ -1,0 +1,9 @@
+Los clientes, gestores y repartidores son usuarios que interactúan con los datos de la pizzería. En la pizzería
+encontramos un listado de los usuarios y pedidos que en ella se encuentran. De cara a los clientes, estos puede
+realizar pedidos de bebidas y pizzas que serán repartidos por el repartidor que le asigne el gestor.
+
+Los pedidos puede contener bebidas de diversos tipos (refresco de cola, botella de agua y cerveza sin alcohol) y las
+pizzas tienen tres posibles tipos: por mitades, configurable y especial. La pizza por mitades consta de dos mitades
+configurables. Por otro lado, las pizzas configurables constan de diversos ingredientes con precios fijos. Por último,
+las pizzas especiales tienen cuatro posibles variantes (margarita, vegetariana, pepperoni y cuatro quesos) y los pedidos
+pasan por tres fases: realizado, preparado y entregado de las cuales se anotan las fechas para poder realizar analíticas.

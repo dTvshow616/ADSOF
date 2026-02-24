@@ -1,0 +1,3 @@
+Un tramo de trayecto puede ser en tren o a pie y el tiempo de dicho trayecto dependerá del número de paradas y tren
+(C1, C2 o C3) en el que se viaje o el número de kilómetros y ritmo (lento, moderado o rápido) al que se camine,
+respectivamente.
