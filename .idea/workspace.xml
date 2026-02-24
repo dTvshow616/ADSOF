@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="914fa6c4-2085-401f-9e3a-133c2876223f" name="Changes" comment="Ej 4 y comentarios UML">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/P2/Apartado 2.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/P2/asistente/Apartado 2.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/P2/Apartado 3.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/P2/periodico/Apartado 3.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/P2/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/P2/Makefile" afterDir="false" />
-    </list>
+    <list default="true" id="914fa6c4-2085-401f-9e3a-133c2876223f" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -123,7 +118,15 @@
       <option name="project" value="LOCAL" />
       <updated>1771903899692</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="carpetas pq lo dice el enunciado, javadoc de trayectos y Diag. obj. Pizzeria">
+      <option name="closed" value="true" />
+      <created>1771904918085</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1771904918085</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -142,7 +145,8 @@
     <MESSAGE value="Ej 4 inicios" />
     <MESSAGE value="Ej 4 inicios, esto no se añadió" />
     <MESSAGE value="Ej 4 y comentarios UML" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ej 4 y comentarios UML" />
+    <MESSAGE value="carpetas pq lo dice el enunciado, javadoc de trayectos y Diag. obj. Pizzeria" />
+    <option name="LAST_COMMIT_MESSAGE" value="carpetas pq lo dice el enunciado, javadoc de trayectos y Diag. obj. Pizzeria" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
