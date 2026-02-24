@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"trayectos","l":"Linea"},{"p":"trayectos","l":"MainTrayectos"},{"p":"trayectos","l":"Ritmo"},{"p":"trayectos","l":"TramoAPie"},{"p":"trayectos","l":"TramoTrayecto"},{"p":"trayectos","l":"TramoTren"}];updateSearchResults();

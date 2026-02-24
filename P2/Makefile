@@ -1,15 +1,13 @@
 # Usar dentro de P2 (cd P2)
-PACKS = trayectos
-
 all:
-	javac -Werror $(PACKS)/*.java
+	javac -Werror trayectos/*.java
 
 doc:
-	javadoc -d doc $(PACKS)/*.java
+	javadoc -d trayectos/doc trayectos/*.java
 
 run:
 	java trayectos/MainTrayectos
 	# Annadir mas
 
 clean:
-	rm $(PACKS)/*.class
+	rm trayectos/*.class

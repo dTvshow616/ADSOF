@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="914fa6c4-2085-401f-9e3a-133c2876223f" name="Changes" comment="Ej 4 inicios, esto no se añadió">
+    <list default="true" id="914fa6c4-2085-401f-9e3a-133c2876223f" name="Changes" comment="Ej 4 y comentarios UML">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/P2/pizzeria/Bebida.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P2/pizzeria/Formato.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P2/pizzeria/Ingrediente.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P2/pizzeria/Masa.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P2/pizzeria/Pedido.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P2/pizzeria/Tamanno.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P2/pizzeria/Tipo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P2/trayectos/Diagrama_UML_Trayectos.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/P2/Apartado 2.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/P2/asistente/Apartado 2.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/P2/Apartado 3.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/P2/periodico/Apartado 3.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/P2/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/P2/Makefile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +55,13 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\anaol\IdeaProjects\ADSOF\P2\trayectos" />
+      <recent name="C:\Users\anaol\IdeaProjects\ADSOF\P2\asistente" />
+      <recent name="C:\Users\anaol\IdeaProjects\ADSOF\P2\periodico" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="all" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
       <makefile filename="$PROJECT_DIR$/P2/Makefile" target="all" workingDirectory="" arguments="">
@@ -113,7 +115,15 @@
       <option name="project" value="LOCAL" />
       <updated>1771606166164</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Ej 4 y comentarios UML">
+      <option name="closed" value="true" />
+      <created>1771903899692</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1771903899692</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -131,7 +141,8 @@
     <MESSAGE value="Cosillas trayecto (el Makefile no funciona pero al menos sirve para saber los comandos)" />
     <MESSAGE value="Ej 4 inicios" />
     <MESSAGE value="Ej 4 inicios, esto no se añadió" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ej 4 inicios, esto no se añadió" />
+    <MESSAGE value="Ej 4 y comentarios UML" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ej 4 y comentarios UML" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
