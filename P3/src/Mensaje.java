@@ -1,6 +1,8 @@
+package src;
+
 public class Mensaje {
     private String author;
-    private int alcanceDisponible; // Capacidad para seguir difundiéndose
+    private int alcanceDisponible; /* Capacidad para seguir difundiéndose */
     private Usuario usuarioActual;
 
     /**
@@ -19,15 +21,15 @@ public class Mensaje {
      * Devuelve el autor del mensaje
      * @return el autor del mensaje
      */
-    public String mensajeGetAuthor() {
+    public String obtenerAuthor() {
         return this.author;
     }
 
     /**
-     * Devuelve el alance disponible del mensaje
-     * @return el alance disponible del mensaje
+     * Devuelve el alcance disponible del mensaje
+     * @return el alcance disponible del mensaje
      */
-    public int mensajeGetAlcanceDisponible() {
+    public int obtenerAlcanceDisponible() {
         return this.alcanceDisponible;
     }
 
@@ -35,12 +37,12 @@ public class Mensaje {
      * Devuelve el usuario actual del mensaje
      * @return el usuario actual del mensaje
      */
-    public Usuario mensajeGetUsuarioActual() {
+    public Usuario obtenerUsuarioActual() {
         return this.usuarioActual;
     }
 
     /**
-     * Función que intenda difundir el mensaje a través de un cierto enlace
+     * Función que intende difundir el mensaje a través de un cierto enlace
      * @param e el enlace mediante el que se intentará difundir el mensaje
      * @return true si el mensaje se pudo difundir, false si no
      */
@@ -54,16 +56,16 @@ public class Mensaje {
             return false;
         }
 
-        if (e.usuarioOrigen == e.usuarioDestino) {
+        if (e.obtenerUsuarioOrigen() == e.obtenerUsuarioDestino()) {
             return true;
         }
 
-        if (this.alcanceDisponible >= e.costeReal()) {
+        if (this.alcanceDisponible >= e.obtenerCosteReal()) {
             return false;
         }
 
         /* El usuario actual del mensaje pasa a ser el destino del enlace */
-        this.usuarioActual = e.usuarioDestino;
+        this.usuarioActual = e.obtenerUsuarioDestino();
         /* El alcance del mensaje disminuye en el coste real del enlace */
         this.alcanceDisponible = this.alcanceDisponible - e.obtenerCosteReal();
         /* El alcance vuelve a incrementarse en la cantidad correspondiente a la capacidad de amplificación del usuario
@@ -75,7 +77,7 @@ public class Mensaje {
     }
 
     /* Debe sobrecargar el method difunde para que reciba como argumentos un número variable de usuarios que el
-    mensaje tiene previsto visistar en ese order. El method aplicará iterativamente difunde(Enlace) si el enlace
+    mensaje tiene previsto visitar en ese order. El method aplicará iterativamente difunde(Enlace) si el enlace
     hacia el siguiente usuario existe y puede difundirse, el mensaje se traslada (difunde) allí, pero si no
     existe el enlace, o el alcance no es suficiente, o el destino no lo acepta, se intenta directamente con el
     siguiente usuario en la lista, sin detener la difusión por completo. */
@@ -85,7 +87,7 @@ public class Mensaje {
      * @param usuarios los usuarios de la red, ordenados por orden de difusión
      * @return true si el mensaje se pudo difundir por toda la red, false si no
      */
-    public boolean difunde(Usuario usuarios[]) {
+    public boolean difunde(Usuario[] usuarios) {
         Usuario usuarioOrigen;
         Enlace e;
 
@@ -99,7 +101,7 @@ public class Mensaje {
 
         for (Usuario usuarioDestino : usuarios) {
             /* Llamada al otro difunde */
-            if (difunde(e) == false) { // ! Sacar el enlace entre usuarioOrigen y usuariodestino
+            if (difunde(e) == false) { // ! Sacar el enlace entre usuarioOrigen y usuarioDestino
                 huboSaltos = true;
             } else {
                 usuarioOrigen = usuarioDestino;
@@ -107,7 +109,7 @@ public class Mensaje {
         }
 
         /* El method devolverá true solo si el mensaje ha podido correctamente en tout los saltos en los que realmente
-        se haya realizado una transmisisón. Si al menos una vez se ha tenido que "saltar" un usuario porque no había
+        se haya realizado una transmisión. Si al menos una vez se ha tenido que "saltar" un usuario porque no había
         camino posible o no había alcance suficiente, el retorno será false, incluso si el mensaje logra llegar a
         otros usuarios posteriores.
 

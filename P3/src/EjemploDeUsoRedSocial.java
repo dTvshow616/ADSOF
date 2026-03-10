@@ -1,3 +1,5 @@
+package src;
+
 public class EjemploDeUsoRedSocial {
     public static void main(String[] args) {
         try {

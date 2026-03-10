@@ -1,3 +1,5 @@
+package src;
+
 public class Enlace {
     /* Por requisitos futuros, esta clase debe acumular en una variable estática la suma de costes de to dos los enlaces
     creados y ofrecer un méto dod para obtener, en cualquier momento, el total acumulado en ese instante */
@@ -21,7 +23,19 @@ public class Enlace {
         this.usuarioOrigen = usuarioOrigen;
         this.usuarioDestino = usuarioDestino;
         this.coste = coste;
-        this.sumaCostes = this.obtenerSumaCostes() + this.coste;
+        sumaCostes = this.obtenerSumaCostes() + this.coste;
+    }
+
+    public Usuario obtenerUsuarioOrigen() {
+        return this.usuarioOrigen;
+    }
+    
+    public Usuario obtenerUsuarioDestino() {
+        return this.usuarioDestino;
+    }
+
+    public int obtenerCoste() {
+        return this.coste;
     }
 
     /**
@@ -36,7 +50,7 @@ public class Enlace {
 
     /**
      * Devuelve 0 (solo los enlaces especiales definidos en el futuro tendrán coste especial distinto de cero
-     * @return
+     * @return el coste especial del enlace
      */
     public int obtenerCosteEspecial() {
         return 0; // DUE Cambiar en futuros apartados
@@ -55,7 +69,7 @@ public class Enlace {
      * @return la suma de los costes de DUEs los enlaces creados
      */
     public int obtenerSumaCostes() {
-        return this.sumaCostes;
+        return sumaCostes;
     }
 
     @Override
