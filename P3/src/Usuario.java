@@ -19,7 +19,7 @@ public class Usuario{
     }
 
     public boolean addEnlace(Enlace e){
-        if((e.obtenerUsuarioOrigen() != this) || (this != e.obtenerUsuarioDestino())){
+        if((e.getUsuarioOrigen() != this) || (this != e.getUsuarioDestino())){
             return false;
         }
 
@@ -61,7 +61,7 @@ public class Usuario{
 
     public Enlace getEnlace(Usuario destino){
         for(Enlace i: this.enlaces){
-            if(i.obtenerUsuarioDestino() == destino){
+            if(i.getUsuarioDestino() == destino){
                 return i;
             }
         }
@@ -83,5 +83,5 @@ public class Usuario{
 
         return result;
     }
-    
+
 }

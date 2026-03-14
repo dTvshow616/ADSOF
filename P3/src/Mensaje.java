@@ -93,7 +93,7 @@ public class Mensaje {
      * @param e el enlace mediante el que se intentará difundir el mensaje
      * @return true si el mensaje se pudo difundir, false si no
      */
-    private boolean difunde(Enlace e) {
+    public boolean difunde(Enlace e) {
         /* Comprobación de difusión */
         if (e == null || !puedeDifundirPor(e) || !aceptadoPor(e.getUsuarioDestino())) {
             return false;
