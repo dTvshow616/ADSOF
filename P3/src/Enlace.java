@@ -36,7 +36,7 @@ public class Enlace {
         } else {
             this.coste = coste;
         }
-        sumaCostes = this.obtenerSumaCostes() + this.coste;
+        sumaCostes = this.getSumaCostes() + this.coste;
     }
 
     /**
@@ -52,7 +52,7 @@ public class Enlace {
      * Devuelve la suma de los costes de DUEs los enlaces creados
      * @return la suma de los costes de DUEs los enlaces creados
      */
-    public int obtenerSumaCostes() {
+    public int getSumaCostes() {
         return sumaCostes;
     }
 
@@ -60,7 +60,7 @@ public class Enlace {
      * Devuelve el usuario origen del enlace
      * @return el usuario origen del enlace
      */
-    public Usuario obtenerUsuarioOrigen() {
+    public Usuario getUsuarioOrigen() {
         return this.usuarioOrigen;
     }
 
@@ -68,7 +68,7 @@ public class Enlace {
      * Devuelve el usuario destino del enlace
      * @return el usuario origen del enlace
      */
-    public Usuario obtenerUsuarioDestino() {
+    public Usuario getUsuarioDestino() {
         return this.usuarioDestino;
     }
 
@@ -76,7 +76,7 @@ public class Enlace {
      * Devuelve el coste del enlace
      * @return el coste del enlace
      */
-    public int obtenerCoste() {
+    public int getCoste() {
         return this.coste;
     }
 
@@ -112,6 +112,6 @@ public class Enlace {
 
     @Override
     public java.lang.String toString() {
-        return "(" + this.usuarioDestino.toString() + "--" + this.coste + "-->" + this.usuarioDestino.toString() + ")";
+        return "(" + this.usuarioDestino.getNombre() + "--" + this.coste + "-->" + this.usuarioDestino.getNombre() + ")";
     }
 }

@@ -3,7 +3,7 @@
  * <p>
  * Description: Implementa los mensajes
  * @author Álvaro G.S. & Ana O.R.
- * @version 1.3
+ * @version 1.5
  * @see Usuario
  * @see Enlace
  */
@@ -19,22 +19,19 @@ public class Mensaje {
      * Constructor de un mensaje
      * @param texto             el texto del mensaje
      * @param alcanceDisponible la capacidad del mensaje para seguir difundiéndose
-     * @param autor             el nombre del autor del mensaje
      * @param usuarioActual     el usuario donde se encuentra el mensaje actualmente
      */
-    Mensaje(String texto, int alcanceDisponible, String autor, Usuario usuarioActual) {
+    Mensaje(String texto, int alcanceDisponible, Usuario usuarioActual) {
         this.texto = texto;
         this.alcanceDisponible = alcanceDisponible;
         this.usuarioActual = usuarioActual;
     }
 
-    /* ------------------------------------------------- LOS GETTERS ------------------------------------------------ */
-
     /**
      * Devuelve el texto del mensaje
      * @return el texto del mensaje
      */
-    public String obtenerTexto() {
+    public String getTexto() {
         return this.texto;
     }
 
@@ -42,7 +39,7 @@ public class Mensaje {
      * Devuelve el alcance disponible del mensaje
      * @return el alcance disponible del mensaje
      */
-    public int obtenerAlcanceDisponible() {
+    public int getAlcanceDisponible() {
         return this.alcanceDisponible;
     }
 
@@ -50,7 +47,7 @@ public class Mensaje {
      * Devuelve el usuario actual del mensaje
      * @return el usuario actual del mensaje
      */
-    public Usuario obtenerUsuarioActual() {
+    public Usuario getUsuarioActual() {
         return this.usuarioActual;
     }
 
@@ -69,8 +66,6 @@ public class Mensaje {
     public void cambiarUsuarioActual(Usuario nuevoUsuarioActual) {
         this.usuarioActual = nuevoUsuarioActual;
     }
-
-    /* ---------------------------------------------- COSAS DEL DIFUNDE --------------------------------------------- */
 
     /**
      * Función auxiliar de la función difunde() que devuelve true si y solo si el alcance el mensaje es mayor o igual
@@ -100,17 +95,17 @@ public class Mensaje {
      */
     private boolean difunde(Enlace e) {
         /* Comprobación de difusión */
-        if (e == null || !puedeDifundirPor(e) || !aceptadoPor(e.obtenerUsuarioDestino())) {
+        if (e == null || !puedeDifundirPor(e) || !aceptadoPor(e.getUsuarioDestino())) {
             return false;
         }
 
         /* El usuario actual del mensaje pasa a ser el destino del enlace */
-        this.usuarioActual = e.obtenerUsuarioDestino();
+        this.usuarioActual = e.getUsuarioDestino();
         /* El alcance del mensaje disminuye en el coste real del enlace */
         this.alcanceDisponible = this.alcanceDisponible - e.costeReal();
         /* El alcance vuelve a incrementarse en la cantidad correspondiente a la capacidad de amplificación del
         usuario destino, y entonces el method difunde devolverá true. */
-        this.alcanceDisponible = this.alcanceDisponible + this.usuarioActual.obtenerCapacidadAmplificacion();
+        this.alcanceDisponible = this.alcanceDisponible + this.usuarioActual.getCapacidadAmplificacion();
 
         return true;
     }
@@ -130,9 +125,13 @@ public class Mensaje {
 
         for (Usuario usuarioDestino : usuarios) {
             if (usuarioDestino != null) {
-                e = this.usuarioActual.obtenerEnlace(usuarioDestino); // DUE: Implemetar esto en Usuario
+                e = this.usuarioActual.getEnlace(usuarioDestino); // DUE: Implementar esto en Usuario
                 if (!difunde(e)) {
                     huboSaltos = true;
+                } else {
+                    /* Cada vez que el mensaje consiga propagarse a través de un enlace, el programa deberá mostrar
+                    por consola el estado actual del mensaje */
+                    System.out.println(this.toString());
                 }
             }
         }
@@ -142,6 +141,6 @@ public class Mensaje {
 
     @Override
     public String toString() {
-        return "Mensaje(m:" + this.alcanceDisponible + ") en" + this.usuarioActual.toString();
+        return "Mensaje(m:" + this.alcanceDisponible + ") en" + this.usuarioActual.getNombre();
     }
 }

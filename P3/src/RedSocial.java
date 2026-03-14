@@ -1,4 +1,8 @@
-import java.io.*; // NOTE: Para la lectura de ficheros
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -9,11 +13,17 @@ import java.util.HashMap;
  * @version 1.3
  * @see Usuario
  * @see Enlace
+ * @see Mensaje
  */
 public class RedSocial {
+    /* La lista de usuarios perteneciente a la red social */
     HashMap<String, Usuario> usuarios = new HashMap<>();
-    Enlace[] enlaces = new Enlace[]{};
-    private int num_enlaces;
+    /* La lista de usuarios por las que deberá difundirse el mensaje */
+    ArrayList<Usuario> usuariosDifusion = new ArrayList<>();
+    /* Los enlaces de la red social */
+    ArrayList<Enlace> enlaces = new ArrayList<>();
+    /* El mensaje a difundir por la red social */
+    Mensaje mensaje;
 
     /**
      * Constructor para una red social
@@ -23,20 +33,24 @@ public class RedSocial {
      * @param filenameMensaje  nombre del archivo con el mensaje inicial
      */
     RedSocial(String filenameUsuarios, String filenameEnlaces, String filenameMensaje) throws IOException {
-        // REVIEW
         try {
             leerUsuarios(filenameUsuarios);
             leerEnlaces(filenameEnlaces);
             leerMensaje(filenameMensaje);
-        } catch (IOException e1) {
-            throw new IOException(e1.getMessage());
+
+        } catch (IOException e) {
+            throw new IOException(e.getMessage());
         }
+
+        this.mensaje.difunde(usuariosDifusion.toArray(new Usuario[0]));
     }
 
-    /* El primer archivo describe los usuarios y contiene una línea por cada uno de ellos, con su nombre y su capacidad
-    de amplificación separados por espacios o tabuladores */
+    /**
+     * Lee y crea usuarios a partir de un fichero
+     * @param filenameUsuarios el nombre del fichero, guardado en la carpeta /txt/
+     * @throws IOException fallo en la lectura de dicho fichero
+     */
     public void leerUsuarios(String filenameUsuarios) throws IOException {
-        // DUE lectura del archivo y construcción de la red social
         String[] words;
         String line, nombreUsuario;
         int capacidadAmplificacion;
@@ -47,60 +61,95 @@ public class RedSocial {
                     new BufferedReader(new InputStreamReader(new FileInputStream("txt\\" + filenameUsuarios)));
 
             while ((line = buffer.readLine()) != null) {
-                words = line.split("[ \\t]"); // NOTE: Acepta tanto espacios como tabuladores como regex :)
+                words = line.split("[ \\t]"); // NOTE: Acepta espacios y tabuladores como regex :)
                 nombreUsuario = words[0];
                 capacidadAmplificacion = Integer.parseInt(words[1]);
-                usuario = new Usuario(nombreUsuario, capacidadAmplificacion); // DUE: Implementarlo en Usuario
+                usuario = new Usuario(nombreUsuario, capacidadAmplificacion);
                 usuarios.put(nombreUsuario, usuario);
             }
 
             buffer.close();
 
-        } catch (IOException e2) {
-            throw new IOException(e2.getMessage());
+        } catch (IOException e) {
+            throw new IOException(e.getMessage());
         }
     }
 
-    /* El segundo archivo detalla los enlaces, también uno por línea, indicando el nombre del usuario origen, el
-    nombre del usuario destino y el coste de propagación asociado a ese enlace */
-    public void leerEnlaces(String filenameEnlaces) {
-        // DUE lectura del archivo y creación de enlaces supongo
+    /**
+     * Lee y crea enlaces a partir de un fichero
+     * @param filenameEnlaces el nombre del fichero, guardado en el directorio /txt/
+     * @throws IOException fallo en la lectura de dicho fichero
+     */
+    public void leerEnlaces(String filenameEnlaces) throws IOException {
+        String[] words;
         String line;
         Usuario usuarioOrigen, usuarioDestino;
         int costePropagacion;
         Enlace enlace;
 
-        String[] words;
         try {
             BufferedReader buffer =
                     new BufferedReader(new InputStreamReader(new FileInputStream("txt/" + filenameEnlaces)));
-            try {
-                while ((line = buffer.readLine()) != null) {
-                    words = line.split(" "); // REVIEW: ¿También debería aceptar tabuladores como separadores?
-                    usuarioOrigen = usuarios.get(words[0]);
-                    usuarioDestino = usuarios.get(words[1]);
-                    costePropagacion = Integer.parseInt(words[2]);
 
-                    enlace = new Enlace(usuarioOrigen, usuarioDestino, costePropagacion);
-                    enlaces[num_enlaces] = enlace;
-                    num_enlaces++;
-                }
+            while ((line = buffer.readLine()) != null) {
+                words = line.split("[ \\t]"); // NOTE: Acepta espacios y tabuladores como regex :)
+                usuarioOrigen = usuarios.get(words[0]);
+                usuarioDestino = usuarios.get(words[1]);
+                costePropagacion = Integer.parseInt(words[2]);
 
-                buffer.close();
-
-            } catch (IOException e2) {
-                throw new RuntimeException(e2);
+                enlace = new Enlace(usuarioOrigen, usuarioDestino, costePropagacion);
+                usuarioDestino.addEnlace(enlace);
+                enlaces.add(enlace);
             }
-        } catch (FileNotFoundException e1) {
-            throw new RuntimeException(e1);
+
+            buffer.close();
+
+        } catch (IOException e) {
+            throw new IOException(e.getMessage());
         }
     }
 
-    /* El tercer archivo especifica el mensaje que se va a difundir: su autor, el alcance inicial y el usuario en el que
-    se encuentra al comenzar la simulación. Las líneas restantes de este contienen, en el orden dado, los nombres de los
-    usuarios que el mensaje intentará visitar, siguiendo el mecanismo explicado anteriormente en la clase Mensaje */
-    public void leerMensaje(String filenameMensaje) {
-        // DUE lectura del archivo y llamada a la función difunde (¿?)
+    /**
+     * Lee y crea el mensaje a partir de un fichero
+     * @param filenameMensaje el nombre del fichero, guardado en el directorio /txt/
+     * @throws IOException fallo en la lectura de dicho fichero
+     */
+    public void leerMensaje(String filenameMensaje) throws IOException {
+        String[] words;
+        String line;
+        String texto;
+        int alcanceDisponible;
+        Usuario usuarioActual;
+        String nombreUsuario;
+
+        try {
+            BufferedReader buffer =
+                    new BufferedReader(new InputStreamReader(new FileInputStream("txt/" + filenameMensaje)));
+
+            if ((line = buffer.readLine()) != null) {
+                words = line.split("[ \\t]"); // NOTE: Acepta espacios y tabuladores como regex :)
+                texto = words[0];
+                alcanceDisponible = Integer.parseInt(words[1]);
+                nombreUsuario = words[2];
+                usuarioActual = this.usuarios.get(nombreUsuario);
+
+                this.mensaje = new Mensaje(texto, alcanceDisponible, usuarioActual);
+
+            } else {
+                return;
+            }
+
+            while ((line = buffer.readLine()) != null) {
+                words = line.split("[ \\t]"); // NOTE: Es para que borre los espacios extra detrás del nombre
+                nombreUsuario = words[0];
+                usuariosDifusion.add(this.usuarios.get(nombreUsuario));
+            }
+
+            buffer.close();
+
+        } catch (IOException e) {
+            throw new IOException(e.getMessage());
+        }
     }
 
 
