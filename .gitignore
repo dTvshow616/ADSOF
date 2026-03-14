@@ -9,5 +9,5 @@
 # Editor-based HTTP Client requests
 /httpRequests/
 # Cosas del Intellij
-.idea/
+.idea
 ADSOF.iml
