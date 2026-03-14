@@ -8,21 +8,22 @@
  * @see Enlace
  */
 public class Mensaje {
-    /** El nombre del autor del mensaje */
-    private String autor;
+    /* El texto del mensaje */
+    private String texto;
     /** La capacidad del mensaje para seguir difundiéndose */
     private int alcanceDisponible;
     /** El usuario donde se encuentra el mensaje actualmente */
     private Usuario usuarioActual;
 
     /**
-     * Constructor para un mensaje
-     * @param autor             el autor de un mensaje
-     * @param alcanceDisponible el alcance disponible de un mensaje
-     * @param usuarioActual     el usuario actual de un mensaje
+     * Constructor de un mensaje
+     * @param texto             el texto del mensaje
+     * @param alcanceDisponible la capacidad del mensaje para seguir difundiéndose
+     * @param autor             el nombre del autor del mensaje
+     * @param usuarioActual     el usuario donde se encuentra el mensaje actualmente
      */
-    Mensaje(String autor, int alcanceDisponible, Usuario usuarioActual) {
-        this.autor = autor;
+    Mensaje(String texto, int alcanceDisponible, String autor, Usuario usuarioActual) {
+        this.texto = texto;
         this.alcanceDisponible = alcanceDisponible;
         this.usuarioActual = usuarioActual;
     }
@@ -30,11 +31,11 @@ public class Mensaje {
     /* ------------------------------------------------- LOS GETTERS ------------------------------------------------ */
 
     /**
-     * Devuelve el autor del mensaje
-     * @return el autor del mensaje
+     * Devuelve el texto del mensaje
+     * @return el texto del mensaje
      */
-    public String obtenerAutor() {
-        return this.autor;
+    public String obtenerTexto() {
+        return this.texto;
     }
 
     /**
@@ -53,89 +54,94 @@ public class Mensaje {
         return this.usuarioActual;
     }
 
+    /**
+     * Permite cambiar el alcance disponible del mensaje
+     * @param nuevoAlcanceDisponible el nuevo alcance disponible del mensaje
+     */
+    public void cambiarAlcanceDisponible(int nuevoAlcanceDisponible) {
+        this.alcanceDisponible = nuevoAlcanceDisponible;
+    }
+
+    /**
+     * Permite cambiar el usuario actual del mensaje
+     * @param nuevoUsuarioActual el nuevo usuario actual del mensaje
+     */
+    public void cambiarUsuarioActual(Usuario nuevoUsuarioActual) {
+        this.usuarioActual = nuevoUsuarioActual;
+    }
+
     /* ---------------------------------------------- COSAS DEL DIFUNDE --------------------------------------------- */
 
     /**
-     * Función que intenta difundir el mensaje a través de un cierto enlace
-     * @param enlace el enlace mediante el que se intentará difundir el mensaje
+     * Función auxiliar de la función difunde() que devuelve true si y solo si el alcance el mensaje es mayor o igual
+     * que el coste real del enlace
+     * @param e el enlace
+     * @return true si y solo si el alcance el mensaje es mayor o igual que el * coste real del enlace, false si no
+     */
+    private boolean puedeDifundirPor(Enlace e) {
+        return this.alcanceDisponible >= e.costeReal();
+    }
+
+    /**
+     * Comprueba si la difusión del mensaje es posible
+     * @param u el usuario destino del mensaje
+     * @return true si la difusión es posible, false si no
+     */
+    private boolean aceptadoPor(Usuario u) {
+        return true; // NOTE: por ahora devuelve siempre true
+    }
+
+    // REVIEW: ver si la lógica de difunde tiene sentido
+
+    /**
+     * Función auxiliar, intenta difundir el mensaje a través de un cierto enlace
+     * @param e el enlace mediante el que se intentará difundir el mensaje
      * @return true si el mensaje se pudo difundir, false si no
      */
-    public boolean difunde(Enlace enlace) {
-        /* Este method intentará difundir el mensaje siguiendo el enlace dado. La difusión será posible solo si: existe
-        realmente el enlace desde el usuario actual del mensaje; el mensaje disponible de más alcance (o igual) que
-        el coste real del enlace (ver Apartado 1); y el usuario destino puede aceptar el mensaje según restricciones
-        especiales que aparecerán en extensiones posteriores. */
-        // ? Tiene que haber una mejor forma de poner estos ifs
-        if (enlace == null) {
-            return false;
-        }
-
-        if (enlace.obtenerUsuarioOrigen() == enlace.obtenerUsuarioDestino()) {
-            return true;
-        }
-
-        if (this.alcanceDisponible >= enlace.obtenerCosteReal()) {
+    private boolean difunde(Enlace e) {
+        /* Comprobación de difusión */
+        if (e == null || !puedeDifundirPor(e) || !aceptadoPor(e.obtenerUsuarioDestino())) {
             return false;
         }
 
         /* El usuario actual del mensaje pasa a ser el destino del enlace */
-        this.usuarioActual = enlace.obtenerUsuarioDestino();
+        this.usuarioActual = e.obtenerUsuarioDestino();
         /* El alcance del mensaje disminuye en el coste real del enlace */
-        this.alcanceDisponible = this.alcanceDisponible - enlace.obtenerCosteReal();
-        /* El alcance vuelve a incrementarse en la cantidad correspondiente a la capacidad de amplificación del usuario
-        destino, y entonces el method difunde devolverá true. */
-        // REVIEW las funciones de usuario
+        this.alcanceDisponible = this.alcanceDisponible - e.costeReal();
+        /* El alcance vuelve a incrementarse en la cantidad correspondiente a la capacidad de amplificación del
+        usuario destino, y entonces el method difunde devolverá true. */
         this.alcanceDisponible = this.alcanceDisponible + this.usuarioActual.obtenerCapacidadAmplificacion();
 
         return true;
     }
 
-    /* Debe sobrecargar el method difunde para que reciba como argumentos un número variable de usuarios que el
-    mensaje tiene previsto visitar en ese order. El method aplicará iterativamente difunde(Enlace) si el enlace
-    hacia el siguiente usuario existe y puede difundirse, el mensaje se traslada (difunde) allí, pero si no
-    existe el enlace, o el alcance no es suficiente, o el destino no lo acepta, se intenta directamente con el
-    siguiente usuario en la lista, sin detener la difusión por completo. */
-
     /**
-     * Función que intenta difundir el mensaje a través de una red ordenada de usuarios
+     * Sobrecarga, intenta difundir el mensaje a través de una red ordenada de usuarios
      * @param usuarios los usuarios de la red, ordenados por orden de difusión
      * @return true si el mensaje se pudo difundir por toda la red, false si no
      */
     public boolean difunde(Usuario... usuarios) {
-        Usuario usuarioOrigen;
-        Enlace e;
-
         boolean huboSaltos = false;
+        Enlace e;
 
         if (usuarios == null) {
             return true;
         }
 
-        usuarioOrigen = usuarios[0];
-
         for (Usuario usuarioDestino : usuarios) {
-            /* Llamada al otro difunde */
-            if (difunde(enlace) == false) { // ! Sacar el enlace entre usuarioOrigen y usuarioDestino
-                huboSaltos = true;
-            } else {
-                usuarioOrigen = usuarioDestino;
+            if (usuarioDestino != null) {
+                e = this.usuarioActual.obtenerEnlace(usuarioDestino); // DUE: Implemetar esto en Usuario
+                if (!difunde(e)) {
+                    huboSaltos = true;
+                }
             }
         }
 
-        /* El method devolverá true solo si el mensaje ha podido correctamente en tout los saltos en los que realmente
-        se haya realizado una transmisión. Si al menos una vez se ha tenido que "saltar" un usuario porque no había
-        camino posible o no había alcance suficiente, el retorno será false, incluso si el mensaje logra llegar a
-        otros usuarios posteriores.
-
-        Por ejemplo, una llamada difunde(uA, uB, uC, uD, uE, uF) podría provocar que el mensaje solo visite uA, uC y
-        uE, si, por ejemplo: no existía enlace de uA a uB, si existía de uA a uC, en uC el mensaje no tenía alcance
-        suficiente para llegar a uD, sí tenía para llegar a uE, pero no para llegar a uF. En ese caso, el retorno
-        sería false */ // DUE borrar este comentario
         return !huboSaltos;
     }
 
     @Override
     public String toString() {
-        return "Mensaje(m:" + this.alcanceDisponible + ") en" + this.usuarioActual;
+        return "Mensaje(m:" + this.alcanceDisponible + ") en" + this.usuarioActual.toString();
     }
 }

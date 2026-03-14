@@ -10,7 +10,7 @@ public class Enlace {
     /** La suma de los costes de todos los enlaces creados */
     private static int sumaCostes;
     /** El usuario origen del enlace */
-    private Usuario usuarioOrigen;
+    private final Usuario usuarioOrigen;
     /** El usuario destino del enlace */
     private Usuario usuarioDestino;
     /** EL coste del enlace */
@@ -30,11 +30,23 @@ public class Enlace {
     Enlace(Usuario usuarioOrigen, Usuario usuarioDestino, int coste) {
         this.usuarioOrigen = usuarioOrigen;
         this.usuarioDestino = usuarioDestino;
-        this.coste = coste;
+        /* Si se intentase dar a un enlace un coste menor o igual que cero, se tratará como si el coste fuese 1 */
+        if (coste <= 0) {
+            this.coste = 1;
+        } else {
+            this.coste = coste;
+        }
         sumaCostes = this.obtenerSumaCostes() + this.coste;
     }
 
-    /* ------------------------------------------------- LOS GETTERS ------------------------------------------------ */
+    /**
+     * Constructor para un enlace sin coste especificado
+     * @param usuarioOrigen  el usuario de origen del enlace
+     * @param usuarioDestino el usuario destino del enlace
+     */
+    Enlace(Usuario usuarioOrigen, Usuario usuarioDestino) {
+        this(usuarioOrigen, usuarioDestino, 1);
+    }
 
     /**
      * Devuelve la suma de los costes de DUEs los enlaces creados
@@ -72,7 +84,7 @@ public class Enlace {
      * Devuelve 0 (solo los enlaces especiales definidos en el futuro tendrán coste especial distinto de cero
      * @return el coste especial del enlace
      */
-    public int obtenerCosteEspecial() {
+    public int costeEspecial() {
         return 0; // DUE Cambiar en futuros apartados
     }
 
@@ -80,25 +92,26 @@ public class Enlace {
      * Calcula el coste real de un enlace como la suma del coste del enlace más su coste especial
      * @return el coste real del enlace
      */
-    public int obtenerCosteReal() {
-        return this.coste + this.obtenerCosteEspecial();
+    public int costeReal() {
+        return this.coste + this.costeEspecial();
     }
 
-    /* ---------------------------------------------------- OTROS --------------------------------------------------- */
-
     /**
-     * Method que permite cambiar el destino de un cierto enlace
+     * Permite cambiar el destino de un cierto enlace
      * @param nuevoUsuario el nuevo destino del enlace
      * @param nuevoCoste   el nuevo coste del enlace
      */
     public void cambiarDestino(Usuario nuevoUsuario, int nuevoCoste) {
         this.usuarioDestino = nuevoUsuario;
-        this.coste = nuevoCoste;
+        if (nuevoCoste <= 0) {
+            this.coste = 1;
+        } else {
+            this.coste = nuevoCoste;
+        }
     }
-
 
     @Override
     public java.lang.String toString() {
-        return "(" + this.usuarioDestino + "--" + this.coste + "-->" + this.usuarioDestino + ")";
+        return "(" + this.usuarioDestino.toString() + "--" + this.coste + "-->" + this.usuarioDestino.toString() + ")";
     }
 }
