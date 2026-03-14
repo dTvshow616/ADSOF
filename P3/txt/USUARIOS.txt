@@ -1,6 +1,6 @@
 ana 3
 luis    10
-carmen  2
+carmen 2
 diego   1
 mario   3
-fede    0
+fede 0

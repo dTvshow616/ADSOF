@@ -1,4 +1,14 @@
-public class EjemploDeUsoRedSocial {
+import java.io.*;
+
+/**
+ * Nombre de la clase: EjemploDeUsoRedSocial
+ * <p>
+ * Description: Sirve como main para probar el resto de clases
+ * @author Álvaro G.S. & Ana O.R.
+ * @version 1.0
+ * @see RedSocial
+ */
+public class EjemploDeUsoRedSocial{
     public static void main(String[] args) {
         try {
             RedSocial s;
