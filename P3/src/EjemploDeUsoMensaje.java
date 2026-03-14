@@ -1,5 +1,3 @@
-package src;
-
 public class EjemploDeUsoMensaje{
     public static void main (String[] args){
         Usuario ana = new Usuario("ana", 1);
