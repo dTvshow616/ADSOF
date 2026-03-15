@@ -18,31 +18,31 @@ import java.util.HashMap;
 public class RedSocial {
     /* La lista de usuarios perteneciente a la red social */
     HashMap<String, Usuario> usuarios = new HashMap<>();
-    /* La lista de usuarios por las que deberá difundirse el mensaje */
-    ArrayList<Usuario> usuariosDifusion = new ArrayList<>();
-    /* Los enlaces de la red social */
-    ArrayList<Enlace> enlaces = new ArrayList<>();
-    /* El mensaje a difundir por la red social */
-    Mensaje mensaje;
+    /* La lista de usuarios por las que deberá difundirse un mensaje */
+    HashMap<Mensaje, ArrayList<Usuario>> usuariosDifusion;
+    /* Los mensajes  a difundir por la red social */
+    ArrayList<Mensaje> mensajes = new ArrayList<>();
 
     /**
      * Constructor para una red social
      * @param filenameUsuarios nombre del archivo que permite construir la red social completa
      * @param filenameEnlaces  nombre del archivo con la secuencia de usuarios que el mensaje tiene previsto intentar
      *                         visitar durante su difusión
-     * @param filenameMensaje  nombre del archivo con el mensaje inicial
+     * @param filenameMensajes nombre del archivo con el mensaje inicial
      */
-    RedSocial(String filenameUsuarios, String filenameEnlaces, String filenameMensaje) throws IOException {
+    RedSocial(String filenameUsuarios, String filenameEnlaces, String filenameMensajes) throws IOException {
         try {
             leerUsuarios(filenameUsuarios);
             leerEnlaces(filenameEnlaces);
-            leerMensaje(filenameMensaje);
+            leerMensajes(filenameMensajes);
 
         } catch (IOException e) {
             throw new IOException(e.getMessage());
         }
 
-        this.mensaje.difunde(usuariosDifusion.toArray(new Usuario[0]));
+        for (Mensaje m : this.mensajes.toArray(new Mensaje[0])) {
+            m.difunde(this.usuariosDifusion.get(m).toArray(new Usuario[0]));
+        }
     }
 
     /**
@@ -99,7 +99,6 @@ public class RedSocial {
 
                 enlace = new Enlace(usuarioOrigen, usuarioDestino, costePropagacion);
                 usuarioDestino.addEnlace(enlace);
-                enlaces.add(enlace);
             }
 
             buffer.close();
@@ -110,39 +109,41 @@ public class RedSocial {
     }
 
     /**
-     * Lee y crea el mensaje a partir de un fichero
-     * @param filenameMensaje el nombre del fichero, guardado en el directorio /txt/
+     * Lee y crea los mensajes a partir de un fichero
+     * @param filenameMensajes el nombre del fichero, guardado en el directorio /txt/
      * @throws IOException fallo en la lectura de dicho fichero
      */
-    public void leerMensaje(String filenameMensaje) throws IOException {
+    public void leerMensajes(String filenameMensajes) throws IOException {
         String[] words;
         String line;
-        String texto;
+        String primerArgumento;
         int alcanceDisponible;
         Usuario usuarioActual;
         String nombreUsuario;
+        Mensaje mensaje = null;
+        boolean cabecera = false;
 
         try {
             BufferedReader buffer =
-                    new BufferedReader(new InputStreamReader(new FileInputStream("txt/" + filenameMensaje)));
-
-            if ((line = buffer.readLine()) != null) {
-                words = line.split("[ \\t]"); // NOTE: Acepta espacios y tabuladores como regex :)
-                texto = words[0];
-                alcanceDisponible = Integer.parseInt(words[1]);
-                nombreUsuario = words[2];
-                usuarioActual = this.usuarios.get(nombreUsuario);
-
-                this.mensaje = new Mensaje(texto, alcanceDisponible, usuarioActual);
-
-            } else {
-                return;
-            }
+                    new BufferedReader(new InputStreamReader(new FileInputStream("txt/" + filenameMensajes)));
 
             while ((line = buffer.readLine()) != null) {
-                words = line.split("[ \\t]"); // NOTE: Es para que borre los espacios extra detrás del nombre
-                nombreUsuario = words[0];
-                usuariosDifusion.add(this.usuarios.get(nombreUsuario));
+                words = line.split("[ \\t]"); // NOTE: Acepta espacios y tabuladores como regex :)
+                primerArgumento = words[0];
+                // REVIEW: Confirmar que detecta y lee varios mensajes en función de si tienen 1 o 3 params
+                if (words[1] != null) {
+                    alcanceDisponible = Integer.parseInt(words[1]);
+                    nombreUsuario = words[2];
+                    usuarioActual = this.usuarios.get(nombreUsuario);
+
+                    mensaje = new Mensaje(primerArgumento, alcanceDisponible, usuarioActual);
+
+                    mensajes.add(mensaje);
+                }
+
+                if (!cabecera) {
+                    this.usuariosDifusion.get(mensaje).add(this.usuarios.get(primerArgumento));
+                }
             }
 
             buffer.close();
@@ -150,6 +151,43 @@ public class RedSocial {
         } catch (IOException e) {
             throw new IOException(e.getMessage());
         }
+    }
+
+    public void addUsuario(String nombreUsuario, int capacidadAmplificacion) {
+        if (!this.usuarios.containsKey(nombreUsuario)) {
+            this.usuarios.put(nombreUsuario, new Usuario(nombreUsuario, capacidadAmplificacion));
+        }
+    }
+
+    public void addUsuario(String nombreUsuario) {
+        if (!this.usuarios.containsKey(nombreUsuario)) {
+            this.usuarios.put(nombreUsuario, new Usuario(nombreUsuario));
+        }
+    }
+
+    public void addEnlace(String nombreUsuarioOrigen, String nombreUsuarioDestino, int coste) {
+        this.usuarios.get(nombreUsuarioOrigen).addEnlace(this.usuarios.get(nombreUsuarioDestino), coste);
+    }
+
+    public void addMensaje(String texto, int alcanceDisponible, String autor) {
+        mensajes.add(new Mensaje(texto, alcanceDisponible, this.usuarios.get(autor)));
+    }
+
+    public void addMessageReceivers(String texto, int alcanceDisp, String autor, String... nombreUsuariosDest) {
+        Mensaje m = new Mensaje(texto, alcanceDisp, this.usuarios.get(autor));
+
+        if (this.mensajes.contains(m)) {
+            for (String nombreUsuarioDestino : nombreUsuariosDest) {
+                this.usuariosDifusion.get(m).add(this.usuarios.get(nombreUsuarioDestino));
+            }
+        }
+    }
+
+    public void saveRedSocial() {
+        /* Escritura de usuarios_save.txt */
+        /* Escritura de enlaces_save.txt */
+        /* Escritura de mensajes_save.txt */
+        // DUE: Hacer esto
     }
 
 

@@ -9,7 +9,7 @@
  */
 public class Mensaje {
     /* El texto del mensaje */
-    private String texto;
+    private final String texto;
     /** La capacidad del mensaje para seguir difundiéndose */
     private int alcanceDisponible;
     /** El usuario donde se encuentra el mensaje actualmente */
@@ -86,7 +86,7 @@ public class Mensaje {
         return true; // NOTE: por ahora devuelve siempre true
     }
 
-    // REVIEW: ver si la lógica de difunde tiene sentido
+    // REVIEW: comprobar lógica de difusión
 
     /**
      * Función auxiliar, intenta difundir el mensaje a través de un cierto enlace
@@ -125,13 +125,13 @@ public class Mensaje {
 
         for (Usuario usuarioDestino : usuarios) {
             if (usuarioDestino != null) {
-                e = this.usuarioActual.getEnlace(usuarioDestino); // DUE: Implementar esto en Usuario
+                e = this.usuarioActual.getEnlace(usuarioDestino);
                 if (!difunde(e)) {
                     huboSaltos = true;
                 } else {
                     /* Cada vez que el mensaje consiga propagarse a través de un enlace, el programa deberá mostrar
                     por consola el estado actual del mensaje */
-                    System.out.println(this.toString());
+                    System.out.println(this); // NOTE: ¿Quizás no debería imprimirse siempre?
                 }
             }
         }
