@@ -10,18 +10,22 @@
 public class Mensaje {
     /* El texto del mensaje */
     private final String texto;
+    /** La capacidad inicial del mensaje */
+    private final int alcanceInicial;
     /** La capacidad del mensaje para seguir difundiéndose */
     private int alcanceDisponible;
     /** El usuario donde se encuentra el mensaje actualmente */
     private Usuario usuarioActual;
+    /** El autor del mensaje */
+    private final Usuario autor;
 
     /**
      * Constructor de un mensaje
-     * @param texto             el texto del mensaje
-     * @param alcanceDisponible la capacidad del mensaje para seguir difundiéndose
-     * @param usuarioActual     el usuario donde se encuentra el mensaje actualmente
+     * @param texto          el texto del mensaje
+     * @param alcanceInicial la capacidad del mensaje para seguir difundiéndose
+     * @param usuarioActual  el usuario donde se encuentra el mensaje actualmente
      */
-    Mensaje(String texto, int alcanceDisponible, Usuario usuarioActual) throws NullPointerException {
+    Mensaje(String texto, int alcanceInicial, Usuario usuarioActual) throws NullPointerException {
         if (texto == null) {
             throw new NullPointerException("texto == null");
         }
@@ -30,8 +34,11 @@ public class Mensaje {
         }
 
         this.texto = texto;
-        this.alcanceDisponible = alcanceDisponible;
+        this.alcanceInicial = alcanceInicial;
+        this.alcanceDisponible = alcanceInicial;
+
         this.usuarioActual = usuarioActual;
+        this.autor = usuarioActual;
     }
 
     /**
@@ -40,6 +47,14 @@ public class Mensaje {
      */
     public String getTexto() {
         return this.texto;
+    }
+
+    /**
+     * Devuelve el alcance inicial del mensaje
+     * @return el alcance inicial del mensaje
+     */
+    public int getAlcanceInicial() {
+        return this.alcanceInicial;
     }
 
     /**
@@ -56,6 +71,14 @@ public class Mensaje {
      */
     public Usuario getUsuarioActual() {
         return this.usuarioActual;
+    }
+
+    /**
+     * Devuelve el autor del mensaje
+     * @return el usuario autor del mensaje
+     */
+    public Usuario getAutor() {
+        return this.autor;
     }
 
     /**
