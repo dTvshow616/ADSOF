@@ -113,6 +113,7 @@ public class Enlace {
             throw new NullPointerException("nuevoUsuario == null");
         }
 
+        this.usuarioDestino = nuevoUsuario;
         if (nuevoCoste <= 0) {
             this.coste = 1;
         } else {
@@ -122,6 +123,6 @@ public class Enlace {
 
     @Override
     public java.lang.String toString() {
-        return "(" + this.usuarioDestino.getNombre() + "--" + this.coste + "-->" + this.usuarioDestino.getNombre() + ")";
+        return "(" + this.usuarioOrigen.getNombre() + "--" + this.coste + "-->" + this.usuarioDestino.getNombre() + ")";
     }
 }

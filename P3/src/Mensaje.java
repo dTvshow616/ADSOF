@@ -21,13 +21,9 @@ public class Mensaje {
      * @param alcanceDisponible la capacidad del mensaje para seguir difundiéndose
      * @param usuarioActual     el usuario donde se encuentra el mensaje actualmente
      */
-    Mensaje(String texto, int alcanceDisponible, Usuario usuarioActual) throws NullPointerException,
-            IllegalArgumentException {
+    Mensaje(String texto, int alcanceDisponible, Usuario usuarioActual) throws NullPointerException {
         if (texto == null) {
             throw new NullPointerException("texto == null");
-        }
-        if (alcanceDisponible < 0) {
-            throw new IllegalArgumentException("alcanceDisponible < 0");
         }
         if (usuarioActual == null) {
             throw new NullPointerException("usuarioActual == null");
@@ -66,11 +62,7 @@ public class Mensaje {
      * Permite cambiar el alcance disponible del mensaje
      * @param nuevoAlcanceDisponible el nuevo alcance disponible del mensaje
      */
-    public void cambiarAlcanceDisponible(int nuevoAlcanceDisponible) throws IllegalArgumentException {
-        if (alcanceDisponible < 0) {
-            throw new IllegalArgumentException("alcanceDisponible < 0");
-        }
-
+    public void cambiarAlcanceDisponible(int nuevoAlcanceDisponible) {
         this.alcanceDisponible = nuevoAlcanceDisponible;
     }
 
@@ -114,7 +106,7 @@ public class Mensaje {
      */
     public boolean difunde(Enlace e) {
         /* Comprobación de difusión */
-        if (e == null || !puedeDifundirPor(e) || !aceptadoPor(e.getUsuarioDestino())) {
+        if (e == null || (e.getUsuarioOrigen() != this.usuarioActual) || !puedeDifundirPor(e) || !aceptadoPor(e.getUsuarioDestino())) {
             return false;
         }
 
@@ -160,6 +152,6 @@ public class Mensaje {
 
     @Override
     public String toString() {
-        return "Mensaje(m:" + this.alcanceDisponible + ") en" + this.usuarioActual.getNombre();
+        return "Mensaje(" + this.texto + ":" + this.alcanceDisponible + ") en @" + this.usuarioActual.getNombre();
     }
 }
