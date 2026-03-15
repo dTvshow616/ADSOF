@@ -2,7 +2,7 @@
  * Nombre de la clase: Mensaje
  * <p>
  * Description: Implementa los mensajes
- * @author Álvaro G.S. & Ana O.R.
+ * @author Alvaro G.S. & Ana O.R.
  * @version 1.5
  * @see Usuario
  * @see Enlace
@@ -115,7 +115,7 @@ public class Mensaje {
         /* El alcance del mensaje disminuye en el coste real del enlace */
         this.alcanceDisponible = this.alcanceDisponible - e.costeReal();
         /* El alcance vuelve a incrementarse en la cantidad correspondiente a la capacidad de amplificación del
-        usuario destino, y entonces el method difunde devolverá true. */
+        usuario destino, y entonces el method difunde devolverA true. */
         this.alcanceDisponible = this.alcanceDisponible + this.usuarioActual.getCapacidadAmplificacion();
 
         return true;
@@ -142,7 +142,7 @@ public class Mensaje {
                 } else {
                     /* Cada vez que el mensaje consiga propagarse a través de un enlace, el programa deberá mostrar
                     por consola el estado actual del mensaje */
-                    System.out.println(this); // NOTE: ¿Quizás no debería imprimirse siempre?
+                    System.out.println(this); // NOTE: ¿QuizAs no debería imprimirse siempre?
                 }
             }
         }

@@ -6,7 +6,7 @@ import java.util.HashMap;
  * Nombre de la clase: RedSocial
  * <p>
  * Description: Implementa la red social
- * @author Álvaro G.S. & Ana O.R.
+ * @author Alvaro G.S. & Ana O.R.
  * @version 1.3
  * @see Usuario
  * @see Enlace
@@ -60,11 +60,13 @@ public class RedSocial {
 
         try {
             BufferedReader buffer =
-                    new BufferedReader(new InputStreamReader(new FileInputStream("txt\\" + filenameUsuarios)));
+                    new BufferedReader(new InputStreamReader(new FileInputStream(".\\P3\\txt\\" + filenameUsuarios)));
 
             while ((line = buffer.readLine()) != null) {
-                words = line.split("[ \\t]"); // NOTE: Acepta espacios y tabuladores como regex :)
+                words = line.split("[\\t ]+"); // NOTE: Acepta espacios y tabuladores como regex :)
                 nombreUsuario = words[0];
+                System.out.println("nombreUsuario: \"" + nombreUsuario + "\"");
+                System.out.println("capacidadAmplificacion: \"" + words[1] + "\"");
                 capacidadAmplificacion = Integer.parseInt(words[1]);
                 usuario = new Usuario(nombreUsuario, capacidadAmplificacion);
                 usuarios.put(nombreUsuario, usuario);
@@ -91,10 +93,10 @@ public class RedSocial {
 
         try {
             BufferedReader buffer =
-                    new BufferedReader(new InputStreamReader(new FileInputStream("txt\\" + filenameEnlaces)));
+                    new BufferedReader(new InputStreamReader(new FileInputStream(".\\P3\\txt\\" + filenameEnlaces)));
 
             while ((line = buffer.readLine()) != null) {
-                words = line.split("[ \\t]"); // NOTE: Acepta espacios y tabuladores como regex :)
+                words = line.split("[\\t ]+"); // NOTE: Acepta espacios y tabuladores como regex :)
                 usuarioOrigen = usuarios.get(words[0]);
                 usuarioDestino = usuarios.get(words[1]);
                 costePropagacion = Integer.parseInt(words[2]);
@@ -126,10 +128,10 @@ public class RedSocial {
 
         try {
             BufferedReader buffer =
-                    new BufferedReader(new InputStreamReader(new FileInputStream("txt\\" + filenameMensaje)));
+                    new BufferedReader(new InputStreamReader(new FileInputStream(".\\P3\\txt\\" + filenameMensaje)));
 
             if ((line = buffer.readLine()) != null) {
-                words = line.split("[ \\t]"); // NOTE: Acepta espacios y tabuladores como regex :)
+                words = line.split("[\\t ]+"); // NOTE: Acepta espacios y tabuladores como regex :)
                 texto = words[0];
                 alcanceDisponible = Integer.parseInt(words[1]);
                 nombreUsuario = words[2];
@@ -144,7 +146,7 @@ public class RedSocial {
             }
 
             while ((line = buffer.readLine()) != null) {
-                words = line.split("[ \\t]"); // NOTE: Es para que borre los espacios extra detrás del nombre
+                words = line.split("[\\t ]+"); // NOTE: Es para que borre los espacios extra detrAs del nombre
                 nombreUsuario = words[0];
                 this.usuariosDifusion.get(mensaje).add(this.usuarios.get(texto));
             }

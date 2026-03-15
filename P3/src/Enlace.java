@@ -2,7 +2,7 @@
  * Nombre de la clase: Enlace
  * <p>
  * Description: Implementa los enlaces
- * @author Álvaro G.S. & Ana O.R.
+ * @author Alvaro G.S. & Ana O.R.
  * @version 1.1
  * @see Usuario
  */

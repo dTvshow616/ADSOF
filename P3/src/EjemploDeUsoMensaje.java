@@ -20,8 +20,6 @@ public class EjemploDeUsoMensaje{
 
         sebas.addEnlace(new Enlace(sebas, luis,11));
         m.difunde(sebas.getEnlace(luis));
-        System.out.println(m); 
+        System.out.println(m);
     }
-
-
 }
