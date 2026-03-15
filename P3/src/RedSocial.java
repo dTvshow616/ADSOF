@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -159,6 +156,12 @@ public class RedSocial {
         }
     }
 
+    /**
+     * Permite añadir usuarios a la red social
+     * @param nombreUsuario          el nombre del usuario
+     * @param capacidadAmplificacion la capacidad de amplificación del usuario
+     * @throws NullPointerException el nombre era null
+     */
     public void addUsuario(String nombreUsuario, int capacidadAmplificacion) throws NullPointerException {
         if (!this.usuarios.containsKey(nombreUsuario)) {
             try {
@@ -170,6 +173,11 @@ public class RedSocial {
         }
     }
 
+    /**
+     * Permite añadir usuarios a la red social sin especificar su capacidad de amplification
+     * @param nombreUsuario el nombre del usuario
+     * @throws NullPointerException el nombre era null
+     */
     public void addUsuario(String nombreUsuario) throws NullPointerException {
         if (!this.usuarios.containsKey(nombreUsuario)) {
             try {
@@ -180,6 +188,13 @@ public class RedSocial {
         }
     }
 
+    /**
+     * Permite añadir enlaces a la red social
+     * @param nombreUsuarioOrigen  el nombre del origen
+     * @param nombreUsuarioDestino el nombre del destino
+     * @param coste                el coste del enlace
+     * @throws NullPointerException alguno de los nombres era null
+     */
     public void addEnlace(String nombreUsuarioOrigen, String nombreUsuarioDestino, int coste) throws NullPointerException {
         try {
             this.usuarios.get(nombreUsuarioOrigen).addEnlace(this.usuarios.get(nombreUsuarioDestino), coste);
@@ -188,6 +203,13 @@ public class RedSocial {
         }
     }
 
+    /**
+     * Permite añadir un mensaje a la red social
+     * @param texto             el texto del mensaje
+     * @param alcanceDisponible el alcance disponible del mensaje
+     * @param autor             el autor del mensaje
+     * @throws NullPointerException al texto o el autor eran null
+     */
     public void addMensaje(String texto, int alcanceDisponible, String autor) throws NullPointerException {
         try {
             mensajes.add(new Mensaje(texto, alcanceDisponible, this.usuarios.get(autor)));
@@ -196,6 +218,14 @@ public class RedSocial {
         }
     }
 
+    /**
+     * Permite añadir un recorrido de difusión a un mensaje
+     * @param texto              el texto del mensaje
+     * @param alcanceDisp        el alcance disponible del mensaje
+     * @param autor              el autor del mensaje
+     * @param nombreUsuariosDest el nombre de todos los usuarios del recorrido
+     * @throws NullPointerException el texto o algún nombre era null
+     */
     public void addMessageReceivers(String texto, int alcanceDisp, String autor, String... nombreUsuariosDest) throws NullPointerException {
         Mensaje m = new Mensaje(texto, alcanceDisp, this.usuarios.get(autor));
 
@@ -210,11 +240,51 @@ public class RedSocial {
         }
     }
 
-    public void saveRedSocial() {
-        /* Escritura de usuarios_save.txt */
-        /* Escritura de enlaces_save.txt */
-        /* Escritura de mensajes_save.txt */
-        // DUE: Hacer esto
+    /**
+     * Permite guardar la información de la red social
+     * @throws IOException no se pudieron abrir o escribir los ficheros de guardado
+     */
+    public void saveRedSocial() throws IOException {
+        BufferedWriter buffer;
+
+        try {
+            /* Escritura de usuarios_save.txt */
+            buffer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("txt\\usuarios_save.txt")));
+            for (Usuario u : usuarios.values()) {
+                buffer.write(u.getNombre() + " " + u.getCapacidadAmplificacion() + "\n");
+            }
+
+            buffer.close();
+
+            /* Escritura de enlaces_save.txt */
+            buffer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("txt\\enlaces_save.txt")));
+            for (Usuario u : usuarios.values()) {
+                for (int i = 0; i < u.getNumEnlaces(); i++) {
+                    Enlace e = u.getEnlace(i);
+                    buffer.write(e.getUsuarioOrigen() + " " + e.getUsuarioDestino() + " " + e.getCoste() + "\n");
+                }
+            }
+
+            buffer.close();
+
+            /* Escritura de mensajes_save.txt */
+            for (int i = 0; i < mensajes.size(); i++) {
+                buffer =
+                        new BufferedWriter(new OutputStreamWriter(new FileOutputStream("txt\\mensaje_save" + i +
+                                ".txt")));
+                Mensaje m = mensajes.get(i);
+
+                buffer.write(m.getTexto() + " " + m.getAlcanceDisponible() + " " + m.getUsuarioActual() + "\n");
+                for (Usuario u : usuariosDifusion.get(m)) {
+                    buffer.write(u.getNombre() + "\n");
+                }
+
+                buffer.close();
+            }
+
+        } catch (IOException e) {
+            throw new IOException(e.getMessage());
+        }
     }
 
 
