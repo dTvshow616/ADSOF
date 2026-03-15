@@ -21,7 +21,18 @@ public class Mensaje {
      * @param alcanceDisponible la capacidad del mensaje para seguir difundiéndose
      * @param usuarioActual     el usuario donde se encuentra el mensaje actualmente
      */
-    Mensaje(String texto, int alcanceDisponible, Usuario usuarioActual) {
+    Mensaje(String texto, int alcanceDisponible, Usuario usuarioActual) throws NullPointerException,
+            IllegalArgumentException {
+        if (texto == null) {
+            throw new NullPointerException("texto == null");
+        }
+        if (alcanceDisponible < 0) {
+            throw new IllegalArgumentException("alcanceDisponible < 0");
+        }
+        if (usuarioActual == null) {
+            throw new NullPointerException("usuarioActual == null");
+        }
+
         this.texto = texto;
         this.alcanceDisponible = alcanceDisponible;
         this.usuarioActual = usuarioActual;
@@ -55,7 +66,11 @@ public class Mensaje {
      * Permite cambiar el alcance disponible del mensaje
      * @param nuevoAlcanceDisponible el nuevo alcance disponible del mensaje
      */
-    public void cambiarAlcanceDisponible(int nuevoAlcanceDisponible) {
+    public void cambiarAlcanceDisponible(int nuevoAlcanceDisponible) throws IllegalArgumentException {
+        if (alcanceDisponible < 0) {
+            throw new IllegalArgumentException("alcanceDisponible < 0");
+        }
+
         this.alcanceDisponible = nuevoAlcanceDisponible;
     }
 
@@ -63,7 +78,11 @@ public class Mensaje {
      * Permite cambiar el usuario actual del mensaje
      * @param nuevoUsuarioActual el nuevo usuario actual del mensaje
      */
-    public void cambiarUsuarioActual(Usuario nuevoUsuarioActual) {
+    public void cambiarUsuarioActual(Usuario nuevoUsuarioActual) throws NullPointerException {
+        if (nuevoUsuarioActual == null) {
+            throw new NullPointerException("usuarioActual == null");
+        }
+
         this.usuarioActual = nuevoUsuarioActual;
     }
 

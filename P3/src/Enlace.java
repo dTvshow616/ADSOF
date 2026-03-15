@@ -27,7 +27,14 @@ public class Enlace {
      * @param usuarioDestino el usuario destino del enlace
      * @param coste          el coste del mensaje
      */
-    Enlace(Usuario usuarioOrigen, Usuario usuarioDestino, int coste) {
+    Enlace(Usuario usuarioOrigen, Usuario usuarioDestino, int coste) throws NullPointerException {
+        if (usuarioOrigen == null) {
+            throw new NullPointerException("usuarioOrigen == null");
+        }
+        if (usuarioDestino == null) {
+            throw new NullPointerException("usuarioDestino == null");
+        }
+
         this.usuarioOrigen = usuarioOrigen;
         this.usuarioDestino = usuarioDestino;
         /* Si se intentase dar a un enlace un coste menor o igual que cero, se tratará como si el coste fuese 1 */
@@ -44,7 +51,7 @@ public class Enlace {
      * @param usuarioOrigen  el usuario de origen del enlace
      * @param usuarioDestino el usuario destino del enlace
      */
-    Enlace(Usuario usuarioOrigen, Usuario usuarioDestino) {
+    Enlace(Usuario usuarioOrigen, Usuario usuarioDestino) throws NullPointerException {
         this(usuarioOrigen, usuarioDestino, 1);
     }
 
@@ -101,8 +108,11 @@ public class Enlace {
      * @param nuevoUsuario el nuevo destino del enlace
      * @param nuevoCoste   el nuevo coste del enlace
      */
-    public void cambiarDestino(Usuario nuevoUsuario, int nuevoCoste) {
-        this.usuarioDestino = nuevoUsuario;
+    public void cambiarDestino(Usuario nuevoUsuario, int nuevoCoste) throws NullPointerException {
+        if (nuevoUsuario == null) {
+            throw new NullPointerException("nuevoUsuario == null");
+        }
+
         if (nuevoCoste <= 0) {
             this.coste = 1;
         } else {
