@@ -65,8 +65,6 @@ public class RedSocial {
             while ((line = buffer.readLine()) != null) {
                 words = line.split("[\\t ]+"); // NOTE: Acepta espacios y tabuladores como regex :)
                 nombreUsuario = words[0];
-                System.out.println("nombreUsuario: \"" + nombreUsuario + "\"");
-                System.out.println("capacidadAmplificacion: \"" + words[1] + "\"");
                 capacidadAmplificacion = Integer.parseInt(words[1]);
                 usuario = new Usuario(nombreUsuario, capacidadAmplificacion);
                 usuarios.put(nombreUsuario, usuario);
@@ -139,6 +137,7 @@ public class RedSocial {
 
                 mensaje = new Mensaje(texto, alcanceDisponible, usuarioActual);
                 mensajes.add(mensaje);
+                usuariosDifusion.put(mensaje, new ArrayList<>());
 
             } else {
                 buffer.close();
@@ -148,7 +147,7 @@ public class RedSocial {
             while ((line = buffer.readLine()) != null) {
                 words = line.split("[\\t ]+"); // NOTE: Es para que borre los espacios extra detrAs del nombre
                 nombreUsuario = words[0];
-                this.usuariosDifusion.get(mensaje).add(this.usuarios.get(texto));
+                this.usuariosDifusion.get(mensaje).add(this.usuarios.get(nombreUsuario));
             }
 
             buffer.close();
