@@ -1,18 +1,19 @@
-import java.io.*;
+import java.io.IOException;
 
 /**
  * Nombre de la clase: EjemploDeUsoRedSocial
  * <p>
  * Description: Sirve como main para probar el resto de clases
- * @author Álvaro G.S. & Ana O.R.
+ * @author Alvaro G.S. & Ana O.R.
  * @version 1.0
  * @see RedSocial
  */
-public class EjemploDeUsoRedSocial{
+public class EjemploDeUsoRedSocial {
     public static void main(String[] args) {
         try {
             RedSocial s;
             s = new RedSocial("USUARIOS.txt", "ENLACES.txt", "MENSAJE.txt");
+            s.saveRedSocial();
             s = new RedSocial("USUARIOS.txt", "ENLACES.txt", "MENSAJE2.txt");
         } catch (IOException e) {
             System.out.println("Error en archivos");

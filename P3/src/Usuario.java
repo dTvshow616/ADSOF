@@ -61,8 +61,8 @@ public class Usuario{
             return false;
         }
 
-        for(Enlace i: this.enlaces){
-            if(i == e){
+        for (Enlace i : this.enlaces) {
+            if (i.getUsuarioDestino() == e.getUsuarioDestino()) {
                 return false;
             }
         }
@@ -206,13 +206,13 @@ public class Usuario{
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String result;
 
         result = this.nombre + "(" + this.capacidadAmplificacion + ")" + "[";
 
-        for(Enlace i: this.enlaces){
-            result = result + i.toString()+ ",";
+        for (Enlace i : this.enlaces) {
+            result = result + i.toString() + ",";
         }
 
         result = result + "]";

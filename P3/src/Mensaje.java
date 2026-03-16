@@ -2,7 +2,7 @@
  * Nombre de la clase: Mensaje
  * <p>
  * Description: Implementa los mensajes
- * @author Álvaro G.S. & Ana O.R.
+ * @author Alvaro G.S. & Ana O.R.
  * @version 1.5
  * @see Usuario
  * @see Enlace
@@ -10,22 +10,35 @@
 public class Mensaje {
     /* El texto del mensaje */
     protected final String texto;
+    /** La capacidad inicial del mensaje */
+    protected final int alcanceInicial;
     /** La capacidad del mensaje para seguir difundiéndose */
     protected int alcanceDisponible;
     /** El usuario donde se encuentra el mensaje actualmente */
     protected Usuario usuarioActual;
+    /** El autor del mensaje */
+    protected final Usuario autor;
 
     /**
      * Constructor de un mensaje
-     * @param texto             el texto del mensaje
-     * @param alcanceDisponible la capacidad del mensaje para seguir difundiéndose
-     * @param usuarioActual     el usuario donde se encuentra el mensaje actualmente
+     * @param texto          el texto del mensaje
+     * @param alcanceInicial la capacidad del mensaje para seguir difundiéndose
+     * @param usuarioActual  el usuario donde se encuentra el mensaje actualmente
      */
-    Mensaje(String texto, int alcanceDisponible, Usuario usuarioActual) {
+    Mensaje(String texto, int alcanceInicial, Usuario usuarioActual) throws NullPointerException {
+        if (texto == null) {
+            throw new NullPointerException("texto == null");
+        }
+        if (usuarioActual == null) {
+            throw new NullPointerException("usuarioActual == null");
+        }
+
         this.texto = texto;
-        this.alcanceDisponible = alcanceDisponible;
+        this.alcanceInicial = alcanceInicial;
+        this.alcanceDisponible = alcanceInicial;
         this.usuarioActual = usuarioActual;
         this.usuarioActual.addMensaje(this);
+        this.autor = usuarioActual;
     }
 
     /**
@@ -34,6 +47,14 @@ public class Mensaje {
      */
     public String getTexto() {
         return this.texto;
+    }
+
+    /**
+     * Devuelve el alcance inicial del mensaje
+     * @return el alcance inicial del mensaje
+     */
+    public int getAlcanceInicial() {
+        return this.alcanceInicial;
     }
 
     /**
@@ -53,6 +74,14 @@ public class Mensaje {
     }
 
     /**
+     * Devuelve el autor del mensaje
+     * @return el usuario autor del mensaje
+     */
+    public Usuario getAutor() {
+        return this.autor;
+    }
+
+    /**
      * Permite cambiar el alcance disponible del mensaje
      * @param nuevoAlcanceDisponible el nuevo alcance disponible del mensaje
      */
@@ -64,7 +93,11 @@ public class Mensaje {
      * Permite cambiar el usuario actual del mensaje
      * @param nuevoUsuarioActual el nuevo usuario actual del mensaje
      */
-    public void cambiarUsuarioActual(Usuario nuevoUsuarioActual) {
+    public void cambiarUsuarioActual(Usuario nuevoUsuarioActual) throws NullPointerException {
+        if (nuevoUsuarioActual == null) {
+            throw new NullPointerException("usuarioActual == null");
+        }
+
         this.usuarioActual = nuevoUsuarioActual;
     }
 
@@ -108,7 +141,7 @@ public class Mensaje {
         /* El alcance del mensaje disminuye en el coste real del enlace */
         this.alcanceDisponible = this.alcanceDisponible - e.costeReal();
         /* El alcance vuelve a incrementarse en la cantidad correspondiente a la capacidad de amplificación del
-        usuario destino, y entonces el method difunde devolverá true. */
+        usuario destino, y entonces el method difunde devolverA true. */
         this.alcanceDisponible = this.alcanceDisponible + this.usuarioActual.getCapacidadAmplificacion();
 
         return true;
@@ -132,7 +165,11 @@ public class Mensaje {
                 e = this.usuarioActual.getEnlace(usuarioDestino);
                 if (!difunde(e)) {
                     huboSaltos = true;
-                } 
+                } else {
+                    /* Cada vez que el mensaje consiga propagarse a través de un enlace, el programa deberá mostrar
+                    por consola el estado actual del mensaje */
+                    System.out.println(this); // NOTE: ¿QuizAs no debería imprimirse siempre?
+                }
             }
         }
 
@@ -141,6 +178,6 @@ public class Mensaje {
 
     @Override
     public String toString() {
-        return "Mensaje(" + this.texto +":" + this.alcanceDisponible + ") en @" + this.usuarioActual.getNombre();
+        return "Mensaje(" + this.texto + ":" + this.alcanceDisponible + ") en @" + this.usuarioActual.getNombre();
     }
 }
