@@ -8,13 +8,13 @@
  */
 public class Enlace {
     /** La suma de los costes de todos los enlaces creados */
-    private static int sumaCostes;
+    protected static int sumaCostes;
     /** El usuario origen del enlace */
-    private final Usuario usuarioOrigen;
+    protected final Usuario usuarioOrigen;
     /** El usuario destino del enlace */
-    private Usuario usuarioDestino;
+    protected Usuario usuarioDestino;
     /** EL coste del enlace */
-    private int coste;
+    protected int coste;
 
     static {
         /* Supuestamente, inicializa la variable estática a 0 al crear la clase */
@@ -66,7 +66,7 @@ public class Enlace {
 
     /**
      * Devuelve el usuario destino del enlace
-     * @return el usuario origen del enlace
+     * @return el usuario destino del enlace
      */
     public Usuario getUsuarioDestino() {
         return this.usuarioDestino;
@@ -112,6 +112,6 @@ public class Enlace {
 
     @Override
     public java.lang.String toString() {
-        return "(" + this.usuarioDestino.getNombre() + "--" + this.coste + "-->" + this.usuarioDestino.getNombre() + ")";
+        return "(@" + this.usuarioDestino.getNombre() + "--" + this.coste + "-->@" + this.usuarioDestino.getNombre() + ")";
     }
 }

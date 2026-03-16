@@ -6,14 +6,14 @@
  * @version 1.5
  * @see Usuario
  * @see Enlace
- */
+ */ 
 public class Mensaje {
     /* El texto del mensaje */
-    private final String texto;
+    protected final String texto;
     /** La capacidad del mensaje para seguir difundiéndose */
-    private int alcanceDisponible;
+    protected int alcanceDisponible;
     /** El usuario donde se encuentra el mensaje actualmente */
-    private Usuario usuarioActual;
+    protected Usuario usuarioActual;
 
     /**
      * Constructor de un mensaje
@@ -25,6 +25,7 @@ public class Mensaje {
         this.texto = texto;
         this.alcanceDisponible = alcanceDisponible;
         this.usuarioActual = usuarioActual;
+        this.usuarioActual.addMensaje(this);
     }
 
     /**
@@ -73,7 +74,7 @@ public class Mensaje {
      * @param e el enlace
      * @return true si y solo si el alcance el mensaje es mayor o igual que el * coste real del enlace, false si no
      */
-    private boolean puedeDifundirPor(Enlace e) {
+    protected boolean puedeDifundirPor(Enlace e) {
         return this.alcanceDisponible >= e.costeReal();
     }
 
@@ -82,7 +83,7 @@ public class Mensaje {
      * @param u el usuario destino del mensaje
      * @return true si la difusión es posible, false si no
      */
-    private boolean aceptadoPor(Usuario u) {
+    protected boolean aceptadoPor(Usuario u) {
         return true; // NOTE: por ahora devuelve siempre true
     }
 
@@ -95,12 +96,15 @@ public class Mensaje {
      */
     public boolean difunde(Enlace e) {
         /* Comprobación de difusión */
-        if (e == null || !puedeDifundirPor(e) || !aceptadoPor(e.getUsuarioDestino())) {
+        if (e == null || !puedeDifundirPor(e) || !aceptadoPor(e.getUsuarioDestino()) || !e.getUsuarioOrigen().comprobarMensaje(this)) {
             return false;
         }
 
+        
         /* El usuario actual del mensaje pasa a ser el destino del enlace */
         this.usuarioActual = e.getUsuarioDestino();
+        /* Guarda el mensaje en el nuevo usuario del mensaje */
+        this.getUsuarioActual().addMensaje(this);
         /* El alcance del mensaje disminuye en el coste real del enlace */
         this.alcanceDisponible = this.alcanceDisponible - e.costeReal();
         /* El alcance vuelve a incrementarse en la cantidad correspondiente a la capacidad de amplificación del
@@ -128,11 +132,7 @@ public class Mensaje {
                 e = this.usuarioActual.getEnlace(usuarioDestino);
                 if (!difunde(e)) {
                     huboSaltos = true;
-                } else {
-                    /* Cada vez que el mensaje consiga propagarse a través de un enlace, el programa deberá mostrar
-                    por consola el estado actual del mensaje */
-                    System.out.println(this); // NOTE: ¿Quizás no debería imprimirse siempre?
-                }
+                } 
             }
         }
 
@@ -141,6 +141,6 @@ public class Mensaje {
 
     @Override
     public String toString() {
-        return "Mensaje(m:" + this.alcanceDisponible + ") en" + this.usuarioActual.getNombre();
+        return "Mensaje(" + this.texto +":" + this.alcanceDisponible + ") en @" + this.usuarioActual.getNombre();
     }
 }
