@@ -260,7 +260,7 @@ public class RedSocial {
             for (Usuario u : usuarios.values()) {
                 for (int i = 0; i < u.getNumEnlaces(); i++) {
                     Enlace e = u.getEnlace(i);
-                    buffer.write(e.getUsuarioOrigen() + " " + e.getUsuarioDestino() + " " + e.getCoste() + "\n");
+                    buffer.write(e.getUsuarioOrigen().getNombre() + " " + e.getUsuarioDestino().getNombre() + " " + e.getCoste() + "\n");
                 }
             }
 
