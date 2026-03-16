@@ -9,7 +9,9 @@ public class EjemploDeUsoMensaje{
 
         ana.addEnlace(new Enlace(ana, luis, 68));
         ana.addEnlace(carmen, 33);
+        System.out.println(ana);
         System.out.println(m);
+
 
         carmen.addEnlace(manolo, 1);
         m.difunde(luis,carmen,manolo);

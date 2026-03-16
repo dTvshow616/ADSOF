@@ -100,7 +100,7 @@ public class Usuario{
             }
         }
 
-        if(m.getAlcanceDisponible() < alcanceTotal/this.getNumMensajes()){
+        if(m.getAlcanceDisponible() > alcanceTotal/this.getNumMensajes()){
             this.cambiarExposicion(this.expuesto.subir());
         } else{
             this.cambiarExposicion(this.expuesto.bajar());

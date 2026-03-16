@@ -123,6 +123,6 @@ public class Enlace {
 
     @Override
     public java.lang.String toString() {
-        return "(@" + this.usuarioDestino.getNombre() + "--" + this.coste + "-->@" + this.usuarioDestino.getNombre() + ")";
+        return "(@" + this.usuarioOrigen.getNombre() + "--" + this.coste + "-->@" + this.usuarioDestino.getNombre() + ")";
     }
 }
