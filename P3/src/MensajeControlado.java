@@ -31,6 +31,7 @@ public class MensajeControlado extends Mensaje {
      * @return true si y solo si el alcance el mensaje es mayor o igual que el * coste real del enlace, false si no o si
      * el enlace es un señuelo
      */
+    @Override
     protected boolean puedeDifundirPor(Enlace e) {
         if (e instanceof EnlaceSenuelo) {
             return false;
@@ -44,6 +45,7 @@ public class MensajeControlado extends Mensaje {
      * @param u el usuario destino del mensaje
      * @return true si la difusión es posible, false si no
      */
+    @Override
     protected boolean aceptadoPor(Usuario u) {
 
         if ((u.getExposicion() == Exposicion.OCULTA)) {

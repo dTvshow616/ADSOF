@@ -52,7 +52,7 @@ public class RedSocial {
      * @param filenameUsuarios el nombre del fichero, guardado en la carpeta /txt/
      * @throws IOException fallo en la lectura de dicho fichero
      */
-    public void leerUsuarios(String filenameUsuarios) throws IOException {
+    private void leerUsuarios(String filenameUsuarios) throws IOException {
         String[] words;
         String line, nombreUsuario;
         int capacidadAmplificacion;
@@ -82,7 +82,7 @@ public class RedSocial {
      * @param filenameEnlaces el nombre del fichero, guardado en el directorio /txt/
      * @throws IOException fallo en la lectura de dicho fichero
      */
-    public void leerEnlaces(String filenameEnlaces) throws IOException {
+    private void leerEnlaces(String filenameEnlaces) throws IOException {
         String[] words;
         String line;
         Usuario usuarioOrigen, usuarioDestino;
@@ -115,7 +115,7 @@ public class RedSocial {
      * @param filenameMensaje el nombre del fichero, guardado en el directorio /txt/
      * @throws IOException fallo en la lectura de dicho fichero
      */
-    public void leerMensaje(String filenameMensaje) throws IOException {
+    private void leerMensaje(String filenameMensaje) throws IOException {
         String[] words;
         String line;
         String texto;

@@ -34,6 +34,7 @@ public class UsuarioInteresado extends Usuario {
      * @param destino usuario del que se pide el enlace
      * @return el enlace con el usuario destino, el usuario viral o null si no se encuentra
      */
+    @Override
     public Enlace getEnlace(Usuario destino) {
         for (Enlace i : this.enlaces) {
             if (i.getUsuarioDestino().getExposicion().ordinal() >= Exposicion.ALTA.ordinal()) {

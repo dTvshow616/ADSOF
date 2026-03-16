@@ -33,6 +33,7 @@ public class EnlaceSenuelo extends Enlace {
      * Devuelve el coste especial multiplicando el coste por el factor de coste extra
      * @return el coste especial del enlace
      */
+    @Override
     public int costeEspecial() {
         return super.coste * this.factorCosteExtra;
     }
@@ -41,6 +42,7 @@ public class EnlaceSenuelo extends Enlace {
      * Devuelve el usuario destino del enlace aunque hay una probabilidad de que devuelva el usuario origen
      * @return el usuario origen o usuario destino del enlace
      */
+    @Override
     public Usuario getUsuarioDestino() {
         Random rand = new Random();
 
