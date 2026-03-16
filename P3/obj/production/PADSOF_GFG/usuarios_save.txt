@@ -1,6 +1,0 @@
-luis 10
-ana 3
-mario 3
-diego 1
-carmen 2
-fede 0

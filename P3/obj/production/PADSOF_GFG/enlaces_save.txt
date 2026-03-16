@@ -1,8 +1,0 @@
-luis diego 7
-luis mario 4
-ana luis 1
-ana carmen 5
-mario fede 1
-diego fede 3
-carmen diego 6
-carmen mario 8
