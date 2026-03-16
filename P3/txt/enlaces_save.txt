@@ -1,8 +1,8 @@
-luis(10)[(luis--7-->diego),(luis--4-->mario),] diego(1)[(diego--3-->fede),] 7
-luis(10)[(luis--7-->diego),(luis--4-->mario),] mario(3)[(mario--1-->fede),] 4
-ana(3)[(ana--1-->luis),(ana--5-->carmen),] luis(10)[(luis--7-->diego),(luis--4-->mario),] 1
-ana(3)[(ana--1-->luis),(ana--5-->carmen),] carmen(2)[(carmen--6-->diego),(carmen--8-->mario),] 5
-mario(3)[(mario--1-->fede),] fede(0)[] 1
-diego(1)[(diego--3-->fede),] fede(0)[] 3
-carmen(2)[(carmen--6-->diego),(carmen--8-->mario),] diego(1)[(diego--3-->fede),] 6
-carmen(2)[(carmen--6-->diego),(carmen--8-->mario),] mario(3)[(mario--1-->fede),] 8
+luis diego 7
+luis mario 4
+ana luis 1
+ana carmen 5
+mario fede 1
+diego fede 3
+carmen diego 6
+carmen mario 8

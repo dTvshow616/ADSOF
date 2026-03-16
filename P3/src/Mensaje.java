@@ -2,13 +2,13 @@
  * Nombre de la clase: Mensaje
  * <p>
  * Description: Implementa los mensajes
- * @author Alvaro G.S. & Ana O.R.
+ * @author Alvaro G.S. and Ana O.R.
  * @version 1.5
  * @see Usuario
  * @see Enlace
- */ 
+ */
 public class Mensaje {
-    /* El texto del mensaje */
+    /** El texto del mensaje */
     protected final String texto;
     /** La capacidad inicial del mensaje */
     protected final int alcanceInicial;
@@ -133,7 +133,7 @@ public class Mensaje {
             return false;
         }
 
-        
+
         /* El usuario actual del mensaje pasa a ser el destino del enlace */
         this.usuarioActual = e.getUsuarioDestino();
         /* Guarda el mensaje en el nuevo usuario del mensaje */
