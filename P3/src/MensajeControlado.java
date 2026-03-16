@@ -2,13 +2,13 @@
  * Nombre de la clase: MensajeControlado
  * <p>
  * Description: Implementa los mensajes controlados
- * @author Álvaro G.S. & Ana O.R.
+ * @author Alvaro G.S. and Ana O.R.
  * @version 1.5
  * @see Mensaje
  * @see Usuario
  * @see Enlace
  */
-public class MensajeControlado extends Mensaje{
+public class MensajeControlado extends Mensaje {
     /* La rigidez que tiene el mensaje para evitar su sobreexposición*/
     private int rigidez;
 
@@ -28,10 +28,11 @@ public class MensajeControlado extends Mensaje{
      * Función auxiliar de la función difunde() que devuelve true si y solo si el alcance el mensaje es mayor o igual
      * que el coste real del enlace y el enlace no es un señuelo
      * @param e el enlace
-     * @return true si y solo si el alcance el mensaje es mayor o igual que el * coste real del enlace, false si no o si el enlce es un señuelo
+     * @return true si y solo si el alcance el mensaje es mayor o igual que el * coste real del enlace, false si no o si
+     * el enlace es un señuelo
      */
-    protected boolean puedeDifundirPor(Enlace e){
-        if(e instanceof EnlaceSeñuelo){
+    protected boolean puedeDifundirPor(Enlace e) {
+        if (e instanceof EnlaceSenuelo) {
             return false;
         }
 
@@ -39,21 +40,21 @@ public class MensajeControlado extends Mensaje{
     }
 
     /**
-     * Comprueba si la difusión del mensaje es posible, asegurandos de que el usuario destino no es demasiado viral
+     * Comprueba si la difusión del mensaje es posible, asegurándose de que el usuario destino no es demasiado viral
      * @param u el usuario destino del mensaje
      * @return true si la difusión es posible, false si no
      */
-    protected boolean aceptadoPor(Usuario u){
+    protected boolean aceptadoPor(Usuario u) {
 
-        if((u.getExposicion() == Exposicion.OCULTA)){
+        if ((u.getExposicion() == Exposicion.OCULTA)) {
             return super.aceptadoPor(u);
-        }else if((u.getExposicion() == Exposicion.BAJA) && (this.rigidez >= 5)){
+        } else if ((u.getExposicion() == Exposicion.BAJA) && (this.rigidez >= 5)) {
             return super.aceptadoPor(u);
-        }else if((u.getExposicion() == Exposicion.MEDIA) && (this.rigidez >= 10)){
+        } else if ((u.getExposicion() == Exposicion.MEDIA) && (this.rigidez >= 10)) {
             return super.aceptadoPor(u);
-        }else if((u.getExposicion() == Exposicion.ALTA) && (this.rigidez >= 20)){
+        } else if ((u.getExposicion() == Exposicion.ALTA) && (this.rigidez >= 20)) {
             return super.aceptadoPor(u);
-        }else if((u.getExposicion() == Exposicion.VIRAL) && (this.rigidez >= 50)){
+        } else if ((u.getExposicion() == Exposicion.VIRAL) && (this.rigidez >= 50)) {
             return super.aceptadoPor(u);
         }
 

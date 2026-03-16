@@ -3,12 +3,16 @@ import java.io.IOException;
 /**
  * Nombre de la clase: EjemploDeUsoRedSocial
  * <p>
- * Description: Sirve como main para probar el resto de clases
- * @author Alvaro G.S. & Ana O.R.
+ * Description: Sirve para probar la Red Social
+ * @author Alvaro G.S. and Ana O.R.
  * @version 1.0
  * @see RedSocial
  */
 public class EjemploDeUsoRedSocial {
+    /**
+     * Función que comprueba la clase Red Social
+     * @param args parámetros de entrada
+     */
     public static void main(String[] args) {
         try {
             RedSocial s;

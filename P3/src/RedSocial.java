@@ -6,7 +6,7 @@ import java.util.HashMap;
  * Nombre de la clase: RedSocial
  * <p>
  * Description: Implementa la red social
- * @author Alvaro G.S. & Ana O.R.
+ * @author Alvaro G.S. and Ana O.R.
  * @version 1.3
  * @see Usuario
  * @see Enlace
