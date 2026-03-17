@@ -60,7 +60,7 @@ public class RedSocial {
 
         try {
             BufferedReader buffer =
-                    new BufferedReader(new InputStreamReader(new FileInputStream(".\\P3\\txt\\" + filenameUsuarios)));
+                    new BufferedReader(new InputStreamReader(new FileInputStream(".\\txt\\" + filenameUsuarios)));
 
             while ((line = buffer.readLine()) != null) {
                 words = line.split("[\\t ]+"); // NOTE: Acepta espacios y tabuladores como regex :)
@@ -91,7 +91,7 @@ public class RedSocial {
 
         try {
             BufferedReader buffer =
-                    new BufferedReader(new InputStreamReader(new FileInputStream(".\\P3\\txt\\" + filenameEnlaces)));
+                    new BufferedReader(new InputStreamReader(new FileInputStream(".\\txt\\" + filenameEnlaces)));
 
             while ((line = buffer.readLine()) != null) {
                 words = line.split("[\\t ]+"); // NOTE: Acepta espacios y tabuladores como regex :)
@@ -126,7 +126,7 @@ public class RedSocial {
 
         try {
             BufferedReader buffer =
-                    new BufferedReader(new InputStreamReader(new FileInputStream(".\\P3\\txt\\" + filenameMensaje)));
+                    new BufferedReader(new InputStreamReader(new FileInputStream(".\\txt\\" + filenameMensaje)));
 
             if ((line = buffer.readLine()) != null) {
                 words = line.split("[\\t ]+"); // NOTE: Acepta espacios y tabuladores como regex :)
@@ -242,21 +242,21 @@ public class RedSocial {
     }
 
     /**
-     * Permite guardar la información de la red social
+     * Permite guardar el estado inicial de la red social
      * @throws IOException no se pudieron abrir o escribir los ficheros de guardado
      */
-    public void saveRedSocial() throws IOException {
+    public void saveRedSocialInicial() throws IOException {
         BufferedWriter buffer;
         try {
             /* Escritura de usuarios_save.txt */
-            buffer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(".\\P3\\txt\\usuarios_save.txt")));
+            buffer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(".\\txt\\usuarios_save.txt")));
             for (Usuario u : usuarios.values()) {
                 buffer.write(u.getNombre() + " " + u.getCapacidadAmplificacion() + "\n");
             }
 
             buffer.close();
             /* Escritura de enlaces_save.txt */
-            buffer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(".\\P3\\txt\\enlaces_save.txt")));
+            buffer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(".\\txt\\enlaces_save.txt")));
             for (Usuario u : usuarios.values()) {
                 for (int i = 0; i < u.getNumEnlaces(); i++) {
                     Enlace e = u.getEnlace(i);
@@ -269,7 +269,7 @@ public class RedSocial {
             /* Escritura de mensajes_save.txt */
             for (int i = 0; i < mensajes.size(); i++) {
                 buffer =
-                        new BufferedWriter(new OutputStreamWriter(new FileOutputStream(".\\P3\\txt\\mensaje_save" + i +
+                        new BufferedWriter(new OutputStreamWriter(new FileOutputStream(".\\txt\\mensaje_save" + i +
                                 ".txt")));
                 Mensaje m = mensajes.get(i);
                 buffer.write(m.getTexto() + " " + m.getAlcanceInicial() + " " + m.getAutor().getNombre() + "\n");
@@ -284,6 +284,4 @@ public class RedSocial {
             throw new IOException(e.getMessage());
         }
     }
-
-
 }

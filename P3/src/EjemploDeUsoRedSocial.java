@@ -17,7 +17,7 @@ public class EjemploDeUsoRedSocial {
         try {
             RedSocial s;
             s = new RedSocial("USUARIOS.txt", "ENLACES.txt", "MENSAJE.txt");
-            s.saveRedSocial();
+            s.saveRedSocialInicial();
             s = new RedSocial("USUARIOS.txt", "ENLACES.txt", "MENSAJE2.txt");
         } catch (IOException e) {
             System.out.println("Error en archivos");
