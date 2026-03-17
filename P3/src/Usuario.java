@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class Usuario {
     /** La suma del alcance de todos los mensajes recibidos */
-    protected static int sumaAlcance;
+    protected int sumaAlcance;
     /** Nombre del usuario */
     protected String nombre;
     /** Capacidad de amplificar el alcance de un mensaje de un usuario */
@@ -25,10 +25,7 @@ public class Usuario {
     /** Exposicion del usuario */
     protected Exposicion expuesto;
 
-    static {
-        /* inicializa la variable estática a 0 al crear la clase */
-        sumaAlcance = 0;
-    }
+    
 
     /**
      * Constructor para un usuario
@@ -44,6 +41,7 @@ public class Usuario {
      * @param capacidadAmplificacion Capacidad de amplificar el alcance de un mensaje de un usuario
      */
     public Usuario(String nombre, int capacidadAmplificacion) {
+        this.sumaAlcance = 0;
         this.nombre = nombre;
         this.capacidadAmplificacion = capacidadAmplificacion;
         this.expuesto = Exposicion.ALTA;
