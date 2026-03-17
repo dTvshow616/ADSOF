@@ -89,7 +89,6 @@ public class Usuario {
      * @return true si se añade correctamente, false en caso de fallo
      */
     public boolean addMensaje(Mensaje m) {
-        int alcanceTotal = 0;
         if ((m.getUsuarioActual() != this)) {
             return false;
         }
@@ -100,13 +99,13 @@ public class Usuario {
             }
         }
 
-        if(m.getAlcanceDisponible() > alcanceTotal/this.getNumMensajes()){
+        if(m.getAlcanceDisponible() > this.sumaAlcance/this.getNumMensajes()){
             this.cambiarExposicion(this.expuesto.subir());
         } else {
             this.cambiarExposicion(this.expuesto.bajar());
         }
 
-        alcanceTotal = alcanceTotal + m.getAlcanceDisponible();
+        this.sumaAlcance = this.sumaAlcance + m.getAlcanceDisponible();
 
         this.mensajes.add(m);
         return true;
@@ -210,7 +209,7 @@ public class Usuario {
     public String toString() {
         String result;
 
-        result = this.nombre + "(" + this.capacidadAmplificacion + ")" + "[";
+        result = this.nombre + "(" + this.capacidadAmplificacion + ")" + "(" + this.expuesto + ")" + "[";
 
         for (Enlace i : this.enlaces) {
             result = result + i.toString() + ",";

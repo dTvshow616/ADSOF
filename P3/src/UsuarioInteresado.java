@@ -44,5 +44,16 @@ public class UsuarioInteresado extends Usuario {
         return super.getEnlace(destino);
     }
 
+    @Override
+    public Enlace getEnlace(int i){
+        for (Enlace e : this.enlaces) {
+            if (e.getUsuarioDestino().getExposicion().ordinal() >= Exposicion.ALTA.ordinal()) {
+                return e;
+            }
+        }
+
+        return super.getEnlace(i);
+    } 
+
 
 }

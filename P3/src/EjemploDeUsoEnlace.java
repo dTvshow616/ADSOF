@@ -1,4 +1,17 @@
+/**
+ * Nombre de la clase: EjemploDeUsoEnlace
+ * <p>
+ * Description: Sirve para probar Enlace
+ * @author Alvaro G.S. and Ana O.R.
+ * @version 1.0
+ * @see Usuario
+ * @see Enlace
+ */
 public class EjemploDeUsoEnlace{
+    /**
+     * Función que comprueba la clase Enlace
+     * @param args parámetros de entrada
+     */
     public static void main (String[] args){
         Usuario ana = new Usuario("ana", 1);
         Usuario carmen = new Usuario("carmen",5);
