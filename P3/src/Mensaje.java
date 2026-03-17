@@ -117,10 +117,8 @@ public class Mensaje {
      * @return true si la difusión es posible, false si no
      */
     protected boolean aceptadoPor(Usuario u) {
-        return true; // NOTE: por ahora devuelve siempre true
+        return true;
     }
-
-    // REVIEW: comprobar lógica de difusión
 
     /**
      * Función auxiliar, intenta difundir el mensaje a través de un cierto enlace
@@ -168,7 +166,7 @@ public class Mensaje {
                 } else {
                     /* Cada vez que el mensaje consiga propagarse a través de un enlace, el programa deberá mostrar
                     por consola el estado actual del mensaje */
-                    System.out.println(this); // NOTE: ¿QuizAs no debería imprimirse siempre?
+                    System.out.println(this);
                 }
             }
         }

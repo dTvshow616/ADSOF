@@ -88,11 +88,11 @@ public class Enlace {
     }
 
     /**
-     * Devuelve 0 (solo los enlaces especiales definidos en el futuro tendrán coste especial distinto de cero
+     * Devuelve 0 (solo los enlaces especiales definidos en el futuro tendrán coste especial distinto de cero)
      * @return el coste especial del enlace
      */
     public int costeEspecial() {
-        return 0; // DUE Cambiar en futuros apartados
+        return 0;
     }
 
     /**
