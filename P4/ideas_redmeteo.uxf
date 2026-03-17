@@ -1,0 +1,76 @@
+<diagram program="umletino" version="15.1"><zoom_level>11</zoom_level><element><id>UMLClass</id><coordinates><x>297</x><y>297</y><w>187</w><h>132</h></coordinates><panel_attributes>style=autoresize
+EstacionMeteorologica
+--
+- String: nombre
+- double: latitud
+- double: longitud	
+- int: idNuevoSensor
+--
++ addSensor(PARAMS): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>572</x><y>242</y><w>242</w><h>231</h></coordinates><panel_attributes>style=autoresize
+Sensor
+--
+- Period: periodoCaducidad
+- String: id
+- double: offset
+- LocalDateTime: fechaUltimaLectura
+- double: valorUltimaLectura
+- boolean: calibrado
+- double: minRango
+- double: maxRango
+- LocalDate: fechaInstalacion
+--
++ comprobarCaducidad(): void
++ leerValor(double valor): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>880</x><y>297</y><w>132</w><h>132</h></coordinates><panel_attributes>style=autoresize
+&lt;&lt;enum&gt;&gt;
+TipoSensor
+--
++ TEMP
++ HUM
++ PRES
+--
++ toString(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>814</x><y>660</y><w>242</w><h>154</h></coordinates><panel_attributes>style=autoresize
+&lt;&lt;enum&gt;&gt;
+UnidadMedidaPres
+--
++ HECTOPASCALES("hPa", 300, 1100)
+- String: simbolo
+- double minRango
+- double: maxRango
+--
++ toString(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>473</x><y>341</y><w>121</w><h>55</h></coordinates><panel_attributes>lt=&lt;-
+r1=sensores
+m1=*</panel_attributes><additional_attributes>90;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>803</x><y>341</y><w>99</w><h>55</h></coordinates><panel_attributes>lt=&lt;-
+r1=tipo
+m1=1</panel_attributes><additional_attributes>70;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>924</x><y>594</y><w>88</w><h>88</h></coordinates><panel_attributes>lt=&lt;-
+r1=unidades
+m1=1</panel_attributes><additional_attributes>10;60;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>407</x><y>561</y><w>143</w><h>44</h></coordinates><panel_attributes>style=autoresize
+SensorTemperatura
+--</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>638</x><y>561</y><w>121</w><h>44</h></coordinates><panel_attributes>style=autoresize
+SensorHumedad
+--</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>880</x><y>561</y><w>110</w><h>44</h></coordinates><panel_attributes>style=autoresize
+SensorPresion
+--</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>605</x><y>660</y><w>176</w><h>154</h></coordinates><panel_attributes>style=autoresize
+&lt;&lt;enum&gt;&gt;
+UnidadMedidaHum
+--
++ PORCENTAJE("%", 0,100)
+- String: simbolo
+- double minRango
+- double: maxRango
+--
++ toString(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>682</x><y>594</y><w>88</w><h>88</h></coordinates><panel_attributes>lt=&lt;-
+r1=unidades
+m1=1</panel_attributes><additional_attributes>10;60;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>352</x><y>660</y><w>231</w><h>187</h></coordinates><panel_attributes>style=autoresize
+&lt;&lt;enum&gt;&gt;
+UnidadMedidaTemp
+--
++ CELCIUS("ºC", -273.15, 1000)
++ FAHRENHEIT("ºF", -459.67, 1832)
++ KELVIN("K", 0, 1273.15)
+- String: simbolo
+- double minRango
+- double: maxRango
+--
++ toString(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>462</x><y>594</y><w>88</w><h>88</h></coordinates><panel_attributes>lt=&lt;-
+r1=unidades
+m1=1</panel_attributes><additional_attributes>10;60;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>462</x><y>462</y><w>187</w><h>121</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>150;10;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>682</x><y>462</y><w>33</w><h>121</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>748</x><y>462</y><w>209</w><h>121</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;170;90</additional_attributes></element></diagram>

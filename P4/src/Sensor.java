@@ -9,51 +9,80 @@ import java.time.Period;
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.0
  */
-public abstract class Sensor {
-    /** Identificador único del sensor */
-    String id;
-    /** Offset de calibración del sensor */
-    double offset;
-    /** Fecha y hora de la última lectura del sensor */
-    LocalDateTime fechaUltimaLectura;
-    /* El valor de la última lectura */
-    double valorUltimaLectura;
-    /** La calibración del sensor */
-    boolean calibrado;
-    /** Valor mínimo del rango de valores aceptados */
-    double min_rango;
-    /** Valor máximo del rango de valores aceptados */
-    double max_rango;
+public class Sensor {
     /** El tiempo tras el cual caduca la calibración de un sensor */
-    Period periodoCaducidad;
+    private static Period periodoCaducidad;
+    /** Identificador único del sensor */
+    private String id;
+    /** Offset de calibración del sensor */
+    private double offset;
+    /** Fecha y hora de la última lectura del sensor */
+    private LocalDateTime fechaUltimaLectura;
+    /* El valor de la última lectura */
+    private double valorUltimaLectura;
+    /** La calibración del sensor */
+    private boolean calibrado;
+    /** Valor mínimo del rango de valores aceptados */
+    private double min_rango;
+    /** Valor máximo del rango de valores aceptados */
+    private double max_rango;
     /** La fecha de instalación del sensor */
-    LocalDate fechaInstalacion;
+    private LocalDate fechaInstalacion;
+    /** El tipo de sensor que es */
+    TipoSensor tipo;
+    /** La unidad de medida del sensor */
+    UnidadMedida unidadMedida;
+
+    static {
+        periodoCaducidad = Period.ofDays(1); // NOTE: Valor default
+    }
 
     /**
      * Constructor de un sensor
-     * @param id el id del sensor
-     * @param offset el offset del sensor
+     * @param id        el id del sensor
+     * @param offset    el offset del sensor
      * @param min_rango el valor mínimo del rango de valores aceptados
      * @param max_rango el valor máximo del rango de valores aceptados
      */
-    Sensor(String id, double offset, double min_rango, double max_rango) {
+    Sensor(String id, double offset, double min_rango, double max_rango, LocalDate fechaInstalacion) {
         this.id = id;
         this.offset = offset;
+        this.fechaUltimaLectura = null;
+        this.calibrado = true;
         this.min_rango = min_rango;
         this.max_rango = max_rango;
+        this.fechaInstalacion = fechaInstalacion;
     }
 
     /**
      * Comprueba si la calibración del sensor ha caducado
      */
     public void comprobarCaducidad() {
-        LocalDate fechaCaducidad = this.fechaInstalacion.plus(this.periodoCaducidad);
+        LocalDate fechaCaducidad = this.fechaInstalacion.plus(periodoCaducidad);
         if (LocalDate.now().isAfter(fechaCaducidad)) {
             this.calibrado = false;
         }
     }
 
-    public void leerValor(double valor) { // DUE: Hacer
+    /**
+     * Permite al sensor medir un valor
+     * @param valor el valor a medir
+     */
+    public void leerValor(double valor) {
+        this.valorUltimaLectura = valor - this.offset;
+        if (this.valorUltimaLectura > max_rango || this.valorUltimaLectura < min_rango) {
+            /* El sensor se considera no calibrado cuando se realice una lectura fuera de rango */
+            this.calibrado = false;
+        }
+        this.fechaUltimaLectura = LocalDateTime.now();
+    }
 
+    /**
+     * Permite consultar si el sensor está correctamente calibrado
+     * @return true si lo está, false si no
+     */
+    public boolean getCalibrado() {
+        comprobarCaducidad();
+        return this.calibrado;
     }
 }
