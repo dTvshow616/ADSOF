@@ -17,29 +17,26 @@ public class SensorPresion extends Sensor {
 
     /**
      * Constructor para un sensor de presión
-     * @param id               el id del sensor
      * @param offset           el offset del sensor
      * @param min_rango        el valor mínimo del rango de valores aceptados
      * @param max_rango        el valor máximo del rango de valores aceptados
      * @param fechaInstalacion la fecha de instalación del sensor
      * @param medida           las unidades de medida del sensor
      */
-    SensorPresion(String id, double offset, double min_rango, double max_rango, LocalDate fechaInstalacion,
-                  UdsMedidaPres medida) {
-        super(id, offset, min_rango, max_rango, fechaInstalacion);
+    SensorPresion(double offset, double min_rango, double max_rango, LocalDate fechaInstalacion, UdsMedidaPres medida) {
+        super(TipoSensor.PRES, offset, min_rango, max_rango, fechaInstalacion);
         this.medida = medida;
     }
 
     /**
      * Constructor para un sensor de presión sin fecha de instalación especificada
-     * @param id        el id del sensor
      * @param offset    el offset del sensor
      * @param min_rango el valor mínimo del rango de valores aceptados
      * @param max_rango el valor máximo del rango de valores aceptados
      * @param medida    las unidades de medida del sensor
      */
-    SensorPresion(String id, double offset, double min_rango, double max_rango, UdsMedidaPres medida) {
-        super(id, offset, min_rango, max_rango);
+    SensorPresion(double offset, double min_rango, double max_rango, UdsMedidaPres medida) {
+        super(TipoSensor.PRES, offset, min_rango, max_rango);
         this.medida = medida;
     }
 }

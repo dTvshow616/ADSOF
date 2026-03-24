@@ -6,7 +6,7 @@ import java.util.HashMap;
  * <p>
  * Descripción: Implementa una estación meteorológica
  * @author Alvaro G.S. and Ana O.R.
- * @version 1.0
+ * @version 1.1
  * @see Sensor
  */
 public class EstacionMeteorologica {

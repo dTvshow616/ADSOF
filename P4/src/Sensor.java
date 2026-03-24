@@ -7,11 +7,13 @@ import java.time.Period;
  * <p>
  * Descripción: Implementa un sensor
  * @author Alvaro G.S. and Ana O.R.
- * @version 1.0
+ * @version 1.1
  */
 public class Sensor {
     /** El tiempo tras el cual caduca la calibración de un sensor */
     private static Period periodoCaducidad = Period.ofDays(1); // NOTE: Valor default
+    /** Contador de ids de todos los sensores */
+    private static int generalId = 0;
     /** Identificador único del sensor */
     private String id;
     /** Offset de calibración del sensor */
@@ -31,14 +33,14 @@ public class Sensor {
 
     /**
      * Constructor de un sensor
-     * @param id               el id del sensor
+     * @param tipo             el tipo de sensor
      * @param offset           el offset del sensor
      * @param min_rango        el valor mínimo del rango de valores aceptados
      * @param max_rango        el valor máximo del rango de valores aceptados
      * @param fechaInstalacion la fecha de instalación del sensor
      */
-    Sensor(String id, double offset, double min_rango, double max_rango, LocalDate fechaInstalacion) {
-        this.id = id;
+    Sensor(TipoSensor tipo, double offset, double min_rango, double max_rango, LocalDate fechaInstalacion) {
+        this.id = tipo.toString() + "-" + String.format("%04d", ++generalId);
         this.offset = offset;
         this.fechaUltimaLectura = null;
         this.calibrado = true;
@@ -49,13 +51,13 @@ public class Sensor {
 
     /**
      * Constructor de un sensor sin fecha de instalación definida
-     * @param id        el id del sensor
+     * @param tipo      el tipo de sensor
      * @param offset    el offset del sensor
      * @param min_rango el valor mínimo del rango de valores aceptados
      * @param max_rango el valor máximo del rango de valores aceptados
      */
-    Sensor(String id, double offset, double min_rango, double max_rango) {
-        this.id = id;
+    Sensor(TipoSensor tipo, double offset, double min_rango, double max_rango) {
+        this.id = tipo.toString() + "-" + String.format("%04d", ++generalId);
         this.offset = offset;
         this.fechaUltimaLectura = null;
         this.calibrado = true;
