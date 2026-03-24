@@ -1,17 +1,15 @@
 /**
- * Nombre del enum: UnidadTemperatura
+ * Nombre de la enumeración: UdsMedidaPres
  * <p>
- * Descripción: Define las unidades de temperatura y sus rangos de medición
+ * Descripción: Define las unidades de medida posible para los sensores de presión
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.0
+ * @see SensorPresion
  */
-public enum UnidadMedida {
-    CELSIUS("ºC", -273.15, 1000),
-    FAHRENHEIT("ºF", -459.67, 1832),
-    KELVIN("K", 0, 1273.15),
-    PORCENTAJE("%", 0, 100),
+public enum UdsMedidaPres {
+    /** La presión se mide en Hectopascales */
     HECTOPASCALES("hPa", 300, 1100);
-
+    /** Símbolo que representa a la medida */
     private final String simbolo;
     /** Valor mínimo del rango de valores aceptados */
     private final double minRango;
@@ -23,7 +21,7 @@ public enum UnidadMedida {
      * @param minRango valor mínimo del rango de valores aceptados
      * @param maxRango valor máximo del rango de valores aceptados
      */
-    UnidadMedida(String simbolo, double minRango, double maxRango) {
+    UdsMedidaPres(String simbolo, double minRango, double maxRango) {
         this.simbolo = simbolo;
         this.minRango = minRango;
         this.maxRango = maxRango;

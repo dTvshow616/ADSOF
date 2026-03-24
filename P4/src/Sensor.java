@@ -11,7 +11,7 @@ import java.time.Period;
  */
 public class Sensor {
     /** El tiempo tras el cual caduca la calibración de un sensor */
-    private static Period periodoCaducidad;
+    private static Period periodoCaducidad = Period.ofDays(1); // NOTE: Valor default
     /** Identificador único del sensor */
     private String id;
     /** Offset de calibración del sensor */
@@ -28,21 +28,14 @@ public class Sensor {
     private double max_rango;
     /** La fecha de instalación del sensor */
     private LocalDate fechaInstalacion;
-    /** El tipo de sensor que es */
-    TipoSensor tipo;
-    /** La unidad de medida del sensor */
-    UnidadMedida unidadMedida;
-
-    static {
-        periodoCaducidad = Period.ofDays(1); // NOTE: Valor default
-    }
 
     /**
      * Constructor de un sensor
-     * @param id        el id del sensor
-     * @param offset    el offset del sensor
-     * @param min_rango el valor mínimo del rango de valores aceptados
-     * @param max_rango el valor máximo del rango de valores aceptados
+     * @param id               el id del sensor
+     * @param offset           el offset del sensor
+     * @param min_rango        el valor mínimo del rango de valores aceptados
+     * @param max_rango        el valor máximo del rango de valores aceptados
+     * @param fechaInstalacion la fecha de instalación del sensor
      */
     Sensor(String id, double offset, double min_rango, double max_rango, LocalDate fechaInstalacion) {
         this.id = id;
@@ -52,6 +45,23 @@ public class Sensor {
         this.min_rango = min_rango;
         this.max_rango = max_rango;
         this.fechaInstalacion = fechaInstalacion;
+    }
+
+    /**
+     * Constructor de un sensor sin fecha de instalación definida
+     * @param id        el id del sensor
+     * @param offset    el offset del sensor
+     * @param min_rango el valor mínimo del rango de valores aceptados
+     * @param max_rango el valor máximo del rango de valores aceptados
+     */
+    Sensor(String id, double offset, double min_rango, double max_rango) {
+        this.id = id;
+        this.offset = offset;
+        this.fechaUltimaLectura = null;
+        this.calibrado = true;
+        this.min_rango = min_rango;
+        this.max_rango = max_rango;
+        this.fechaInstalacion = LocalDate.now();
     }
 
     /**
