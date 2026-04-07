@@ -10,7 +10,6 @@ import java.time.*;
 public abstract class Sensor {
     /** El tiempo tras el cual caduca la calibración de un sensor */
     private static final Period periodoCaducidad = Period.ofDays(1); // NOTE: Valor default
-
     /** Identificador único del sensor */
     private final String id;
     /** Offset de calibración del sensor */
@@ -34,35 +33,25 @@ public abstract class Sensor {
      * Constructor de un sensor
      * @param id               el id de sensor
      * @param offset           el offset del sensor
-     * @param min_rango        el valor mínimo del rango de valores aceptados
-     * @param max_rango        el valor máximo del rango de valores aceptados
      * @param fechaInstalacion la fecha de instalación del sensor
      */
-    Sensor(String id, double offset, double min_rango, double max_rango, LocalDate fechaInstalacion) {
+    Sensor(String id, double offset, LocalDate fechaInstalacion) {
         this.id = id;
         this.offset = offset;
-        this.fechaUltimaLectura = null;
-        this.calibrado = true;
-        this.min_rango = min_rango;
-        this.max_rango = max_rango;
         this.fechaInstalacion = fechaInstalacion;
+        this.calibrado = true;
     }
 
     /**
      * Constructor de un sensor sin fecha de instalación definida
-     * @param id        el id de sensor
-     * @param offset    el offset del sensor
-     * @param min_rango el valor mínimo del rango de valores aceptados
-     * @param max_rango el valor máximo del rango de valores aceptados
+     * @param id     el id de sensor
+     * @param offset el offset del sensor
      */
-    Sensor(String id, double offset, double min_rango, double max_rango) {
+    Sensor(String id, double offset) {
         this.id = id;
         this.offset = offset;
-        this.fechaUltimaLectura = null;
-        this.calibrado = true;
-        this.min_rango = min_rango;
-        this.max_rango = max_rango;
         this.fechaInstalacion = LocalDate.now();
+        this.calibrado = true;
     }
 
     public boolean isCalibrado() {
@@ -159,6 +148,7 @@ public abstract class Sensor {
         this.valorUltimaLectura = newValorUltimaLectura;
     }
 
+    /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/
     @Override
     public String toString() {
         return this.id + " (desde: " + this.fechaInstalacion + "): Sensor ";

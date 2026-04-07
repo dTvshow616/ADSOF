@@ -1,5 +1,5 @@
 import java.time.LocalDate;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Nombre de la clase: EstaciónMeteorológica
@@ -10,9 +10,11 @@ import java.util.HashMap;
  * @see Sensor
  */
 public class EstacionMeteorologica {
+    /** El conjunto de todos los sensores de la estación */
+    HashMap<String, Sensor> sensores = new HashMap<>();
     /** El conjunto de sensores de humedad de la estación */
     HashMap<String, SensorHumedad> sensoresHumedad = new HashMap<>();
-    /** El conjunto de sensores de presion de la estación */
+    /** El conjunto de sensores de presión de la estación */
     HashMap<String, SensorPresion> sensoresPresion = new HashMap<>();
     /** El conjunto de sensores de temperatura de la estación */
     HashMap<String, SensorTemperatura> sensoresTemperatura = new HashMap<>();
@@ -39,29 +41,126 @@ public class EstacionMeteorologica {
         this.longitud = longitud;
     }
 
-    public void addSensorHumedad(double offset, double min_rango, double max_rango, LocalDate fechaInstalacion,
-                                 UdsMedidaHum medida) {
-        SensorHumedad sensorHumedad = new SensorHumedad(offset, min_rango, max_rango, fechaInstalacion, medida);
+    /**
+     * Permite que se añada un sensor de humedad a la estación meteorológica
+     * @param offset           el offset del sensor
+     * @param fechaInstalacion la fecha en la que se instaló el sensor
+     * @param medida           las unidades de medida del sensor
+     */
+    public void addSensorHumedad(double offset, LocalDate fechaInstalacion, UdsMedidaHum medida) {
+        SensorHumedad sensorHumedad = new SensorHumedad(offset, fechaInstalacion, medida);
+        if (!this.sensoresHumedad.containsKey(sensorHumedad.getId())) {
+            this.sensoresHumedad.put(sensorHumedad.getId(), sensorHumedad);
+            this.sensores.put(sensorHumedad.getId(), sensorHumedad);
+        }
+    }
+
+    /**
+     * Permite que se añada un sensor de presión a la estación meteorológica
+     * @param offset           el offset del sensor
+     * @param fechaInstalacion la fecha en la que se instaló el sensor
+     * @param medida           las unidades de medida del sensor
+     */
+    public void addSensorPresion(double offset, LocalDate fechaInstalacion, UdsMedidaPres medida) {
+        SensorPresion sensorPresion = new SensorPresion(offset, fechaInstalacion, medida);
+        if (!this.sensoresPresion.containsKey(sensorPresion.getId())) {
+            this.sensoresPresion.put(sensorPresion.getId(), sensorPresion);
+            this.sensores.put(sensorPresion.getId(), sensorPresion);
+        }
+    }
+
+    /**
+     * Permite que se añada un sensor de temperatura a la estación meteorológica
+     * @param offset           el offset del sensor
+     * @param fechaInstalacion la fecha en la que se instaló el sensor
+     * @param medida           las unidades de medida del sensor
+     */
+    public void addSensorTemperatura(double offset, LocalDate fechaInstalacion, UdsMedidaTemp medida) {
+        SensorTemperatura sensorTemperatura = new SensorTemperatura(offset, fechaInstalacion, medida);
+        if (!this.sensoresTemperatura.containsKey(sensorTemperatura.getId())) {
+            this.sensoresTemperatura.put(sensorTemperatura.getId(), sensorTemperatura);
+            this.sensores.put(sensorTemperatura.getId(), sensorTemperatura);
+        }
+    }
+
+    /**
+     * Permite que se añada un sensor de humedad a la estación meteorológica sin especificar la fecha de instalación
+     * @param offset el offset del sensor
+     * @param medida las unidades de medida del sensor
+     */
+    public void addSensorHumedad(double offset, UdsMedidaHum medida) {
+        SensorHumedad sensorHumedad = new SensorHumedad(offset, medida);
         if (!this.sensoresHumedad.containsKey(sensorHumedad.getId())) {
             this.sensoresHumedad.put(sensorHumedad.getId(), sensorHumedad);
         }
     }
 
-    public void addSensorPresion(double offset, double min_rango, double max_rango, LocalDate fechaInstalacion,
-                                 UdsMedidaPres medida) {
-        SensorPresion sensorPresion = new SensorPresion(offset, min_rango, max_rango, fechaInstalacion, medida);
+    /**
+     * Permite que se añada un sensor de presión a la estación meteorológica sin especificar la fecha de instalación
+     * @param offset el offset del sensor
+     * @param medida las unidades de medida del sensor
+     */
+    public void addSensorPresion(double offset, UdsMedidaPres medida) {
+        SensorPresion sensorPresion = new SensorPresion(offset, medida);
         if (!this.sensoresPresion.containsKey(sensorPresion.getId())) {
             this.sensoresPresion.put(sensorPresion.getId(), sensorPresion);
         }
     }
 
-    public void addSensorTemperatura(double offset, double min_rango, double max_rango, LocalDate fechaInstalacion,
-                                     UdsMedidaTemp medida) {
-        SensorTemperatura sensorTemperatura =
-                new SensorTemperatura(offset, min_rango, max_rango, fechaInstalacion, medida);
+    /**
+     * Permite que se añada un sensor de temperatura a la estación meteorológica sin especificar la fecha de
+     * instalación
+     * @param offset el offset del sensor
+     * @param medida las unidades de medida del sensor
+     */
+    public void addSensorTemperatura(double offset, UdsMedidaTemp medida) {
+        SensorTemperatura sensorTemperatura = new SensorTemperatura(offset, medida);
         if (!this.sensoresTemperatura.containsKey(sensorTemperatura.getId())) {
             this.sensoresTemperatura.put(sensorTemperatura.getId(), sensorTemperatura);
         }
+    }
+
+    /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
+
+    /**
+     * Permite obtener todos los sensores registrados
+     * @return un listado con todos los sensores registrados
+     */
+    public List<Sensor> getListSensores() {
+        return new ArrayList<>(this.sensores.values());
+    }
+
+    /**
+     * Permite obtener todos los sensores de tipo Humedad
+     * @return un listado con todos los sensores de tipo Humedad
+     */
+    public List<SensorHumedad> getListSensoresHumedad() {
+        return new ArrayList<>(this.sensoresHumedad.values());
+    }
+
+    /**
+     * Permite obtener todos los sensores de tipo Presión
+     * @return un listado con todos los sensores de tipo Presión
+     */
+    public List<SensorPresion> getListSensoresPresion() {
+        return new ArrayList<>(this.sensoresPresion.values());
+    }
+
+    /**
+     * Permite obtener todos los sensores de tipo Temperatura
+     * @return un listado con todos los sensores de tipo Temperatura
+     */
+    public List<SensorTemperatura> getListSensoresTemperatura() {
+        return new ArrayList<>(this.sensoresTemperatura.values());
+    }
+
+    /**
+     * Permite obtener un sensor a través de su Id
+     * @param desiredId el id del sensor deseado
+     * @return el sensor deseado
+     */
+    public Sensor getSensorFromId(String desiredId) {
+        return this.sensores.get(desiredId);
     }
 
     /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/

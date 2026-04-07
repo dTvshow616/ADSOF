@@ -20,27 +20,33 @@ public class SensorPresion extends Sensor {
     /**
      * Constructor para un sensor de presión
      * @param offset           el offset del sensor
-     * @param min_rango        el valor mínimo del rango de valores aceptados
-     * @param max_rango        el valor máximo del rango de valores aceptados
      * @param fechaInstalacion la fecha de instalación del sensor
      * @param medida           las unidades de medida del sensor
      */
-    SensorPresion(double offset, double min_rango, double max_rango, LocalDate fechaInstalacion, UdsMedidaPres medida) {
-        super(TipoSensor.PRESION.getNombre() + "-" + String.format("%04d", ++totalId), offset, min_rango, max_rango,
-                fechaInstalacion);
+    SensorPresion(double offset, LocalDate fechaInstalacion, UdsMedidaPres medida) {
+        super(TipoSensor.PRESION.getNombre() + "-" + String.format("%04d", ++totalId), offset, fechaInstalacion);
         this.medida = medida;
     }
 
     /**
      * Constructor para un sensor de presión sin fecha de instalación especificada
-     * @param offset    el offset del sensor
-     * @param min_rango el valor mínimo del rango de valores aceptados
-     * @param max_rango el valor máximo del rango de valores aceptados
-     * @param medida    las unidades de medida del sensor
+     * @param offset el offset del sensor
+     * @param medida las unidades de medida del sensor
      */
-    SensorPresion(double offset, double min_rango, double max_rango, UdsMedidaPres medida) {
-        super(TipoSensor.PRESION.getNombre() + "-" + String.format("%04d", ++totalId), offset, min_rango, max_rango);
+    SensorPresion(double offset, UdsMedidaPres medida) {
+        super(TipoSensor.PRESION.getNombre() + "-" + String.format("%04d", ++totalId), offset);
         this.medida = medida;
+    }
+
+    /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
+    public UdsMedidaPres getMedida() {
+        return medida;
+    }
+
+    public void setMedida(UdsMedidaPres newMedida) {
+        this.medida = newMedida;
+        super.setMin_rango(this.medida.getMinRango());
+        super.setMax_rango(this.medida.getMaxRango());
     }
 
     /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/
