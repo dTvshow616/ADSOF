@@ -10,10 +10,12 @@ import java.time.LocalDate;
  * @see UdsMedidaHum
  */
 public class SensorHumedad extends Sensor {
-    /** Nombre que define un sensor de humedad */
-    static String nombre = "HUM";
+    /** Contador de ids de todos los sensores de este tipo */
+    private static int totalId = -1;
     /** Unidades de medida del sensor */
     private UdsMedidaHum medida;
+
+    /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
 
     /**
      * Constructor para un sensor de humedad
@@ -24,7 +26,8 @@ public class SensorHumedad extends Sensor {
      * @param medida           las unidades de medida del sensor
      */
     SensorHumedad(double offset, double min_rango, double max_rango, LocalDate fechaInstalacion, UdsMedidaHum medida) {
-        super(TipoSensor.HUM, offset, min_rango, max_rango, fechaInstalacion);
+        super(TipoSensor.HUMEDAD.getNombre() + "-" + String.format("%04d", ++totalId), offset, min_rango, max_rango,
+                fechaInstalacion);
         this.medida = medida;
     }
 
@@ -36,7 +39,14 @@ public class SensorHumedad extends Sensor {
      * @param medida    las unidades de medida del sensor
      */
     SensorHumedad(double offset, double min_rango, double max_rango, UdsMedidaHum medida) {
-        super(TipoSensor.HUM, offset, min_rango, max_rango);
+        super(TipoSensor.HUMEDAD.getNombre() + "-" + String.format("%04d", ++totalId), offset, min_rango, max_rango);
         this.medida = medida;
+    }
+
+    /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/
+    @Override
+    public String toString() {
+        return super.toString() + "Humedad (" + this.getValorUltimaLectura() + this.medida.getSimbolo() + ") última " +
+               "lectura: " + this.getFechaUltimaLectura();
     }
 }

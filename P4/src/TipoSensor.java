@@ -6,9 +6,37 @@
  * @version 1.0
  */
 public enum TipoSensor {
-    TEMP, // REVIEW: No sé cómo de bien está esto :(
-    HUM,
-    PRES;
+    /** Tipo de sensor Temperatura */
+    TEMPERATURA("TEMP"),
+    /** Tipo de sensor Humedad */
+    HUMEDAD("HUM"),
+    /** Tipo de sensor Presion */
+    PRESION("PRES");
+
+    /** Nombre que corresponde a un tipo de sensor */
+    private final String nombre;
+
+    /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
+
+    /**
+     * Constructor para un sensor
+     * @param nombre el nombre que corresponde a un tipo de sensor
+     */
+    private TipoSensor(String nombre) {
+        this.nombre = nombre;
+    }
+
+    /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
+
+    /**
+     * Gets nombre.
+     * @return the nombre
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/
 
     /**
      * Obtiene el nombre de la enumeración

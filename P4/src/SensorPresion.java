@@ -10,10 +10,12 @@ import java.time.LocalDate;
  * @see UdsMedidaPres
  */
 public class SensorPresion extends Sensor {
-    /** Nombre que define un sensor de presión */
-    static String nombre = "PRES";
+    /** Contador de ids de todos los sensores de este tipo */
+    private static int totalId = -1;
     /** Unidades de medida del sensor */
     private UdsMedidaPres medida;
+
+    /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
 
     /**
      * Constructor para un sensor de presión
@@ -24,7 +26,8 @@ public class SensorPresion extends Sensor {
      * @param medida           las unidades de medida del sensor
      */
     SensorPresion(double offset, double min_rango, double max_rango, LocalDate fechaInstalacion, UdsMedidaPres medida) {
-        super(TipoSensor.PRES, offset, min_rango, max_rango, fechaInstalacion);
+        super(TipoSensor.PRESION.getNombre() + "-" + String.format("%04d", ++totalId), offset, min_rango, max_rango,
+                fechaInstalacion);
         this.medida = medida;
     }
 
@@ -36,7 +39,14 @@ public class SensorPresion extends Sensor {
      * @param medida    las unidades de medida del sensor
      */
     SensorPresion(double offset, double min_rango, double max_rango, UdsMedidaPres medida) {
-        super(TipoSensor.PRES, offset, min_rango, max_rango);
+        super(TipoSensor.PRESION.getNombre() + "-" + String.format("%04d", ++totalId), offset, min_rango, max_rango);
         this.medida = medida;
+    }
+
+    /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/
+    @Override
+    public String toString() {
+        return super.toString() + "Presión (" + this.getValorUltimaLectura() + this.medida.getSimbolo() + ") última " +
+               "lectura: " + this.getFechaUltimaLectura();
     }
 }

@@ -1,6 +1,4 @@
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Period;
+import java.time.*;
 
 /**
  * Nombre de la clase: Sensor
@@ -9,13 +7,12 @@ import java.time.Period;
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.1
  */
-public class Sensor {
+public abstract class Sensor {
     /** El tiempo tras el cual caduca la calibración de un sensor */
-    private static Period periodoCaducidad = Period.ofDays(1); // NOTE: Valor default
-    /** Contador de ids de todos los sensores */
-    private static int generalId = 0;
+    private static final Period periodoCaducidad = Period.ofDays(1); // NOTE: Valor default
+
     /** Identificador único del sensor */
-    private String id;
+    private final String id;
     /** Offset de calibración del sensor */
     private double offset;
     /** Fecha y hora de la última lectura del sensor */
@@ -31,16 +28,18 @@ public class Sensor {
     /** La fecha de instalación del sensor */
     private LocalDate fechaInstalacion;
 
+    /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
+
     /**
      * Constructor de un sensor
-     * @param tipo             el tipo de sensor
+     * @param id               el id de sensor
      * @param offset           el offset del sensor
      * @param min_rango        el valor mínimo del rango de valores aceptados
      * @param max_rango        el valor máximo del rango de valores aceptados
      * @param fechaInstalacion la fecha de instalación del sensor
      */
-    Sensor(TipoSensor tipo, double offset, double min_rango, double max_rango, LocalDate fechaInstalacion) {
-        this.id = tipo.toString() + "-" + String.format("%04d", ++generalId);
+    Sensor(String id, double offset, double min_rango, double max_rango, LocalDate fechaInstalacion) {
+        this.id = id;
         this.offset = offset;
         this.fechaUltimaLectura = null;
         this.calibrado = true;
@@ -51,19 +50,23 @@ public class Sensor {
 
     /**
      * Constructor de un sensor sin fecha de instalación definida
-     * @param tipo      el tipo de sensor
+     * @param id        el id de sensor
      * @param offset    el offset del sensor
      * @param min_rango el valor mínimo del rango de valores aceptados
      * @param max_rango el valor máximo del rango de valores aceptados
      */
-    Sensor(TipoSensor tipo, double offset, double min_rango, double max_rango) {
-        this.id = tipo.toString() + "-" + String.format("%04d", ++generalId);
+    Sensor(String id, double offset, double min_rango, double max_rango) {
+        this.id = id;
         this.offset = offset;
         this.fechaUltimaLectura = null;
         this.calibrado = true;
         this.min_rango = min_rango;
         this.max_rango = max_rango;
         this.fechaInstalacion = LocalDate.now();
+    }
+
+    public boolean isCalibrado() {
+        return calibrado;
     }
 
     /**
@@ -89,6 +92,8 @@ public class Sensor {
         this.fechaUltimaLectura = LocalDateTime.now();
     }
 
+    /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
+
     /**
      * Permite consultar si el sensor está correctamente calibrado
      * @return true si lo está, false si no
@@ -96,5 +101,66 @@ public class Sensor {
     public boolean getCalibrado() {
         comprobarCaducidad();
         return this.calibrado;
+    }
+
+    public void setCalibrado(boolean newCalibrado) {
+        this.calibrado = newCalibrado;
+    }
+
+    public LocalDate getFechaInstalacion() {
+        return fechaInstalacion;
+    }
+
+    public void setFechaInstalacion(LocalDate newFechaInstalacion) {
+        this.fechaInstalacion = newFechaInstalacion;
+    }
+
+    public LocalDateTime getFechaUltimaLectura() {
+        return fechaUltimaLectura;
+    }
+
+    public void setFechaUltimaLectura(LocalDateTime newFechaUltimaLectura) {
+        this.fechaUltimaLectura = newFechaUltimaLectura;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public double getMax_rango() {
+        return max_rango;
+    }
+
+    public void setMax_rango(double newMax_rango) {
+        this.max_rango = newMax_rango;
+    }
+
+    public double getMin_rango() {
+        return min_rango;
+    }
+
+    public void setMin_rango(double newMin_rango) {
+        this.min_rango = newMin_rango;
+    }
+
+    public double getOffset() {
+        return offset;
+    }
+
+    public void setOffset(double newOffset) {
+        this.offset = newOffset;
+    }
+
+    public double getValorUltimaLectura() {
+        return valorUltimaLectura;
+    }
+
+    public void setValorUltimaLectura(double newValorUltimaLectura) {
+        this.valorUltimaLectura = newValorUltimaLectura;
+    }
+
+    @Override
+    public String toString() {
+        return this.id + " (desde: " + this.fechaInstalacion + "): Sensor ";
     }
 }
