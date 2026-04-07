@@ -27,7 +27,7 @@ public class SensorTemperatura extends Sensor {
      */
     public SensorTemperatura(double offset, LocalDate fechaInstalacion, UdsMedidaTemp medida) {
         super(TipoSensor.TEMPERATURA.getNombre() + "-" + String.format("%04d", ++totalId), offset, fechaInstalacion);
-        this.medida = medida;
+        this.setMedida(medida);
     }
 
     /**
@@ -37,18 +37,19 @@ public class SensorTemperatura extends Sensor {
      */
     public SensorTemperatura(double offset, UdsMedidaTemp medida) {
         super(TipoSensor.TEMPERATURA.getNombre() + "-" + String.format("%04d", ++totalId), offset);
-        this.medida = medida;
+        this.setMedida(medida);
     }
 
     /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
-    public UdsMedidaTemp getMedida() {
-        return medida;
-    }
 
+    /**
+     * Establece la medida del sensor
+     * @param newMedida la medida del sensor
+     */
     public void setMedida(UdsMedidaTemp newMedida) {
         this.medida = newMedida;
-        super.setMin_rango(this.medida.getMinRango());
-        super.setMax_rango(this.medida.getMaxRango());
+        super.setMinRango(this.medida.getMinRango());
+        super.setMaxRango(this.medida.getMaxRango());
     }
 
     /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/

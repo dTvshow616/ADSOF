@@ -26,37 +26,28 @@ public class SensorHumedad extends Sensor {
      * @param medida           las unidades de medida del sensor
      */
     public SensorHumedad(double offset, LocalDate fechaInstalacion, UdsMedidaHum medida) {
-        super(TipoSensor.HUMEDAD.getNombre() + "-" + String.format("%04d", ++totalId), offset,
-                fechaInstalacion);
+        super(TipoSensor.HUMEDAD.getNombre() + "-" + String.format("%04d", ++totalId), offset, fechaInstalacion);
         this.setMedida(medida);
     }
 
     /**
      * Constructor para un sensor de humedad sin fecha de instalación especificada
-     * @param offset    el offset del sensor
-     * @param medida    las unidades de medida del sensor
+     * @param offset el offset del sensor
+     * @param medida las unidades de medida del sensor
      */
     public SensorHumedad(double offset, UdsMedidaHum medida) {
         super(TipoSensor.HUMEDAD.getNombre() + "-" + String.format("%04d", ++totalId), offset);
         this.setMedida(medida);
     }
 
-    public static int getTotalId() {
-        return totalId;
-    }
-
-    public static void setTotalId(int newTotalId) {
-        SensorHumedad.totalId = newTotalId;
-    }
-
-    public UdsMedidaHum getMedida() {
-        return medida;
-    }
-
+    /**
+     * Establece la medida del sensor
+     * @param newMedida la medida del sensor
+     */
     public void setMedida(UdsMedidaHum newMedida) {
         this.medida = newMedida;
-        super.setMin_rango(this.medida.getMinRango());
-        super.setMax_rango(this.medida.getMaxRango());
+        super.setMinRango(this.medida.getMinRango());
+        super.setMaxRango(this.medida.getMaxRango());
     }
 
     /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/

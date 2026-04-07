@@ -3,9 +3,7 @@ package sensor;
 import java.time.*;
 
 /**
- * Nombre de la clase: sensor.Sensor
- * <p>
- * Descripción: Implementa un sensor
+ * Implementa un sensor
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.1
  */
@@ -23,9 +21,9 @@ public abstract class Sensor {
     /** La calibración del sensor */
     private boolean calibrado;
     /** Valor mínimo del rango de valores aceptados */
-    private double min_rango;
+    private double minRango;
     /** Valor máximo del rango de valores aceptados */
-    private double max_rango;
+    private double maxRango;
     /** La fecha de instalación del sensor */
     private LocalDate fechaInstalacion;
 
@@ -76,7 +74,7 @@ public abstract class Sensor {
      */
     public void leerValor(double valor) {
         this.valorUltimaLectura = valor - this.offset;
-        if (this.valorUltimaLectura > max_rango || this.valorUltimaLectura < min_rango) {
+        if (this.valorUltimaLectura > maxRango || this.valorUltimaLectura < minRango) {
             /* El sensor se considera no calibrado cuando se realice una lectura fuera de rango */
             this.calibrado = false;
         }
@@ -94,60 +92,44 @@ public abstract class Sensor {
         return this.calibrado;
     }
 
-    public void setCalibrado(boolean newCalibrado) {
-        this.calibrado = newCalibrado;
-    }
-
-    public LocalDate getFechaInstalacion() {
-        return fechaInstalacion;
-    }
-
-    public void setFechaInstalacion(LocalDate newFechaInstalacion) {
-        this.fechaInstalacion = newFechaInstalacion;
-    }
-
+    /**
+     * Devuelve la fecha de la última lectura
+     * @return la fecha de la última lectura
+     */
     public LocalDateTime getFechaUltimaLectura() {
-        return fechaUltimaLectura;
+        return this.fechaUltimaLectura;
     }
 
-    public void setFechaUltimaLectura(LocalDateTime newFechaUltimaLectura) {
-        this.fechaUltimaLectura = newFechaUltimaLectura;
-    }
-
+    /**
+     * Devuelve el ID del sensor
+     * @return el ID del sensor
+     */
     public String getId() {
-        return id;
+        return this.id;
     }
 
-    public double getMax_rango() {
-        return max_rango;
-    }
-
-    public void setMax_rango(double newMax_rango) {
-        this.max_rango = newMax_rango;
-    }
-
-    public double getMin_rango() {
-        return min_rango;
-    }
-
-    public void setMin_rango(double newMin_rango) {
-        this.min_rango = newMin_rango;
-    }
-
-    public double getOffset() {
-        return offset;
-    }
-
-    public void setOffset(double newOffset) {
-        this.offset = newOffset;
-    }
-
+    /**
+     * Devuelve el último valor leído
+     * @return el último valor leído
+     */
     public double getValorUltimaLectura() {
-        return valorUltimaLectura;
+        return this.valorUltimaLectura;
     }
 
-    public void setValorUltimaLectura(double newValorUltimaLectura) {
-        this.valorUltimaLectura = newValorUltimaLectura;
+    /**
+     * Establece el valor máximo del rango de valores válidos del sensor
+     * @param newRangoMax el valor máximo del rango de valores válidos del sensor
+     */
+    public void setMaxRango(double newRangoMax) {
+        this.maxRango = newRangoMax;
+    }
+
+    /**
+     * Establece el valor mínimo del rango de valores válidos del sensor
+     * @param newRangoMin el valor mínimo del rango de valores válidos del sensor
+     */
+    public void setMinRango(double newRangoMin) {
+        this.minRango = newRangoMin;
     }
 
     /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/

@@ -4,9 +4,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 /**
- * Nombre de la clase: EstaciónMeteorológica
- * <p>
- * Descripción: Implementa una estación meteorológica
+ * Implementa una estación meteorológica
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.1
  * @see Sensor
