@@ -1,14 +1,16 @@
+package sensor;
+
 /**
- * Nombre de la enumeración: UdsMedidaHum
+ * Nombre de la enumeración: sensor.UdsMedidaPres
  * <p>
- * Descripción: Define las unidades de medida posible para los sensores de humedad
+ * Descripción: Define las unidades de medida posible para los sensores de presión
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.0
- * @see SensorHumedad
+ * @see SensorPresion
  */
-public enum UdsMedidaHum {
-    /** La humedad se mide en porcentaje */
-    PORCENTAJE("%", 0, 100);
+public enum UdsMedidaPres {
+    /** La presión se mide en Hectopascales */
+    HECTOPASCALES("hPa", 300, 1100);
     /** Símbolo que representa a la medida */
     private final String simbolo;
     /** Valor mínimo del rango de valores aceptados */
@@ -21,7 +23,7 @@ public enum UdsMedidaHum {
      * @param minRango valor mínimo del rango de valores aceptados
      * @param maxRango valor máximo del rango de valores aceptados
      */
-    UdsMedidaHum(String simbolo, double minRango, double maxRango) {
+    UdsMedidaPres(String simbolo, double minRango, double maxRango) {
         this.simbolo = simbolo;
         this.minRango = minRango;
         this.maxRango = maxRango;

@@ -1,7 +1,9 @@
+package sensor;
+
 import java.time.*;
 
 /**
- * Nombre de la clase: Sensor
+ * Nombre de la clase: sensor.Sensor
  * <p>
  * Descripción: Implementa un sensor
  * @author Alvaro G.S. and Ana O.R.
@@ -9,7 +11,7 @@ import java.time.*;
  */
 public abstract class Sensor {
     /** El tiempo tras el cual caduca la calibración de un sensor */
-    private static final Period periodoCaducidad = Period.ofDays(1); // NOTE: Valor default
+    private static Period periodoCaducidad = Period.ofDays(365); // NOTE: Valor default
     /** Identificador único del sensor */
     private final String id;
     /** Offset de calibración del sensor */
@@ -151,6 +153,6 @@ public abstract class Sensor {
     /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/
     @Override
     public String toString() {
-        return this.id + " (desde: " + this.fechaInstalacion + "): Sensor ";
+        return this.id + " (desde: " + this.fechaInstalacion + "): sensor.Sensor ";
     }
 }

@@ -1,5 +1,7 @@
+package sensor;
+
 /**
- * Nombre del enum: TipoSensor
+ * Nombre del enum: sensor.TipoSensor
  * <p>
  * Descripción: Define los posibles tipos de sensor y sus rangos de medición
  * @author Alvaro G.S. and Ana O.R.

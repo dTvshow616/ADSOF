@@ -1,3 +1,5 @@
+import sensor.*;
+
 import java.time.LocalDate;
 import java.util.*;
 
@@ -24,8 +26,6 @@ public class EstacionMeteorologica {
     double latitud;
     /** Longitud de la ubicación geográfica de la estación */
     double longitud;
-    /** Conteo de ids de los sensores */
-    int idNuevoSensor;
 
     /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
 

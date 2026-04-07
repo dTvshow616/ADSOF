@@ -1,7 +1,9 @@
+package sensor;
+
 import java.time.LocalDate;
 
 /**
- * Nombre de la clase: SensorHumedad
+ * Nombre de la clase: sensor.SensorHumedad
  * <p>
  * Descripción: Implementa el sensor de humedad
  * @author Alvaro G.S. and Ana O.R.
@@ -23,7 +25,7 @@ public class SensorHumedad extends Sensor {
      * @param fechaInstalacion la fecha de instalación del sensor
      * @param medida           las unidades de medida del sensor
      */
-    SensorHumedad(double offset, LocalDate fechaInstalacion, UdsMedidaHum medida) {
+    public SensorHumedad(double offset, LocalDate fechaInstalacion, UdsMedidaHum medida) {
         super(TipoSensor.HUMEDAD.getNombre() + "-" + String.format("%04d", ++totalId), offset,
                 fechaInstalacion);
         this.setMedida(medida);
@@ -34,7 +36,7 @@ public class SensorHumedad extends Sensor {
      * @param offset    el offset del sensor
      * @param medida    las unidades de medida del sensor
      */
-    SensorHumedad(double offset, UdsMedidaHum medida) {
+    public SensorHumedad(double offset, UdsMedidaHum medida) {
         super(TipoSensor.HUMEDAD.getNombre() + "-" + String.format("%04d", ++totalId), offset);
         this.setMedida(medida);
     }
