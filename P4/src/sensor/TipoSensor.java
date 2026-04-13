@@ -1,9 +1,7 @@
 package sensor;
 
 /**
- * Nombre del enum: sensor.TipoSensor
- * <p>
- * Descripción: Define los posibles tipos de sensor y sus rangos de medición
+ * Define los posibles tipos de sensor y sus rangos de medición
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.0
  */

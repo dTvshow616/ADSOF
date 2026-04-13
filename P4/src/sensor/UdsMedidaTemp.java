@@ -1,9 +1,7 @@
 package sensor;
 
 /**
- * Nombre de la enumeración: sensor.UdsMedidaTemp
- * <p>
- * Descripción: Define las unidades de medida posible para los sensores de temperatura
+ * Define las unidades de medida posible para los sensores de temperatura
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.0
  * @see SensorTemperatura

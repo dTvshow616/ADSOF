@@ -3,9 +3,7 @@ package sensor;
 import java.time.LocalDateTime;
 
 /**
- * Nombre de la clase: sensor.SensorTemperatura
- * <p>
- * Descripción: Implementa el sensor de temperatura
+ * Implementa el sensor de temperatura
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.1
  * @see Sensor

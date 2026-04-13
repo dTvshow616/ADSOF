@@ -2,6 +2,8 @@ package alerta;
 
 import sensor.Sensor;
 
+import java.time.LocalDateTime;
+
 /**
  * The type Cambio brusco lectura.
  */
@@ -29,9 +31,10 @@ public class CambioBruscoLectura extends Exception {
      * Define el mensaje de la excepción
      * @return descripción de la excepción
      */
+    @Override
     public String toString() {
-        return "Cambio brusco en " + this.sensor.getId() + ": " + this.sensor.getValorUltimaLectura() +
-               this.sensor.getSimboloMedida() + "(anterior: " + this.lecturaAnterior + this.sensor.getSimboloMedida() +
-               ")";
+        return "- [" + LocalDateTime.now() + "] Cambio brusco en " + this.sensor.getId() + ": " +
+               this.sensor.getValorUltimaLectura() + this.sensor.getSimboloMedida() + "(anterior: " +
+               this.lecturaAnterior + this.sensor.getSimboloMedida() + ")";
     }
 }

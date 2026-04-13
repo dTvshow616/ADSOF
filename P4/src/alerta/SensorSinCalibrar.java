@@ -2,6 +2,8 @@ package alerta;
 
 import sensor.Sensor;
 
+import java.time.LocalDateTime;
+
 /**
  * Implementa la excepción para un sensor sin calibrar
  * @author Alvaro G.S. and Ana O.R.
@@ -31,13 +33,15 @@ public class SensorSinCalibrar extends Exception {
      * Define el mensaje de la excepción
      * @return descripción de la excepción
      */
+    @Override
     public String toString() {
         if (this.fueraRango) {
-            return "Lectura fuera de rango en " + this.sensor.getId() + ": " + this.sensor.getValorUltimaLectura() +
-                   this.sensor.getSimboloMedida();
+            return "- [" + LocalDateTime.now() + "] Lectura fuera de rango en " + this.sensor.getId() + ": " +
+                   this.sensor.getValorUltimaLectura() + this.sensor.getSimboloMedida();
         } else {
-            return "Sensor " + this.sensor.getId() + " sin calibrar (calibración caducada desde " +
-                   this.sensor.getFechaCaducidad() + ")";
+            return "- [" + LocalDateTime.now() + "] Sensor " + this.sensor.getId() +
+                   " sin calibrar (calibración caducada desde " +
+                   this.sensor.getFechaCalibracion().plus(this.sensor.getTiempoCaducidad()) + ")";
         }
     }
 }

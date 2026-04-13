@@ -1,9 +1,7 @@
 package sensor;
 
 /**
- * Nombre de la enumeración: sensor.UdsMedidaHum
- * <p>
- * Descripción: Define las unidades de medida posible para los sensores de humedad
+ * Define las unidades de medida posible para los sensores de humedad
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.0
  * @see SensorHumedad
@@ -18,6 +16,8 @@ public enum UdsMedidaHum implements UdsMedida {
     /** Valor máximo del rango de valores aceptados */
     private final double maxRango;
 
+    /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
+
     /**
      * Constructor para una unidad de temperatura
      * @param minRango valor mínimo del rango de valores aceptados
@@ -29,13 +29,7 @@ public enum UdsMedidaHum implements UdsMedida {
         this.maxRango = maxRango;
     }
 
-    /**
-     * Sirve para obtener el valor mínimo del rango de valores aceptados de un tipo de temperatura
-     * @return el valor mínimo del rango de valores aceptados de un tipo de temperatura
-     */
-    public double getMinRango() {
-        return this.minRango;
-    }
+    /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
 
     /**
      * Sirve para obtener el valor máximo del rango de valores aceptados de un tipo de temperatura
@@ -43,6 +37,14 @@ public enum UdsMedidaHum implements UdsMedida {
      */
     public double getMaxRango() {
         return this.maxRango;
+    }
+
+    /**
+     * Sirve para obtener el valor mínimo del rango de valores aceptados de un tipo de temperatura
+     * @return el valor mínimo del rango de valores aceptados de un tipo de temperatura
+     */
+    public double getMinRango() {
+        return this.minRango;
     }
 
     /**
