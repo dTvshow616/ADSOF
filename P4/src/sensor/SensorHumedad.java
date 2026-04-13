@@ -1,7 +1,5 @@
 package sensor;
 
-import java.time.LocalDateTime;
-
 import conversor.ProcesadorDatos;
 
 /**
@@ -23,39 +21,26 @@ public class SensorHumedad extends Sensor {
 
     /**
      * Constructor para un sensor de humedad
-     * @param offset           el offset del sensor
-     * @param fechaInstalacion la fecha de instalación del sensor
-     * @param medida           las unidades de medida del sensor
+     * @param offset            el offset del sensor
+     * @param medida            las unidades de medida del sensor
      * @param procesadorDeDatos el procesador de datos
      */
-    public SensorHumedad(double offset, LocalDateTime fechaInstalacion, UdsMedidaHum medida, ProcesadorDatos procesadorDeDatos) {
-        super(TipoSensor.HUMEDAD.getNombre() + "-" + String.format("%04d", ++totalId), offset, fechaInstalacion, procesadorDeDatos);
+    public SensorHumedad(double offset, UdsMedidaHum medida, ProcesadorDatos procesadorDeDatos) {
+        super(TipoSensor.HUMEDAD.getNombre() + "-" + String.format("%04d", ++totalId), offset, procesadorDeDatos);
         this.setMedida(medida);
     }
 
     /**
      * Constructor para un sensor de humedad
-     * @param offset           el offset del sensor
-     * @param fechaInstalacion la fecha de instalación del sensor
-     * @param medida           las unidades de medida del sensor
-     * @param lecturaSensor    el tipo de lectura de sensor
+     * @param offset            el offset del sensor
+     * @param medida            las unidades de medida del sensor
+     * @param lecturaSensor     el tipo de lectura de sensor
      * @param procesadorDeDatos el procesador de datos
      */
-    public SensorHumedad(double offset, LocalDateTime fechaInstalacion, UdsMedidaHum medida,
-                         TipoLecturaSensor lecturaSensor, ProcesadorDatos procesadorDeDatos) {
-        super(TipoSensor.HUMEDAD.getNombre() + "-" + String.format("%04d", ++totalId), offset, fechaInstalacion,
-                lecturaSensor, procesadorDeDatos);
-        this.setMedida(medida);
-    }
-
-    /**
-     * Constructor para un sensor de humedad sin fecha de instalación especificada
-     * @param offset el offset del sensor
-     * @param medida las unidades de medida del sensor
-     * @param procesadorDeDatos el procesador de datos
-     */
-    public SensorHumedad(double offset, UdsMedidaHum medida, ProcesadorDatos procesadorDeDatos) {
-        super(TipoSensor.HUMEDAD.getNombre() + "-" + String.format("%04d", ++totalId), offset, procesadorDeDatos);
+    public SensorHumedad(double offset, UdsMedidaHum medida, TipoLecturaSensor lecturaSensor,
+                         ProcesadorDatos procesadorDeDatos) {
+        super(TipoSensor.HUMEDAD.getNombre() + "-" + String.format("%04d", ++totalId), offset, lecturaSensor,
+                procesadorDeDatos);
         this.setMedida(medida);
     }
 
