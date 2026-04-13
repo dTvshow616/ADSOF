@@ -1,6 +1,6 @@
 package sensor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Nombre de la clase: sensor.SensorTemperatura
@@ -25,7 +25,7 @@ public class SensorTemperatura extends Sensor {
      * @param fechaInstalacion la fecha de instalación del sensor
      * @param medida           las unidades de medida del sensor
      */
-    public SensorTemperatura(double offset, LocalDate fechaInstalacion, UdsMedidaTemp medida) {
+    public SensorTemperatura(double offset, LocalDateTime fechaInstalacion, UdsMedidaTemp medida) {
         super(TipoSensor.TEMPERATURA.getNombre() + "-" + String.format("%04d", ++totalId), offset, fechaInstalacion);
         this.setMedida(medida);
     }
@@ -35,9 +35,10 @@ public class SensorTemperatura extends Sensor {
      * @param offset           el offset del sensor
      * @param fechaInstalacion la fecha de instalación del sensor
      * @param medida           las unidades de medida del sensor
-     * @param lecturaSensor el tipo de lectura de sensor
+     * @param lecturaSensor    el tipo de lectura de sensor
      */
-    public SensorTemperatura(double offset, LocalDate fechaInstalacion, UdsMedidaTemp medida,TipoLecturaSensor lecturaSensor) {
+    public SensorTemperatura(double offset, LocalDateTime fechaInstalacion, UdsMedidaTemp medida,
+                             TipoLecturaSensor lecturaSensor) {
         super(TipoSensor.TEMPERATURA.getNombre() + "-" + String.format("%04d", ++totalId), offset, fechaInstalacion);
         this.setMedida(medida);
     }
@@ -53,6 +54,10 @@ public class SensorTemperatura extends Sensor {
     }
 
     /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
+    @Override
+    public String getSimboloMedida() {
+        return this.medida.getSimbolo();
+    }
 
     /**
      * Establece la medida del sensor

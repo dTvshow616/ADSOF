@@ -1,6 +1,6 @@
 package sensor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Nombre de la clase: sensor.SensorHumedad
@@ -25,7 +25,7 @@ public class SensorHumedad extends Sensor {
      * @param fechaInstalacion la fecha de instalación del sensor
      * @param medida           las unidades de medida del sensor
      */
-    public SensorHumedad(double offset, LocalDate fechaInstalacion, UdsMedidaHum medida) {
+    public SensorHumedad(double offset, LocalDateTime fechaInstalacion, UdsMedidaHum medida) {
         super(TipoSensor.HUMEDAD.getNombre() + "-" + String.format("%04d", ++totalId), offset, fechaInstalacion);
         this.setMedida(medida);
     }
@@ -35,10 +35,12 @@ public class SensorHumedad extends Sensor {
      * @param offset           el offset del sensor
      * @param fechaInstalacion la fecha de instalación del sensor
      * @param medida           las unidades de medida del sensor
-     * @param lecturaSensor el tipo de lectura de sensor
+     * @param lecturaSensor    el tipo de lectura de sensor
      */
-    public SensorHumedad(double offset, LocalDate fechaInstalacion, UdsMedidaHum medida, TipoLecturaSensor lecturaSensor) {
-        super(TipoSensor.HUMEDAD.getNombre() + "-" + String.format("%04d", ++totalId), offset, fechaInstalacion, lecturaSensor);
+    public SensorHumedad(double offset, LocalDateTime fechaInstalacion, UdsMedidaHum medida,
+                         TipoLecturaSensor lecturaSensor) {
+        super(TipoSensor.HUMEDAD.getNombre() + "-" + String.format("%04d", ++totalId), offset, fechaInstalacion,
+                lecturaSensor);
         this.setMedida(medida);
     }
 
@@ -52,6 +54,12 @@ public class SensorHumedad extends Sensor {
         this.setMedida(medida);
     }
 
+    /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
+    @Override
+    public String getSimboloMedida() {
+        return this.medida.getSimbolo();
+    }
+
     /**
      * Establece la medida del sensor
      * @param newMedida la medida del sensor
@@ -61,8 +69,6 @@ public class SensorHumedad extends Sensor {
         super.setMinRango(this.medida.getMinRango());
         super.setMaxRango(this.medida.getMaxRango());
     }
-
-
 
     /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/
     @Override

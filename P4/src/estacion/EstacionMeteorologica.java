@@ -1,8 +1,8 @@
-package src;
+package estacion;
 
 import sensor.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -47,7 +47,7 @@ public class EstacionMeteorologica {
      * @param fechaInstalacion la fecha en la que se instaló el sensor
      * @param medida           las unidades de medida del sensor
      */
-    public void addSensorHumedad(double offset, LocalDate fechaInstalacion, UdsMedidaHum medida) {
+    public void addSensorHumedad(double offset, LocalDateTime fechaInstalacion, UdsMedidaHum medida) {
         SensorHumedad sensorHumedad = new SensorHumedad(offset, fechaInstalacion, medida);
         if (!this.sensoresHumedad.containsKey(sensorHumedad.getId())) {
             this.sensoresHumedad.put(sensorHumedad.getId(), sensorHumedad);
@@ -61,7 +61,7 @@ public class EstacionMeteorologica {
      * @param fechaInstalacion la fecha en la que se instaló el sensor
      * @param medida           las unidades de medida del sensor
      */
-    public void addSensorPresion(double offset, LocalDate fechaInstalacion, UdsMedidaPres medida) {
+    public void addSensorPresion(double offset, LocalDateTime fechaInstalacion, UdsMedidaPres medida) {
         SensorPresion sensorPresion = new SensorPresion(offset, fechaInstalacion, medida);
         if (!this.sensoresPresion.containsKey(sensorPresion.getId())) {
             this.sensoresPresion.put(sensorPresion.getId(), sensorPresion);
@@ -75,7 +75,7 @@ public class EstacionMeteorologica {
      * @param fechaInstalacion la fecha en la que se instaló el sensor
      * @param medida           las unidades de medida del sensor
      */
-    public void addSensorTemperatura(double offset, LocalDate fechaInstalacion, UdsMedidaTemp medida) {
+    public void addSensorTemperatura(double offset, LocalDateTime fechaInstalacion, UdsMedidaTemp medida) {
         SensorTemperatura sensorTemperatura = new SensorTemperatura(offset, fechaInstalacion, medida);
         if (!this.sensoresTemperatura.containsKey(sensorTemperatura.getId())) {
             this.sensoresTemperatura.put(sensorTemperatura.getId(), sensorTemperatura);

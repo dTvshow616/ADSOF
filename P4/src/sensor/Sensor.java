@@ -1,6 +1,10 @@
 package sensor;
 
-import java.time.*;
+import alerta.SensorSinCalibrar;
+import conversor.ProcesadorDatos;
+
+import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.Random;
 
 /**
@@ -14,7 +18,7 @@ public abstract class Sensor {
     /** Cantidad de todos los valores obtenidos hasta el momento */
     public int cantidadLecturas;
     /** El tiempo tras el cual caduca la calibración de un sensor */
-    private LocalDate fechaCaducidad;
+    private LocalDateTime fechaCaducidad;
     /** Offset de calibración del sensor */
     private double offset;
     /** Fecha y hora de la última lectura del sensor */
@@ -30,7 +34,7 @@ public abstract class Sensor {
     /** Suma de todos los valores obtenidos hasta el momento */
     private double sumaValores;
     /** La fecha de instalación del sensor */
-    private LocalDate fechaInstalacion;
+    private LocalDateTime fechaInstalacion;
     /** Tipo de lectura de sensor */
     private TipoLecturaSensor lecturaSensor;
     /** Procesador de datos */
@@ -45,7 +49,7 @@ public abstract class Sensor {
      * @param fechaInstalacion la fecha de instalación del sensor
      * @param lecturaSensor    el tipo de lectura de sensor
      */
-    Sensor(String id, double offset, LocalDate fechaInstalacion, TipoLecturaSensor lecturaSensor) {
+    Sensor(String id, double offset, LocalDateTime fechaInstalacion, TipoLecturaSensor lecturaSensor) {
         this(id, offset, fechaInstalacion);
         this.lecturaSensor = lecturaSensor;
     }
@@ -56,7 +60,7 @@ public abstract class Sensor {
      * @param offset           el offset del sensor
      * @param fechaInstalacion la fecha de instalación del sensor
      */
-    Sensor(String id, double offset, LocalDate fechaInstalacion) {
+    Sensor(String id, double offset, LocalDateTime fechaInstalacion) {
         this.id = id;
         this.offset = offset;
         this.calibrado = true;
@@ -74,7 +78,7 @@ public abstract class Sensor {
      * @param offset el offset del sensor
      */
     Sensor(String id, double offset) {
-        this(id, offset, LocalDate.now());
+        this(id, offset, LocalDateTime.now());
     }
 
     /**
@@ -86,7 +90,7 @@ public abstract class Sensor {
      * @param diasDuracionCalibracion los días que durará el sensor calibrado desde que se instaló
      * @throws IllegalArgumentException los días de duración del calibrado deben ser mayores o iguales a 1
      */
-    Sensor(String id, double offset, LocalDate fechaInstalacion, TipoLecturaSensor lecturaSensor,
+    Sensor(String id, double offset, LocalDateTime fechaInstalacion, TipoLecturaSensor lecturaSensor,
            int diasDuracionCalibracion) throws IllegalArgumentException {
         this(id, offset, fechaInstalacion, lecturaSensor);
         try {
@@ -104,7 +108,7 @@ public abstract class Sensor {
      * @param diasDuracionCalibracion los días que durará el sensor calibrado desde que se instaló
      * @throws IllegalArgumentException los días de duración del calibrado deben ser mayores o iguales a 1
      */
-    Sensor(String id, double offset, LocalDate fechaInstalacion, int diasDuracionCalibracion)
+    Sensor(String id, double offset, LocalDateTime fechaInstalacion, int diasDuracionCalibracion)
             throws IllegalArgumentException {
         this(id, offset, fechaInstalacion);
         try {
@@ -140,8 +144,8 @@ public abstract class Sensor {
      * @param fechaFinCalibrado la nueva fecha de caducidad del sensor
      * @throws IllegalArgumentException la fecha de fin debe ser posterior a la de instalación
      */
-    Sensor(String id, double offset, LocalDate fechaInstalacion, TipoLecturaSensor lecturaSensor,
-           LocalDate fechaFinCalibrado) throws IllegalArgumentException {
+    Sensor(String id, double offset, LocalDateTime fechaInstalacion, TipoLecturaSensor lecturaSensor,
+           LocalDateTime fechaFinCalibrado) throws IllegalArgumentException {
         this(id, offset, fechaInstalacion, lecturaSensor);
         try {
             this.calibrar(fechaFinCalibrado);
@@ -158,7 +162,7 @@ public abstract class Sensor {
      * @param fechaFinCalibrado la nueva fecha de caducidad del sensor
      * @throws IllegalArgumentException la fecha de fin debe ser posterior a la de instalación
      */
-    Sensor(String id, double offset, LocalDate fechaInstalacion, LocalDate fechaFinCalibrado)
+    Sensor(String id, double offset, LocalDateTime fechaInstalacion, LocalDateTime fechaFinCalibrado)
             throws IllegalArgumentException {
         this(id, offset, fechaInstalacion);
         try {
@@ -172,7 +176,7 @@ public abstract class Sensor {
      * Comprueba si la calibración del sensor ha caducado
      */
     public void comprobarCaducidad() {
-        if (LocalDate.now().isAfter(fechaCaducidad)) {
+        if (LocalDateTime.now().isAfter(fechaCaducidad)) {
             this.calibrado = false;
         }
     }
@@ -180,17 +184,23 @@ public abstract class Sensor {
     /**
      * Permite al sensor medir un valor
      * @param valor el valor a medir
-     * @throws SensorSinCalibrar the sensor sin calibrar
+     * @throws SensorSinCalibrar el sensor no está calibrado
      */
     public void leerValor(double valor) throws SensorSinCalibrar {
+        if (!this.calibrado) {
+            throw new SensorSinCalibrar(this, false);
+        }
+
         this.valorUltimaLectura = valor - this.offset;
         this.cantidadLecturas = this.cantidadLecturas + 1;
         this.sumaValores = this.sumaValores + this.valorUltimaLectura;
+
         if (this.valorUltimaLectura > maxRango || this.valorUltimaLectura < minRango) {
             /* El sensor se considera no calibrado cuando se realice una lectura fuera de rango */
             this.calibrado = false;
-            throw new SensorSinCalibrar(valor, this.minRango, this.maxRango);
+            throw new SensorSinCalibrar(this, true);
         }
+
         this.fechaUltimaLectura = LocalDateTime.now();
     }
 
@@ -255,11 +265,15 @@ public abstract class Sensor {
      * @param fechaFin la nueva fecha de caducidad del sensor
      * @throws IllegalArgumentException la fecha de fin debe ser posterior a la de instalación
      */
-    public void calibrar(LocalDate fechaFin) throws IllegalArgumentException {
+    public void calibrar(LocalDateTime fechaFin) throws IllegalArgumentException {
         if (fechaFin.isBefore(this.fechaInstalacion)) {
             throw new IllegalArgumentException("La fecha de fin debe ser posterior a la de instalación");
         }
         this.fechaCaducidad = fechaFin;
+    }
+
+    public boolean isCalibrado() {
+        return calibrado;
     }
 
     /**
@@ -285,12 +299,44 @@ public abstract class Sensor {
         return this.calibrado;
     }
 
+    public void setCalibrado(boolean newCalibrado) {
+        this.calibrado = newCalibrado;
+    }
+
+    public int getCantidadLecturas() {
+        return cantidadLecturas;
+    }
+
+    public void setCantidadLecturas(int newCantidadLecturas) {
+        this.cantidadLecturas = newCantidadLecturas;
+    }
+
+    public LocalDateTime getFechaCaducidad() {
+        return fechaCaducidad;
+    }
+
+    public void setFechaCaducidad(LocalDateTime newFechaCaducidad) {
+        this.fechaCaducidad = newFechaCaducidad;
+    }
+
+    public LocalDateTime getFechaInstalacion() {
+        return fechaInstalacion;
+    }
+
+    public void setFechaInstalacion(LocalDateTime newFechaInstalacion) {
+        this.fechaInstalacion = newFechaInstalacion;
+    }
+
     /**
      * Devuelve la fecha de la última lectura
      * @return la fecha de la última lectura
      */
     public LocalDateTime getFechaUltimaLectura() {
         return this.fechaUltimaLectura;
+    }
+
+    public void setFechaUltimaLectura(LocalDateTime newFechaUltimaLectura) {
+        this.fechaUltimaLectura = newFechaUltimaLectura;
     }
 
     /**
@@ -301,12 +347,16 @@ public abstract class Sensor {
         return this.id;
     }
 
-    /**
-     * Devuelve el último valor leído
-     * @return el último valor leído
-     */
-    public double getValorUltimaLectura() {
-        return this.valorUltimaLectura;
+    public TipoLecturaSensor getLecturaSensor() {
+        return lecturaSensor;
+    }
+
+    public void setLecturaSensor(TipoLecturaSensor newLecturaSensor) {
+        this.lecturaSensor = newLecturaSensor;
+    }
+
+    public double getMaxRango() {
+        return maxRango;
     }
 
     /**
@@ -317,12 +367,54 @@ public abstract class Sensor {
         this.maxRango = newRangoMax;
     }
 
+    public double getMinRango() {
+        return minRango;
+    }
+
     /**
      * Establece el valor mínimo del rango de valores válidos del sensor
      * @param newRangoMin el valor mínimo del rango de valores válidos del sensor
      */
     public void setMinRango(double newRangoMin) {
         this.minRango = newRangoMin;
+    }
+
+    public double getOffset() {
+        return offset;
+    }
+
+    public void setOffset(double newOffset) {
+        this.offset = newOffset;
+    }
+
+    public ProcesadorDatos getProcesadorDeDatos() {
+        return procesadorDeDatos;
+    }
+
+    public void setProcesadorDeDatos(ProcesadorDatos newProcesadorDeDatos) {
+        this.procesadorDeDatos = newProcesadorDeDatos;
+    }
+
+    public abstract String getSimboloMedida();
+
+    public double getSumaValores() {
+        return sumaValores;
+    }
+
+    public void setSumaValores(double newSumaValores) {
+        this.sumaValores = newSumaValores;
+    }
+
+    /**
+     * Devuelve el último valor leído
+     * @return el último valor leído
+     */
+    public double getValorUltimaLectura() {
+        return this.valorUltimaLectura;
+    }
+
+    public void setValorUltimaLectura(double newValorUltimaLectura) {
+        this.valorUltimaLectura = newValorUltimaLectura;
     }
 
     /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/

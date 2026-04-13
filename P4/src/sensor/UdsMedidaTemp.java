@@ -14,13 +14,15 @@ public enum UdsMedidaTemp implements UdsMedida {
     /** La temperatura se mide en Fahrenheit */
     FAHRENHEIT("ºF", -459.67, 1832),
     /** La temperatura se mide en Kelvin */
-    KELVIN("K", 0, 1273.15);
+    KELVIN("ºK", 0, 1273.15);
     /** Símbolo que representa a la medida */
     private final String simbolo;
     /** Valor mínimo del rango de valores aceptados */
     private final double minRango;
     /** Valor máximo del rango de valores aceptados */
     private final double maxRango;
+
+    /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
 
     /**
      * Constructor para una unidad de temperatura
@@ -33,13 +35,7 @@ public enum UdsMedidaTemp implements UdsMedida {
         this.maxRango = maxRango;
     }
 
-    /**
-     * Sirve para obtener el valor mínimo del rango de valores aceptados de un tipo de temperatura
-     * @return el valor mínimo del rango de valores aceptados de un tipo de temperatura
-     */
-    public double getMinRango() {
-        return this.minRango;
-    }
+    /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
 
     /**
      * Sirve para obtener el valor máximo del rango de valores aceptados de un tipo de temperatura
@@ -47,6 +43,14 @@ public enum UdsMedidaTemp implements UdsMedida {
      */
     public double getMaxRango() {
         return this.maxRango;
+    }
+
+    /**
+     * Sirve para obtener el valor mínimo del rango de valores aceptados de un tipo de temperatura
+     * @return el valor mínimo del rango de valores aceptados de un tipo de temperatura
+     */
+    public double getMinRango() {
+        return this.minRango;
     }
 
     /**
