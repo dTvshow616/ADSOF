@@ -54,7 +54,7 @@ public abstract class Sensor {
      * @param offset            el offset del sensor
      * @param procesadorDeDatos el procesador de datos
      */
-    public Sensor(String id, double offset) {
+    public Sensor(String id, double offset, ProcesadorDatos procesadorDeDatos) {
         this.id = id;
         this.offset = offset;
         this.setCalibrado(true);
@@ -63,6 +63,7 @@ public abstract class Sensor {
         this.fechaInstalacion = LocalDateTime.now();
         this.tiempoCaducidad = Period.ofDays(365);
         this.lecturaSensor = TipoLecturaSensor.MINMAX;
+        this.procesadorDeDatos = procesadorDeDatos;
     }
 
     /**
@@ -71,8 +72,8 @@ public abstract class Sensor {
      * @param offset        el offset del sensor
      * @param lecturaSensor el tipo de lectura de sensor
      */
-    public Sensor(String id, double offset, TipoLecturaSensor lecturaSensor) {
-        this(id, offset);
+    public Sensor(String id, double offset, TipoLecturaSensor lecturaSensor, ProcesadorDatos procesadorDeDatos) {
+        this(id, offset, procesadorDeDatos);
         this.lecturaSensor = lecturaSensor;
     }
 
@@ -85,9 +86,9 @@ public abstract class Sensor {
      * @param diasDuracionCalibracion los días que durará el sensor calibrado desde que se instaló
      * @throws IllegalArgumentException los días de duración del calibrado deben ser mayores o iguales a 1
      */
-    public Sensor(String id, double offset, TipoLecturaSensor lecturaSensor, int diasDuracionCalibracion)
+    public Sensor(String id, double offset, TipoLecturaSensor lecturaSensor,ProcesadorDatos procesadorDeDatos, int diasDuracionCalibracion)
             throws IllegalArgumentException {
-        this(id, offset, lecturaSensor);
+        this(id, offset, lecturaSensor, procesadorDeDatos);
         try {
             this.calibrar(diasDuracionCalibracion);
         } catch (IllegalArgumentException e) {
@@ -104,9 +105,9 @@ public abstract class Sensor {
      * @param fechaFinCalibrado la nueva fecha de caducidad del sensor
      * @throws IllegalArgumentException la fecha de fin debe ser posterior a la de instalación
      */
-    public Sensor(String id, double offset, TipoLecturaSensor lecturaSensor, LocalDateTime fechaFinCalibrado)
+    public Sensor(String id, double offset, TipoLecturaSensor lecturaSensor, ProcesadorDatos procesadorDeDatos, LocalDateTime fechaFinCalibrado)
             throws IllegalArgumentException {
-        this(id, offset, lecturaSensor);
+        this(id, offset, lecturaSensor, procesadorDeDatos);
         try {
             this.calibrar(fechaFinCalibrado);
         } catch (IllegalArgumentException e) {

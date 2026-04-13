@@ -19,31 +19,6 @@ public class SensorTemperatura extends Sensor {
 
     /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
 
-    /**
-     * Constructor para un sensor de temperatura
-     * @param offset            el offset del sensor
-     * @param fechaInstalacion  la fecha de instalación del sensor
-     * @param medida            las unidades de medida del sensor
-     * @param procesadorDeDatos el procesador de datos
-     */
-    public SensorTemperatura(double offset, LocalDateTime fechaInstalacion, UdsMedidaTemp medida, ProcesadorDatos procesadorDeDatos) {
-        super(TipoSensor.TEMPERATURA.getNombre() + "-" + String.format("%04d", ++totalId), offset, fechaInstalacion, procesadorDeDatos);
-        this.setMedida(medida);
-    }
-
-    /**
-     * Constructor para un sensor de temperatura
-     * @param offset            el offset del sensor
-     * @param fechaInstalacion  la fecha de instalación del sensor
-     * @param medida            las unidades de medida del sensor
-     * @param lecturaSensor     el tipo de lectura de sensor
-     * @param procesadorDeDatos el procesador de datos
-     */
-    public SensorTemperatura(double offset, LocalDateTime fechaInstalacion, UdsMedidaTemp medida,
-                             TipoLecturaSensor lecturaSensor, ProcesadorDatos procesadorDeDatos) {
-        super(TipoSensor.TEMPERATURA.getNombre() + "-" + String.format("%04d", ++totalId), offset, fechaInstalacion, procesadorDeDatos);
-        this.setMedida(medida);
-    }
 
     /**
      * Constructor para un sensor de temperatura sin fecha de instalación especificada

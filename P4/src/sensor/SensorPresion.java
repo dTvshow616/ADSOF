@@ -22,32 +22,6 @@ public class SensorPresion extends Sensor {
     /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
 
     /**
-     * Constructor para un sensor de presión
-     * @param offset            el offset del sensor
-     * @param fechaInstalacion  la fecha de instalación del sensor
-     * @param medida            las unidades de medida del sensor
-     * @param procesadorDeDatos el procesador de datos
-     */
-    public SensorPresion(double offset, LocalDateTime fechaInstalacion, UdsMedidaPres medida, ProcesadorDatos procesadorDeDatos) {
-        super(TipoSensor.PRESION.getNombre() + "-" + String.format("%04d", ++totalId), offset, fechaInstalacion, procesadorDeDatos);
-        this.setMedida(medida);
-    }
-
-    /**
-     * Constructor para un sensor de presión
-     * @param offset            el offset del sensor
-     * @param fechaInstalacion  la fecha de instalación del sensor
-     * @param medida            las unidades de medida del sensor
-     * @param lecturaSensor     el tipo de lectura de sensor
-     * @param procesadorDeDatos el procesador de datos
-     */
-    public SensorPresion(double offset, LocalDateTime fechaInstalacion, UdsMedidaPres medida,
-                         TipoLecturaSensor lecturaSensor, ProcesadorDatos procesadorDeDatos) {
-        super(TipoSensor.PRESION.getNombre() + "-" + String.format("%04d", ++totalId), offset, fechaInstalacion, procesadorDeDatos);
-        this.setMedida(medida);
-    }
-
-    /**
      * Constructor para un sensor de presión sin fecha de instalación especificada
      * @param offset            el offset del sensor
      * @param medida            las unidades de medida del sensor
