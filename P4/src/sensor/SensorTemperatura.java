@@ -2,6 +2,8 @@ package sensor;
 
 import java.time.LocalDateTime;
 
+import conversor.ProcesadorDatos;
+
 /**
  * Implementa el sensor de temperatura
  * @author Alvaro G.S. and Ana O.R.
@@ -19,35 +21,38 @@ public class SensorTemperatura extends Sensor {
 
     /**
      * Constructor para un sensor de temperatura
-     * @param offset           el offset del sensor
-     * @param fechaInstalacion la fecha de instalación del sensor
-     * @param medida           las unidades de medida del sensor
+     * @param offset            el offset del sensor
+     * @param fechaInstalacion  la fecha de instalación del sensor
+     * @param medida            las unidades de medida del sensor
+     * @param procesadorDeDatos el procesador de datos
      */
-    public SensorTemperatura(double offset, LocalDateTime fechaInstalacion, UdsMedidaTemp medida) {
-        super(TipoSensor.TEMPERATURA.getNombre() + "-" + String.format("%04d", ++totalId), offset, fechaInstalacion);
+    public SensorTemperatura(double offset, LocalDateTime fechaInstalacion, UdsMedidaTemp medida, ProcesadorDatos procesadorDeDatos) {
+        super(TipoSensor.TEMPERATURA.getNombre() + "-" + String.format("%04d", ++totalId), offset, fechaInstalacion, procesadorDeDatos);
         this.setMedida(medida);
     }
 
     /**
      * Constructor para un sensor de temperatura
-     * @param offset           el offset del sensor
-     * @param fechaInstalacion la fecha de instalación del sensor
-     * @param medida           las unidades de medida del sensor
-     * @param lecturaSensor    el tipo de lectura de sensor
+     * @param offset            el offset del sensor
+     * @param fechaInstalacion  la fecha de instalación del sensor
+     * @param medida            las unidades de medida del sensor
+     * @param lecturaSensor     el tipo de lectura de sensor
+     * @param procesadorDeDatos el procesador de datos
      */
     public SensorTemperatura(double offset, LocalDateTime fechaInstalacion, UdsMedidaTemp medida,
-                             TipoLecturaSensor lecturaSensor) {
-        super(TipoSensor.TEMPERATURA.getNombre() + "-" + String.format("%04d", ++totalId), offset, fechaInstalacion);
+                             TipoLecturaSensor lecturaSensor, ProcesadorDatos procesadorDeDatos) {
+        super(TipoSensor.TEMPERATURA.getNombre() + "-" + String.format("%04d", ++totalId), offset, fechaInstalacion, procesadorDeDatos);
         this.setMedida(medida);
     }
 
     /**
      * Constructor para un sensor de temperatura sin fecha de instalación especificada
-     * @param offset el offset del sensor
-     * @param medida las unidades de medida del sensor
+     * @param offset            el offset del sensor
+     * @param medida            las unidades de medida del sensor
+     * @param procesadorDeDatos el procesador de datos
      */
-    public SensorTemperatura(double offset, UdsMedidaTemp medida) {
-        super(TipoSensor.TEMPERATURA.getNombre() + "-" + String.format("%04d", ++totalId), offset);
+    public SensorTemperatura(double offset, UdsMedidaTemp medida, ProcesadorDatos procesadorDeDatos) {
+        super(TipoSensor.TEMPERATURA.getNombre() + "-" + String.format("%04d", ++totalId), offset,procesadorDeDatos);
         this.setMedida(medida);
     }
 

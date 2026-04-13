@@ -50,8 +50,9 @@ public abstract class Sensor {
     /**
      * Constructor de un sensor sin tipo de lectura especificada y sin fecha de instalación definida, se asignará la del
      * día actual, tiempo de calibrado estándar (1 año)
-     * @param id     el id de sensor
-     * @param offset el offset del sensor
+     * @param id                el id de sensor
+     * @param offset            el offset del sensor
+     * @param procesadorDeDatos el procesador de datos
      */
     public Sensor(String id, double offset) {
         this.id = id;
@@ -80,6 +81,7 @@ public abstract class Sensor {
      * @param id                      el id de sensor
      * @param offset                  el offset del sensor
      * @param lecturaSensor           el tipo de lectura de sensor
+     * @param procesadorDeDatos       el procesador de datos
      * @param diasDuracionCalibracion los días que durará el sensor calibrado desde que se instaló
      * @throws IllegalArgumentException los días de duración del calibrado deben ser mayores o iguales a 1
      */
@@ -98,6 +100,7 @@ public abstract class Sensor {
      * @param id                el id de sensor
      * @param offset            el offset del sensor
      * @param lecturaSensor     el tipo de lectura de sensor
+     * @param procesadorDeDatos el procesador de datos
      * @param fechaFinCalibrado la nueva fecha de caducidad del sensor
      * @throws IllegalArgumentException la fecha de fin debe ser posterior a la de instalación
      */

@@ -2,6 +2,7 @@ package estacion;
 
 import alerta.*;
 import conversor.ProcesadorDatos;
+import conversor.Conversores;
 import sensor.*;
 
 import java.time.LocalDateTime;
@@ -180,7 +181,10 @@ public class EstacionMeteorologica {
      * @param medida las unidades de medida del sensor
      */
     public void addSensorTemperatura(double offset, UdsMedidaTemp medida) throws SensorYaInstalado {
-        SensorTemperatura sensorTemperatura = new SensorTemperatura(offset, medida);
+        Conversores a = new ConversorIdentidad(UdsMedidaTemp.CELSIUS);
+        ProcesadorDatos procesadorDeDatos = new ProcesadorDatos(a); 
+
+        SensorTemperatura sensorTemperatura = new SensorTemperatura(offset, medida, ProcesadorDatos procesadorDeDatos);
         if (!this.sensoresTemperatura.containsKey(sensorTemperatura.getId())) {
             this.sensoresTemperatura.put(sensorTemperatura.getId(), sensorTemperatura);
             this.procesadores.put(sensorTemperatura, sensorTemperatura.getProcesadorDeDatos());

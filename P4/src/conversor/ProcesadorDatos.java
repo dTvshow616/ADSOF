@@ -8,15 +8,21 @@ import java.util.*;
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.1
  */
-public abstract class ProcesadorDatos {
+public class ProcesadorDatos {
     /** Registro de lecturas */
     private Map<LocalDateTime, Double> registro;
     /** Conversor de valores */
     private Conversores conversor;
 
+<<<<<<< Updated upstream
     /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
     public ProcesadorDatos() {
+=======
+/*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
+    public ProcesadorDatos(Conversores conversor) {
+>>>>>>> Stashed changes
         registro = new HashMap<>();
+        this.conversor = conversor;
     }
 
     public void addregistro(LocalDateTime fechaLectura, double valor) {
