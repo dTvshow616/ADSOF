@@ -8,7 +8,7 @@ package sensor;
  * @version 1.0
  * @see SensorTemperatura
  */
-public enum UdsMedidaTemp {
+public enum UdsMedidaTemp implements UdsMedida {
     /** La temperatura se mide en Celsius */
     CELSIUS("ºC", -273.15, 1000),
     /** La temperatura se mide en Fahrenheit */
