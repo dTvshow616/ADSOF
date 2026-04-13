@@ -111,6 +111,27 @@ public class EstacionMeteorologica {
     }
 
     /**
+     * Permite que se añada un sensor de humedad a la estación meteorológica sin especificar la fecha de instalación
+     * @param offset el offset del sensor
+     * @param medida las unidades de medida del sensor
+     */
+    public void addSensorHumedad(double offset, UdsMedidaHum medida, Conversores conversor) throws SensorYaInstalado, ConversorNoValido {
+        if(conversor.getMedidaOrigen() != medida){
+            throw new ConversorNoValido();
+        }
+
+        ProcesadorDatos procesadorDeDatos = new ProcesadorDatos(conversor); 
+
+        SensorHumedad sensorHumedad = new SensorHumedad(offset, medida, procesadorDeDatos);
+        if (!this.sensoresHumedad.containsKey(sensorHumedad.getId())) {
+            this.sensoresHumedad.put(sensorHumedad.getId(), sensorHumedad);
+            this.procesadores.put(sensorHumedad, sensorHumedad.getProcesadorDeDatos());
+        } else {
+            throw new SensorYaInstalado(sensorHumedad);
+        }
+    }
+
+    /**
      * Permite que se añada un sensor de presión a la estación meteorológica sin especificar la fecha de instalación
      * @param offset el offset del sensor
      * @param medida las unidades de medida del sensor
@@ -118,6 +139,27 @@ public class EstacionMeteorologica {
     public void addSensorPresion(double offset, UdsMedidaPres medida) throws SensorYaInstalado {
         Conversores a = new ConversorIdentidad(UdsMedidaPres.HECTOPASCALES);
         ProcesadorDatos procesadorDeDatos = new ProcesadorDatos(a);
+
+        SensorPresion sensorPresion = new SensorPresion(offset, medida, procesadorDeDatos);
+        if (!this.sensoresPresion.containsKey(sensorPresion.getId())) {
+            this.sensoresPresion.put(sensorPresion.getId(), sensorPresion);
+            this.procesadores.put(sensorPresion, sensorPresion.getProcesadorDeDatos());
+        } else {
+            throw new SensorYaInstalado(sensorPresion);
+        }
+    }
+
+    /**
+     * Permite que se añada un sensor de presión a la estación meteorológica sin especificar la fecha de instalación
+     * @param offset el offset del sensor
+     * @param medida las unidades de medida del sensor
+     */
+    public void addSensorPresion(double offset, UdsMedidaPres medida, Conversores conversor) throws SensorYaInstalado, ConversorNoValido {
+        if(conversor.getMedidaOrigen() != medida){
+            throw new ConversorNoValido();
+        }
+
+        ProcesadorDatos procesadorDeDatos = new ProcesadorDatos(conversor); 
 
         SensorPresion sensorPresion = new SensorPresion(offset, medida, procesadorDeDatos);
         if (!this.sensoresPresion.containsKey(sensorPresion.getId())) {
@@ -137,6 +179,28 @@ public class EstacionMeteorologica {
     public void addSensorTemperatura(double offset, UdsMedidaTemp medida) throws SensorYaInstalado {
         Conversores a = new ConversorIdentidad(UdsMedidaTemp.CELSIUS);
         ProcesadorDatos procesadorDeDatos = new ProcesadorDatos(a);
+
+        SensorTemperatura sensorTemperatura = new SensorTemperatura(offset, medida, procesadorDeDatos);
+        if (!this.sensoresTemperatura.containsKey(sensorTemperatura.getId())) {
+            this.sensoresTemperatura.put(sensorTemperatura.getId(), sensorTemperatura);
+            this.procesadores.put(sensorTemperatura, sensorTemperatura.getProcesadorDeDatos());
+        } else {
+            throw new SensorYaInstalado(sensorTemperatura);
+        }
+    }
+
+    /**
+     * Permite que se añada un sensor de temperatura a la estación meteorológica sin especificar la fecha de
+     * instalación
+     * @param offset el offset del sensor
+     * @param medida las unidades de medida del sensor
+     */
+    public void addSensorTemperatura(double offset, UdsMedidaTemp medida, Conversores conversor) throws SensorYaInstalado, ConversorNoValido {
+        if(conversor.getMedidaOrigen() != medida){
+            throw new ConversorNoValido();
+        }
+
+        ProcesadorDatos procesadorDeDatos = new ProcesadorDatos(conversor); 
 
         SensorTemperatura sensorTemperatura = new SensorTemperatura(offset, medida, procesadorDeDatos);
         if (!this.sensoresTemperatura.containsKey(sensorTemperatura.getId())) {
