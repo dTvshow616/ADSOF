@@ -1,8 +1,7 @@
 package conversor;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Implementa un procesador de datos
@@ -15,7 +14,7 @@ public abstract class ProcesadorDatos {
     /** Conversor de valores */
     private Conversores conversor;
 
-/*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
+    /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
     public ProcesadorDatos() {
         registro = new HashMap<>();
     }
@@ -24,9 +23,17 @@ public abstract class ProcesadorDatos {
         registro.put(fechaLectura, valor);
     }
 
-/*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
+    /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
     public Conversores getConversor() {
         return this.conversor;
+    }
+
+    /**
+     * Devuelve el último registro leído
+     * @return el último registro leído
+     */
+    public double getUltimoRegistro() {
+        return registro.get(Collections.max(registro.keySet()));
     }
 
 }

@@ -1,10 +1,11 @@
 package estacion;
 
-import alerta.SensorYaInstalado;
+import alerta.*;
 import conversor.ProcesadorDatos;
 import sensor.*;
 
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.*;
 
 /**
@@ -14,14 +15,14 @@ import java.util.*;
  * @see Sensor
  */
 public class EstacionMeteorologica {
+    /** Nombre de la estación */
+    private final String nombre;
+    /** Latitud de la ubicación geográfica de la estación */
+    private final double latitud;
+    /** Longitud de la ubicación geográfica de la estación */
+    private final double longitud;
     /** Lista de sensores que deben excluirse de las mediciones */
     private List<Sensor> sensoresExcluidos = new ArrayList<>();
-    /** Nombre de la estación */
-    private String nombre;
-    /** Latitud de la ubicación geográfica de la estación */
-    private double latitud;
-    /** Longitud de la ubicación geográfica de la estación */
-    private double longitud;
     /** El conjunto de todos los sensores de la estación */
     private HashMap<String, Sensor> sensores = new HashMap<>();
     /** El conjunto de procesadores de datos correspondientes a los sensores */
@@ -36,6 +37,12 @@ public class EstacionMeteorologica {
     private HashMap<Sensor, String> alertas = new HashMap<>();
     /** Fecha en la que se realizó la última lectura */
     private LocalDateTime fechaUtimaLectura = LocalDateTime.now();
+    /** Periodicidad de las lecturas periódicas */
+    private Period periodicidadLecturas;
+    /** Número de lecturas que se han realizado */
+    private int numLecturas;
+    /** Número máximo de lecturas que se pueden realizar */
+    private int numMaxLecturas;
 
     /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
 
@@ -46,9 +53,40 @@ public class EstacionMeteorologica {
      * @param longitud la longitud de las coordenadas de la estación
      */
     public EstacionMeteorologica(String nombre, double latitud, double longitud) {
+        // DUE: Añadir el resto de parámetros relevantes
         this.nombre = nombre;
         this.latitud = latitud;
         this.longitud = longitud;
+    }
+
+    /*----------------------------------------------------- MISC -----------------------------------------------------*/
+
+    /**
+     * Permite hacer una lectura puntual sobre todos los sensores
+     */
+    public void lecturaSimultanea() {
+        for (Sensor sensor : sensores.values()) {
+            if (!sensoresExcluidos.contains(sensor)) {
+                try {
+                    sensor.leerValor(69.69); // DUE: Cambiar este valor
+                } catch (SensorSinCalibrar e1) {
+                    System.out.println(e1.getMessage());
+                    this.sensoresExcluidos.add(sensor);
+                } catch (CambioBruscoLectura e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
+    }
+
+    /**
+     * Permite hacer una lectura periódica sobre todos los sensores
+     */
+    public void lecturaPeriodica() {
+        if ((this.numLecturas < this.numMaxLecturas) &&
+            (this.fechaUtimaLectura.plus(this.periodicidadLecturas).isEqual(LocalDateTime.now()))) {
+            lecturaSimultanea();
+        }
     }
 
     /**
@@ -165,8 +203,10 @@ public class EstacionMeteorologica {
 
         System.out.println("\n");
 
+        System.out.println("Sensores y procesadores de datos instalados");
         for (Sensor sensor : this.sensores.values()) {
             System.out.println(sensor.toString());
+            System.out.println("-> " + this.procesadores.get(sensor));
         }
 
         System.out.println("\n");
@@ -177,6 +217,25 @@ public class EstacionMeteorologica {
     }
 
     /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
+    public HashMap<Sensor, String> getAlertas() {
+        return alertas;
+    }
+
+    public void setAlertas(HashMap<Sensor, String> newAlertas) {
+        this.alertas = newAlertas;
+    }
+
+    public LocalDateTime getFechaUtimaLectura() {
+        return fechaUtimaLectura;
+    }
+
+    public void setFechaUtimaLectura(LocalDateTime newFechaUtimaLectura) {
+        this.fechaUtimaLectura = newFechaUtimaLectura;
+    }
+
+    public double getLatitud() {
+        return latitud;
+    }
 
     /**
      * Permite obtener todos los sensores registrados
@@ -210,6 +269,46 @@ public class EstacionMeteorologica {
         return new ArrayList<>(this.sensoresTemperatura.values());
     }
 
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public int getNumLecturas() {
+        return numLecturas;
+    }
+
+    public void setNumLecturas(int newNumLecturas) {
+        this.numLecturas = newNumLecturas;
+    }
+
+    public int getNumMaxLecturas() {
+        return numMaxLecturas;
+    }
+
+    public void setNumMaxLecturas(int newNumMaxLecturas) {
+        this.numMaxLecturas = newNumMaxLecturas;
+    }
+
+    public Period getPeriodicidadLecturas() {
+        return periodicidadLecturas;
+    }
+
+    public void setPeriodicidadLecturas(Period newPeriodicidadLecturas) {
+        this.periodicidadLecturas = newPeriodicidadLecturas;
+    }
+
+    public HashMap<Sensor, ProcesadorDatos> getProcesadores() {
+        return procesadores;
+    }
+
+    public void setProcesadores(HashMap<Sensor, ProcesadorDatos> newProcesadores) {
+        this.procesadores = newProcesadores;
+    }
+
     /**
      * Permite obtener un sensor a través de su Id
      * @param desiredId el id del sensor deseado
@@ -217,6 +316,46 @@ public class EstacionMeteorologica {
      */
     public Sensor getSensorFromId(String desiredId) {
         return this.sensores.get(desiredId);
+    }
+
+    public HashMap<String, Sensor> getSensores() {
+        return sensores;
+    }
+
+    public void setSensores(HashMap<String, Sensor> newSensores) {
+        this.sensores = newSensores;
+    }
+
+    public List<Sensor> getSensoresExcluidos() {
+        return sensoresExcluidos;
+    }
+
+    public void setSensoresExcluidos(List<Sensor> newSensoresExcluidos) {
+        this.sensoresExcluidos = newSensoresExcluidos;
+    }
+
+    public HashMap<String, SensorHumedad> getSensoresHumedad() {
+        return sensoresHumedad;
+    }
+
+    public void setSensoresHumedad(HashMap<String, SensorHumedad> newSensoresHumedad) {
+        this.sensoresHumedad = newSensoresHumedad;
+    }
+
+    public HashMap<String, SensorPresion> getSensoresPresion() {
+        return sensoresPresion;
+    }
+
+    public void setSensoresPresion(HashMap<String, SensorPresion> newSensoresPresion) {
+        this.sensoresPresion = newSensoresPresion;
+    }
+
+    public HashMap<String, SensorTemperatura> getSensoresTemperatura() {
+        return sensoresTemperatura;
+    }
+
+    public void setSensoresTemperatura(HashMap<String, SensorTemperatura> newSensoresTemperatura) {
+        this.sensoresTemperatura = newSensoresTemperatura;
     }
 
     /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/

@@ -1,5 +1,6 @@
 package sensor;
 
+import alerta.CambioBruscoLectura;
 import alerta.SensorSinCalibrar;
 import conversor.ProcesadorDatos;
 
@@ -41,37 +42,10 @@ public abstract class Sensor {
     private TipoLecturaSensor lecturaSensor;
     /** Procesador de datos */
     private ProcesadorDatos procesadorDeDatos;
+    /** El porcentaje de fluctuación máximo que puede haber entre dos lecturas consecutivas */
+    private double porcentajeCambioMax = 50.0;
 
     /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
-
-    /**
-     * Constructor de un sensor con un tipo de lectura específico, tiempo de calibrado estándar (1 año)
-     * @param id               el id de sensor
-     * @param offset           el offset del sensor
-     * @param fechaInstalacion la fecha de instalación del sensor
-     * @param lecturaSensor    el tipo de lectura de sensor
-     */
-    public Sensor(String id, double offset, LocalDateTime fechaInstalacion, TipoLecturaSensor lecturaSensor) {
-        this(id, offset, fechaInstalacion);
-        this.lecturaSensor = lecturaSensor;
-    }
-
-    /**
-     * Constructor de un sensor sin tipo de lectura especificada, tiempo de calibrado estándar (1 año)
-     * @param id               el id de sensor
-     * @param offset           el offset del sensor
-     * @param fechaInstalacion la fecha de instalación del sensor
-     */
-    public Sensor(String id, double offset, LocalDateTime fechaInstalacion) {
-        this.id = id;
-        this.offset = offset;
-        this.setCalibrado(true);
-        this.sumaValores = 0;
-        this.cantidadLecturas = 0;
-        this.fechaInstalacion = fechaInstalacion;
-        this.tiempoCaducidad = Period.ofDays(365);
-        this.lecturaSensor = TipoLecturaSensor.MINMAX;
-    }
 
     /**
      * Constructor de un sensor sin tipo de lectura especificada y sin fecha de instalación definida, se asignará la del
@@ -80,56 +54,38 @@ public abstract class Sensor {
      * @param offset el offset del sensor
      */
     public Sensor(String id, double offset) {
-        this(id, offset, LocalDateTime.now());
+        this.id = id;
+        this.offset = offset;
+        this.setCalibrado(true);
+        this.sumaValores = 0;
+        this.cantidadLecturas = 0;
+        this.fechaInstalacion = LocalDateTime.now();
+        this.tiempoCaducidad = Period.ofDays(365);
+        this.lecturaSensor = TipoLecturaSensor.MINMAX;
     }
 
     /**
-     * Constructor de un sensor con un tipo de lectura específico, tiempo de especificado en días
+     * Constructor de un sensor con un tipo de lectura específico, tiempo de calibrado estándar (1 año)
+     * @param id            el id de sensor
+     * @param offset        el offset del sensor
+     * @param lecturaSensor el tipo de lectura de sensor
+     */
+    public Sensor(String id, double offset, TipoLecturaSensor lecturaSensor) {
+        this(id, offset);
+        this.lecturaSensor = lecturaSensor;
+    }
+
+    /**
+     * Constructor de un sensor con un tipo de lectura específico, tiempo de calibrado especificado en días
      * @param id                      el id de sensor
      * @param offset                  el offset del sensor
-     * @param fechaInstalacion        la fecha de instalación del sensor
      * @param lecturaSensor           el tipo de lectura de sensor
      * @param diasDuracionCalibracion los días que durará el sensor calibrado desde que se instaló
      * @throws IllegalArgumentException los días de duración del calibrado deben ser mayores o iguales a 1
      */
-    public Sensor(String id, double offset, LocalDateTime fechaInstalacion, TipoLecturaSensor lecturaSensor,
-                  int diasDuracionCalibracion) throws IllegalArgumentException {
-        this(id, offset, fechaInstalacion, lecturaSensor);
-        try {
-            this.calibrar(diasDuracionCalibracion);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error al calibrar el sensor: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Constructor de un sensor sin tipo de lectura especificada, tiempo de calibrado especificado en días
-     * @param id                      el id de sensor
-     * @param offset                  el offset del sensor
-     * @param fechaInstalacion        la fecha de instalación del sensor
-     * @param diasDuracionCalibracion los días que durará el sensor calibrado desde que se instaló
-     * @throws IllegalArgumentException los días de duración del calibrado deben ser mayores o iguales a 1
-     */
-    public Sensor(String id, double offset, LocalDateTime fechaInstalacion, int diasDuracionCalibracion)
+    public Sensor(String id, double offset, TipoLecturaSensor lecturaSensor, int diasDuracionCalibracion)
             throws IllegalArgumentException {
-        this(id, offset, fechaInstalacion);
-        try {
-            this.calibrar(diasDuracionCalibracion);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error al calibrar el sensor: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Constructor de un sensor sin tipo de lectura especificada y sin fecha de instalación definida, se asignará la del
-     * día actual, tiempo de calibrado especificado en días
-     * @param id                      el id de sensor
-     * @param offset                  el offset del sensor
-     * @param diasDuracionCalibracion los días que durará el sensor calibrado desde que se instaló
-     * @throws IllegalArgumentException los días de duración del calibrado deben ser mayores o iguales a 1
-     */
-    public Sensor(String id, double offset, int diasDuracionCalibracion) throws IllegalArgumentException {
-        this(id, offset);
+        this(id, offset, lecturaSensor);
         try {
             this.calibrar(diasDuracionCalibracion);
         } catch (IllegalArgumentException e) {
@@ -141,32 +97,13 @@ public abstract class Sensor {
      * Constructor de un sensor con un tipo de lectura específico, fecha de fin de calibrado especificada
      * @param id                el id de sensor
      * @param offset            el offset del sensor
-     * @param fechaInstalacion  la fecha de instalación del sensor
      * @param lecturaSensor     el tipo de lectura de sensor
      * @param fechaFinCalibrado la nueva fecha de caducidad del sensor
      * @throws IllegalArgumentException la fecha de fin debe ser posterior a la de instalación
      */
-    public Sensor(String id, double offset, LocalDateTime fechaInstalacion, TipoLecturaSensor lecturaSensor,
-                  LocalDateTime fechaFinCalibrado) throws IllegalArgumentException {
-        this(id, offset, fechaInstalacion, lecturaSensor);
-        try {
-            this.calibrar(fechaFinCalibrado);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error al calibrar el sensor: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Constructor de un sensor sin tipo de lectura especificada, fecha de fin de calibrado especificada
-     * @param id                el id de sensor
-     * @param offset            el offset del sensor
-     * @param fechaInstalacion  la fecha de instalación del sensor
-     * @param fechaFinCalibrado la nueva fecha de caducidad del sensor
-     * @throws IllegalArgumentException la fecha de fin debe ser posterior a la de instalación
-     */
-    public Sensor(String id, double offset, LocalDateTime fechaInstalacion, LocalDateTime fechaFinCalibrado)
+    public Sensor(String id, double offset, TipoLecturaSensor lecturaSensor, LocalDateTime fechaFinCalibrado)
             throws IllegalArgumentException {
-        this(id, offset, fechaInstalacion);
+        this(id, offset, lecturaSensor);
         try {
             this.calibrar(fechaFinCalibrado);
         } catch (IllegalArgumentException e) {
@@ -188,21 +125,34 @@ public abstract class Sensor {
      * @param valor el valor a medir
      * @throws SensorSinCalibrar el sensor no está calibrado
      */
-    public void leerValor(double valor) throws SensorSinCalibrar {
+    public void leerValor(double valor) throws SensorSinCalibrar, CambioBruscoLectura {
         if (!this.calibrado) {
             throw new SensorSinCalibrar(this, false);
         }
 
-        this.valorUltimaLectura = valor - this.offset;
-        this.cantidadLecturas = this.cantidadLecturas + 1;
-        this.sumaValores = this.sumaValores + this.valorUltimaLectura;
+        double valorReal = valor - this.offset;
 
-        if (this.valorUltimaLectura > maxRango || this.valorUltimaLectura < minRango) {
+        if (valorReal > maxRango || valorReal < minRango) {
             /* El sensor se considera no calibrado cuando se realice una lectura fuera de rango */
             this.calibrado = false;
             throw new SensorSinCalibrar(this, true);
         }
 
+        double anteriorLectura = this.procesadorDeDatos.getUltimoRegistro();
+
+        if (valorReal > anteriorLectura) {
+            if (((valorReal / anteriorLectura) * 100) >= porcentajeCambioMax) {
+                throw new CambioBruscoLectura(this, anteriorLectura);
+            }
+        } else {
+            if (((anteriorLectura / valorReal)) * 100 >= porcentajeCambioMax) {
+                throw new CambioBruscoLectura(this, anteriorLectura);
+            }
+        }
+
+        this.valorUltimaLectura = valorReal;
+        this.cantidadLecturas = this.cantidadLecturas + 1;
+        this.sumaValores = this.sumaValores + this.valorUltimaLectura;
         this.fechaUltimaLectura = LocalDateTime.now();
     }
 
@@ -211,7 +161,7 @@ public abstract class Sensor {
      * @param valorConfigurable el valor a medir
      * @return true si todo funciona correctamente, false en caso contrario
      */
-    public boolean simulacionLectura(double valorConfigurable) {
+    public boolean simulacionLectura(double valorConfigurable) throws SensorSinCalibrar, CambioBruscoLectura {
         Random rand = new Random();
         double valor;
         double porcentaje;
@@ -253,11 +203,7 @@ public abstract class Sensor {
             return false;
         }
 
-        try {
-            leerValor(valor);
-        } catch (SensorSinCalibrar e) {
-            System.out.println(e.getMessage());
-        }
+        leerValor(valor);
 
         return true;
     }
