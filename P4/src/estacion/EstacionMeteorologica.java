@@ -34,7 +34,7 @@ public class EstacionMeteorologica {
     /** El conjunto de sensores de temperatura de la estación */
     private HashMap<String, SensorTemperatura> sensoresTemperatura = new HashMap<>();
     /** Histórico de alertas de la estación */
-    private HashMap<Sensor, String> alertas = new HashMap<>();
+    private HashMap<String, Sensor> alertas = new HashMap<>();
     /** Fecha en la que se realizó la última lectura */
     private LocalDateTime fechaUtimaLectura = LocalDateTime.now();
     /** Periodicidad de las lecturas periódicas */
@@ -72,13 +72,32 @@ public class EstacionMeteorologica {
                 } catch (SensorSinCalibrar e1) {
                     System.out.println(e1.getMessage());
                     this.sensoresExcluidos.add(sensor);
-                    this.alertas.put(sensor, e1.getMessage());
+                    this.alertas.put(e1.getMessage(), sensor);
                 } catch (CambioBruscoLectura e2) {
                     System.out.println(e2.getMessage());
-                    this.alertas.put(sensor, e2.getMessage());
+                    this.alertas.put(e2.getMessage(), sensor);
                 }
             }
         }
+    }
+
+    /**
+     * Permite calibrar un sensor ajustando su offset
+     * @param id          el id del sensor
+     * @param nuevoOffset el nuevo offset del sensor
+     */
+    public void calibrarSensor(String id, double nuevoOffset) {
+        Sensor sensor = sensores.get(id);
+
+        sensor.setOffset(nuevoOffset);
+        sensor.setCalibrado(true);
+        for (String alerta : this.alertas.keySet()) {
+            if (alertas.get(alerta) == sensor) {
+                alertas.remove(alerta);
+            }
+        }
+
+        sensoresExcluidos.remove(sensor);
     }
 
     /**
@@ -169,19 +188,12 @@ public class EstacionMeteorologica {
 
         System.out.println("\n");
 
-        for (String alerta : this.alertas.values()) {
+        for (String alerta : this.alertas.keySet()) {
             System.out.println(alerta);
         }
     }
 
     /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
-    public HashMap<Sensor, String> getAlertas() {
-        return alertas;
-    }
-
-    public void setAlertas(HashMap<Sensor, String> newAlertas) {
-        this.alertas = newAlertas;
-    }
 
     public LocalDateTime getFechaUtimaLectura() {
         return fechaUtimaLectura;
