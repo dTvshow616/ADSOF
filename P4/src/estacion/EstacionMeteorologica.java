@@ -72,8 +72,10 @@ public class EstacionMeteorologica {
                 } catch (SensorSinCalibrar e1) {
                     System.out.println(e1.getMessage());
                     this.sensoresExcluidos.add(sensor);
+                    this.alertas.put(sensor, e1.getMessage());
                 } catch (CambioBruscoLectura e2) {
                     System.out.println(e2.getMessage());
+                    this.alertas.put(sensor, e2.getMessage());
                 }
             }
         }

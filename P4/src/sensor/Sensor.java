@@ -86,8 +86,8 @@ public abstract class Sensor {
      * @param diasDuracionCalibracion los días que durará el sensor calibrado desde que se instaló
      * @throws IllegalArgumentException los días de duración del calibrado deben ser mayores o iguales a 1
      */
-    public Sensor(String id, double offset, TipoLecturaSensor lecturaSensor,ProcesadorDatos procesadorDeDatos, int diasDuracionCalibracion)
-            throws IllegalArgumentException {
+    public Sensor(String id, double offset, TipoLecturaSensor lecturaSensor, ProcesadorDatos procesadorDeDatos,
+                  int diasDuracionCalibracion) throws IllegalArgumentException {
         this(id, offset, lecturaSensor, procesadorDeDatos);
         try {
             this.calibrar(diasDuracionCalibracion);
@@ -105,8 +105,8 @@ public abstract class Sensor {
      * @param fechaFinCalibrado la nueva fecha de caducidad del sensor
      * @throws IllegalArgumentException la fecha de fin debe ser posterior a la de instalación
      */
-    public Sensor(String id, double offset, TipoLecturaSensor lecturaSensor, ProcesadorDatos procesadorDeDatos, LocalDateTime fechaFinCalibrado)
-            throws IllegalArgumentException {
+    public Sensor(String id, double offset, TipoLecturaSensor lecturaSensor, ProcesadorDatos procesadorDeDatos,
+                  LocalDateTime fechaFinCalibrado) throws IllegalArgumentException {
         this(id, offset, lecturaSensor, procesadorDeDatos);
         try {
             this.calibrar(fechaFinCalibrado);
@@ -142,21 +142,16 @@ public abstract class Sensor {
             throw new SensorSinCalibrar(this, true);
         }
 
-        double anteriorLectura = this.procesadorDeDatos.getUltimoRegistro();
-
-        if (valorReal > anteriorLectura) {
-            if (((valorReal / anteriorLectura) * 100) >= porcentajeCambioMax) {
-                throw new CambioBruscoLectura(this, anteriorLectura);
-            }
-        } else {
-            if (((anteriorLectura / valorReal)) * 100 >= porcentajeCambioMax) {
-                throw new CambioBruscoLectura(this, anteriorLectura);
-            }
-        }
-
         this.valorUltimaLectura = valorReal;
         this.cantidadLecturas = this.cantidadLecturas + 1;
         this.sumaValores = this.sumaValores + this.valorUltimaLectura;
+
+        double anteriorLectura = this.procesadorDeDatos.getUltimoRegistro();
+
+        if ((Math.abs(valorReal - anteriorLectura) / anteriorLectura) * 100 >= porcentajeCambioMax) {
+            throw new CambioBruscoLectura(this, anteriorLectura);
+        }
+
         this.fechaUltimaLectura = LocalDateTime.now();
     }
 
