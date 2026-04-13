@@ -14,13 +14,8 @@ public class ProcesadorDatos {
     /** Conversor de valores */
     private Conversores conversor;
 
-<<<<<<< Updated upstream
-    /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
-    public ProcesadorDatos() {
-=======
 /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
     public ProcesadorDatos(Conversores conversor) {
->>>>>>> Stashed changes
         registro = new HashMap<>();
         this.conversor = conversor;
     }
