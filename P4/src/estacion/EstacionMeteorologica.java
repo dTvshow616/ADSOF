@@ -68,7 +68,7 @@ public class EstacionMeteorologica {
         for (Sensor sensor : sensores.values()) {
             if (!sensoresExcluidos.contains(sensor)) {
                 try {
-                    sensor.leerValor(69.69); // DUE: Cambiar este valor
+                    sensor.simulacionLectura();
                 } catch (SensorSinCalibrar e1) {
                     System.out.println(e1.getMessage());
                     this.sensoresExcluidos.add(sensor);
@@ -84,8 +84,9 @@ public class EstacionMeteorologica {
      */
     public void lecturaPeriodica() {
         if ((this.numLecturas < this.numMaxLecturas) &&
-            (this.fechaUtimaLectura.plus(this.periodicidadLecturas).isEqual(LocalDateTime.now()))) {
+            (this.fechaUtimaLectura.plus(this.periodicidadLecturas).isBefore(LocalDateTime.now()))) {
             lecturaSimultanea();
+            this.numLecturas++;
         }
     }
 

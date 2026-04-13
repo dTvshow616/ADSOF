@@ -158,6 +158,19 @@ public abstract class Sensor {
 
     /**
      * Simula la lectura por parte de un sensor
+     * @return true si funciona correctamente, false en caso contrario
+     */
+    public boolean simulacionLectura() throws SensorSinCalibrar, CambioBruscoLectura {
+        Random rand = new Random();
+        if (this.lecturaSensor == TipoLecturaSensor.MINMAX) {
+            return this.simulacionLectura(rand.nextDouble());
+        } else {
+            return this.simulacionLectura(rand.nextDouble() * 100);
+        }
+    }
+
+    /**
+     * Simula la lectura por parte de un sensor
      * @param valorConfigurable el valor a medir
      * @return true si todo funciona correctamente, false en caso contrario
      */
