@@ -31,6 +31,18 @@ public class SensorHumedad extends Sensor {
     }
 
     /**
+     * Constructor para un sensor de humedad
+     * @param offset           el offset del sensor
+     * @param fechaInstalacion la fecha de instalación del sensor
+     * @param medida           las unidades de medida del sensor
+     * @param lecturaSensor el tipo de lectura de sensor
+     */
+    public SensorHumedad(double offset, LocalDate fechaInstalacion, UdsMedidaHum medida, TipoLecturaSensor lecturaSensor) {
+        super(TipoSensor.HUMEDAD.getNombre() + "-" + String.format("%04d", ++totalId), offset, fechaInstalacion, lecturaSensor);
+        this.setMedida(medida);
+    }
+
+    /**
      * Constructor para un sensor de humedad sin fecha de instalación especificada
      * @param offset el offset del sensor
      * @param medida las unidades de medida del sensor
@@ -49,6 +61,8 @@ public class SensorHumedad extends Sensor {
         super.setMinRango(this.medida.getMinRango());
         super.setMaxRango(this.medida.getMaxRango());
     }
+
+
 
     /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/
     @Override

@@ -8,7 +8,7 @@ package sensor;
  * @version 1.0
  * @see SensorHumedad
  */
-public enum UdsMedidaHum {
+public enum UdsMedidaHum implements UdsMedida {
     /** La humedad se mide en porcentaje */
     PORCENTAJE("%", 0, 100);
     /** Símbolo que representa a la medida */

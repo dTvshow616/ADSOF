@@ -1,6 +1,8 @@
 package sensor;
 
 import java.time.*;
+import java.util.Random;
+import java.util.random.*;
 
 /**
  * Implementa un sensor
@@ -24,8 +26,16 @@ public abstract class Sensor {
     private double minRango;
     /** Valor máximo del rango de valores aceptados */
     private double maxRango;
+    /** Suma de todos los valores obtenidos hasta el momento*/
+    private double sumaValores;
+    /** Cantidad de todos los valores obtenidos hasta el momento*/
+    public int cantidadLecturas;
     /** La fecha de instalación del sensor */
     private LocalDate fechaInstalacion;
+    /** Tipo de lectura de sensor */
+    private TipoLecturaSensor lecturaSensor;
+    /** Procesador de datos */
+    private ProcesadorDatos procesadorDeDatos;
 
     /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
 
@@ -40,6 +50,26 @@ public abstract class Sensor {
         this.offset = offset;
         this.fechaInstalacion = fechaInstalacion;
         this.calibrado = true;
+        this.sumaValores = 0;
+        this.cantidadLecturas = 0;
+        this.lecturaSensor = TipoLecturaSensor.MINMAX;
+    }
+
+    /**
+     * Constructor de un sensor
+     * @param id               el id de sensor
+     * @param offset           el offset del sensor
+     * @param fechaInstalacion la fecha de instalación del sensor
+     * @param lecturaSensor el tipo de lectura de sensor
+     */
+    Sensor(String id, double offset, LocalDate fechaInstalacion, TipoLecturaSensor lecturaSensor) {
+        this.id = id;
+        this.offset = offset;
+        this.fechaInstalacion = fechaInstalacion;
+        this.calibrado = true;
+        this.sumaValores = 0;
+        this.cantidadLecturas = 0;
+        this.lecturaSensor = lecturaSensor;
     }
 
     /**
@@ -52,6 +82,8 @@ public abstract class Sensor {
         this.offset = offset;
         this.fechaInstalacion = LocalDate.now();
         this.calibrado = true;
+        this.sumaValores = 0;
+        this.cantidadLecturas = 0;
     }
 
     public boolean isCalibrado() {
@@ -74,11 +106,64 @@ public abstract class Sensor {
      */
     public void leerValor(double valor) {
         this.valorUltimaLectura = valor - this.offset;
+        this.cantidadLecturas = this.cantidadLecturas + 1;
+        this.sumaValores = this.sumaValores + this.valorUltimaLectura;
         if (this.valorUltimaLectura > maxRango || this.valorUltimaLectura < minRango) {
             /* El sensor se considera no calibrado cuando se realice una lectura fuera de rango */
             this.calibrado = false;
         }
         this.fechaUltimaLectura = LocalDateTime.now();
+    }
+
+    /**
+     * Simula la lectura por parte de un sensor
+     * @param valorConfigurable el valor a medir
+     * @return true si todo funciona correctamente, false en caso contrario
+     */
+    public boolean simulacionLectura(double valorConfigurable){
+        Random rand = new Random();
+        double valor;
+        double porcentaje;
+        double media;
+
+        if(this.lecturaSensor == TipoLecturaSensor.MINMAX){
+            if(valorConfigurable < 0 || valorConfigurable > 1){
+                return false;
+            }
+
+            if(rand.nextDouble() < valorConfigurable){
+                valor = this.minRango + (rand.nextDouble() * (this.maxRango - this.minRango));
+            } else{
+                valor = this.maxRango + (rand.nextDouble() * (this.maxRango - this.minRango));
+            }
+            
+
+        }else if (this.lecturaSensor == TipoLecturaSensor.RANGOCONFIGURABLE) {
+            if(valorConfigurable < 0 || valorConfigurable > 100){
+                return false;
+            } 
+
+            porcentaje = (this.valorUltimaLectura*valorConfigurable)/100;
+
+            valor = (this.valorUltimaLectura - porcentaje) + (rand.nextDouble() * ((this.valorUltimaLectura + porcentaje) - (this.valorUltimaLectura - porcentaje)));
+ 
+        } else if(this.lecturaSensor == TipoLecturaSensor.RANGOMEDIA){
+            if(valorConfigurable < 0 || valorConfigurable > 100){
+                return false;
+            } 
+
+            media = this.sumaValores/this.cantidadLecturas;
+
+            porcentaje = (media*valorConfigurable)/100;
+
+            valor = (media - porcentaje) + (rand.nextDouble() * ((media + porcentaje) - (media - porcentaje)));
+        }else{
+            return false;
+        }
+
+        leerValor(valor);
+
+        return true;
     }
 
     /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
