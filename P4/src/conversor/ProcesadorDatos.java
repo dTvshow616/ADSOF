@@ -15,9 +15,6 @@ public class ProcesadorDatos {
     private Conversores conversor;
 
     /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
-    public ProcesadorDatos() {
-    }
-
     public ProcesadorDatos(Conversores conversor) {
         registro = new HashMap<>();
         this.conversor = conversor;
