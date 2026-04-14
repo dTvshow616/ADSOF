@@ -4,8 +4,7 @@ import alerta.CambioBruscoLectura;
 import alerta.SensorSinCalibrar;
 import conversor.ProcesadorDatos;
 
-import java.time.LocalDateTime;
-import java.time.Period;
+import java.time.*;
 import java.util.Random;
 
 /**
@@ -37,7 +36,7 @@ public abstract class Sensor {
     /** Suma de todos los valores obtenidos hasta el momento */
     private double sumaValores;
     /** La fecha de instalación del sensor */
-    private LocalDateTime fechaInstalacion;
+    private LocalDate fechaInstalacion;
     /** Tipo de lectura de sensor */
     private TipoLecturaSensor lecturaSensor;
     /** Procesador de datos */
@@ -60,7 +59,7 @@ public abstract class Sensor {
         this.setCalibrado(true);
         this.sumaValores = 0;
         this.cantidadLecturas = 0;
-        this.fechaInstalacion = LocalDateTime.now();
+        this.fechaInstalacion = LocalDate.now();
         this.tiempoCaducidad = Period.ofDays(365);
         this.lecturaSensor = TipoLecturaSensor.MINMAX;
         this.procesadorDeDatos = procesadorDeDatos;
@@ -225,7 +224,7 @@ public abstract class Sensor {
      * @throws IllegalArgumentException la fecha de fin debe ser posterior a la de instalación
      */
     public void calibrar(LocalDateTime fechaFin) throws IllegalArgumentException {
-        if (fechaFin.isBefore(this.fechaInstalacion)) {
+        if (fechaFin.isBefore(this.fechaInstalacion.atStartOfDay())) {
             throw new IllegalArgumentException("La fecha de fin debe ser posterior a la de instalación");
         }
         this.fechaCalibracion = LocalDateTime.now();
@@ -279,11 +278,11 @@ public abstract class Sensor {
         this.fechaCalibracion = newFechaCalibracion;
     }
 
-    public LocalDateTime getFechaInstalacion() {
+    public LocalDate getFechaInstalacion() {
         return fechaInstalacion;
     }
 
-    public void setFechaInstalacion(LocalDateTime newFechaInstalacion) {
+    public void setFechaInstalacion(LocalDate newFechaInstalacion) {
         this.fechaInstalacion = newFechaInstalacion;
     }
 
@@ -388,6 +387,6 @@ public abstract class Sensor {
     /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/
     @Override
     public String toString() {
-        return this.id + " (desde: " + this.fechaInstalacion + "): sensor.Sensor ";
+        return this.id + " (desde: " + this.fechaInstalacion + "): Sensor ";
     }
 }

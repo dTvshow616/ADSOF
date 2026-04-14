@@ -117,7 +117,7 @@ public class EstacionMeteorologica {
      * @param offset el offset del sensor
      * @param medida las unidades de medida del sensor
      */
-    public void addSensorHumedad(double offset, UdsMedidaHum medida) throws SensorYaInstalado {
+    public SensorHumedad addSensorHumedad(double offset, UdsMedidaHum medida) throws SensorYaInstalado {
         Conversores a = new ConversorIdentidad(UdsMedidaHum.PORCENTAJE);
         ProcesadorDatos procesadorDeDatos = new ProcesadorDatos(a);
 
@@ -126,6 +126,7 @@ public class EstacionMeteorologica {
             this.sensores.put(sensorHumedad.getId(), sensorHumedad);
             this.sensoresHumedad.put(sensorHumedad.getId(), sensorHumedad);
             this.procesadores.put(sensorHumedad, sensorHumedad.getProcesadorDeDatos());
+            return sensorHumedad;
         } else {
             throw new SensorYaInstalado(sensorHumedad, this.sensoresHumedad.get(sensorHumedad.getId()));
         }
@@ -136,7 +137,7 @@ public class EstacionMeteorologica {
      * @param offset el offset del sensor
      * @param medida las unidades de medida del sensor
      */
-    public void addSensorHumedad(double offset, UdsMedidaHum medida, Conversores conversor)
+    public SensorHumedad addSensorHumedad(double offset, UdsMedidaHum medida, Conversores conversor)
             throws SensorYaInstalado, ConversorNoValido {
         if (conversor.getMedidaOrigen() != medida) {
             throw new ConversorNoValido();
@@ -149,6 +150,7 @@ public class EstacionMeteorologica {
             this.sensores.put(sensorHumedad.getId(), sensorHumedad);
             this.sensoresHumedad.put(sensorHumedad.getId(), sensorHumedad);
             this.procesadores.put(sensorHumedad, sensorHumedad.getProcesadorDeDatos());
+            return sensorHumedad;
         } else {
             throw new SensorYaInstalado(sensorHumedad, this.sensoresHumedad.get(sensorHumedad.getId()));
         }
@@ -159,7 +161,7 @@ public class EstacionMeteorologica {
      * @param offset el offset del sensor
      * @param medida las unidades de medida del sensor
      */
-    public void addSensorPresion(double offset, UdsMedidaPres medida) throws SensorYaInstalado {
+    public SensorPresion addSensorPresion(double offset, UdsMedidaPres medida) throws SensorYaInstalado {
         Conversores a = new ConversorIdentidad(UdsMedidaPres.HECTOPASCALES);
         ProcesadorDatos procesadorDeDatos = new ProcesadorDatos(a);
 
@@ -168,6 +170,7 @@ public class EstacionMeteorologica {
             this.sensores.put(sensorPresion.getId(), sensorPresion);
             this.sensoresPresion.put(sensorPresion.getId(), sensorPresion);
             this.procesadores.put(sensorPresion, sensorPresion.getProcesadorDeDatos());
+            return sensorPresion;
         } else {
             throw new SensorYaInstalado(sensorPresion, this.sensoresPresion.get(sensorPresion.getId()));
         }
@@ -178,7 +181,7 @@ public class EstacionMeteorologica {
      * @param offset el offset del sensor
      * @param medida las unidades de medida del sensor
      */
-    public void addSensorPresion(double offset, UdsMedidaPres medida, Conversores conversor)
+    public SensorPresion addSensorPresion(double offset, UdsMedidaPres medida, Conversores conversor)
             throws SensorYaInstalado, ConversorNoValido {
         if (conversor.getMedidaOrigen() != medida) {
             throw new ConversorNoValido();
@@ -191,6 +194,7 @@ public class EstacionMeteorologica {
             this.sensores.put(sensorPresion.getId(), sensorPresion);
             this.sensoresPresion.put(sensorPresion.getId(), sensorPresion);
             this.procesadores.put(sensorPresion, sensorPresion.getProcesadorDeDatos());
+            return sensorPresion;
         } else {
             throw new SensorYaInstalado(sensorPresion, this.sensoresPresion.get(sensorPresion.getId()));
         }
@@ -202,7 +206,7 @@ public class EstacionMeteorologica {
      * @param offset el offset del sensor
      * @param medida las unidades de medida del sensor
      */
-    public void addSensorTemperatura(double offset, UdsMedidaTemp medida) throws SensorYaInstalado {
+    public SensorTemperatura addSensorTemperatura(double offset, UdsMedidaTemp medida) throws SensorYaInstalado {
         Conversores a = new ConversorIdentidad(UdsMedidaTemp.CELSIUS);
         ProcesadorDatos procesadorDeDatos = new ProcesadorDatos(a);
 
@@ -211,6 +215,7 @@ public class EstacionMeteorologica {
             this.sensores.put(sensorTemperatura.getId(), sensorTemperatura);
             this.sensoresTemperatura.put(sensorTemperatura.getId(), sensorTemperatura);
             this.procesadores.put(sensorTemperatura, sensorTemperatura.getProcesadorDeDatos());
+            return sensorTemperatura;
         } else {
             throw new SensorYaInstalado(sensorTemperatura, this.sensoresTemperatura.get(sensorTemperatura.getId()));
         }
@@ -222,7 +227,7 @@ public class EstacionMeteorologica {
      * @param offset el offset del sensor
      * @param medida las unidades de medida del sensor
      */
-    public void addSensorTemperatura(double offset, UdsMedidaTemp medida, Conversores conversor)
+    public SensorTemperatura addSensorTemperatura(double offset, UdsMedidaTemp medida, Conversores conversor)
             throws SensorYaInstalado, ConversorNoValido {
         if (conversor.getMedidaOrigen() != medida) {
             throw new ConversorNoValido();
@@ -235,6 +240,7 @@ public class EstacionMeteorologica {
             this.sensores.put(sensorTemperatura.getId(), sensorTemperatura);
             this.sensoresTemperatura.put(sensorTemperatura.getId(), sensorTemperatura);
             this.procesadores.put(sensorTemperatura, sensorTemperatura.getProcesadorDeDatos());
+            return sensorTemperatura;
         } else {
             throw new SensorYaInstalado(sensorTemperatura, this.sensoresTemperatura.get(sensorTemperatura.getId()));
         }
@@ -413,11 +419,20 @@ public class EstacionMeteorologica {
         for (Sensor sensor : this.sensoresTemperatura.values()) {
             sb.append(sensor.toString()).append(",\n");
         }
+
         for (Sensor sensor : this.sensoresHumedad.values()) {
             sb.append(sensor.toString()).append(",\n");
         }
+
+        int counter = 0;
+
         for (Sensor sensor : this.sensoresPresion.values()) {
-            sb.append(sensor.toString()).append(",\n");
+            counter++;
+            if (counter < sensoresPresion.size()) {
+                sb.append(sensor.toString()).append(",\n");
+            } else {
+                sb.append(sensor.toString());
+            }
         }
 
         sb.append("]");

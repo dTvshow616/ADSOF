@@ -3,6 +3,7 @@ package alerta;
 import sensor.Sensor;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 /**
  * Implementa la excepción para un sensor sin calibrar
@@ -41,7 +42,8 @@ public class SensorSinCalibrar extends Exception {
         } else {
             return "- [" + LocalDateTime.now() + "] Sensor " + this.sensor.getId() +
                    " sin calibrar (calibración caducada desde " +
-                   this.sensor.getFechaCalibracion().plus(this.sensor.getTiempoCaducidad()) + ")";
+                   this.sensor.getFechaCalibracion().plus(this.sensor.getTiempoCaducidad())
+                              .truncatedTo(ChronoUnit.SECONDS) + ")";
         }
     }
 }

@@ -1,8 +1,8 @@
 package sensor;
 
-import java.time.LocalDateTime;
-
 import conversor.ProcesadorDatos;
+
+import java.time.temporal.ChronoUnit;
 
 /**
  * Implementa el sensor de temperatura
@@ -19,7 +19,6 @@ public class SensorTemperatura extends Sensor {
 
     /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
 
-
     /**
      * Constructor para un sensor de temperatura sin fecha de instalación especificada
      * @param offset            el offset del sensor
@@ -27,7 +26,7 @@ public class SensorTemperatura extends Sensor {
      * @param procesadorDeDatos el procesador de datos
      */
     public SensorTemperatura(double offset, UdsMedidaTemp medida, ProcesadorDatos procesadorDeDatos) {
-        super(TipoSensor.TEMPERATURA.getNombre() + "-" + String.format("%04d", ++totalId), offset,procesadorDeDatos);
+        super(TipoSensor.TEMPERATURA.getNombre() + "-" + String.format("%04d", ++totalId), offset, procesadorDeDatos);
         this.setMedida(medida);
     }
 
@@ -51,6 +50,6 @@ public class SensorTemperatura extends Sensor {
     @Override
     public String toString() {
         return super.toString() + "Temperatura (" + this.getValorUltimaLectura() + this.medida.getSimbolo() + ") " +
-               "última " + "lectura: " + this.getFechaUltimaLectura();
+               "última " + "lectura: " + this.getFechaUltimaLectura().truncatedTo(ChronoUnit.SECONDS);
     }
 }

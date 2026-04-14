@@ -2,6 +2,8 @@ package sensor;
 
 import conversor.ProcesadorDatos;
 
+import java.time.temporal.ChronoUnit;
+
 /**
  * Nombre de la clase: sensor.SensorPresion
  * <p>
@@ -50,6 +52,6 @@ public class SensorPresion extends Sensor {
     @Override
     public String toString() {
         return super.toString() + "Presión (" + this.getValorUltimaLectura() + this.medida.getSimbolo() + ") última " +
-               "lectura: " + this.getFechaUltimaLectura();
+               "lectura: " + this.getFechaUltimaLectura().truncatedTo(ChronoUnit.SECONDS);
     }
 }

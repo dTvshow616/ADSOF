@@ -2,10 +2,10 @@ package sensor;
 
 import conversor.ProcesadorDatos;
 
+import java.time.temporal.ChronoUnit;
+
 /**
- * Nombre de la clase: sensor.SensorHumedad
- * <p>
- * Descripción: Implementa el sensor de humedad
+ * Implementa el sensor de humedad
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.1
  * @see Sensor
@@ -21,8 +21,8 @@ public class SensorHumedad extends Sensor {
 
     /**
      * Constructor para un sensor de humedad sin fecha de instalación especificada
-     * @param offset el offset del sensor
-     * @param medida las unidades de medida del sensor
+     * @param offset            el offset del sensor
+     * @param medida            las unidades de medida del sensor
      * @param procesadorDeDatos el procesador de datos
      */
     public SensorHumedad(double offset, UdsMedidaHum medida, ProcesadorDatos procesadorDeDatos) {
@@ -50,6 +50,6 @@ public class SensorHumedad extends Sensor {
     @Override
     public String toString() {
         return super.toString() + "Humedad (" + this.getValorUltimaLectura() + this.medida.getSimbolo() + ") última " +
-               "lectura: " + this.getFechaUltimaLectura();
+               "lectura: " + this.getFechaUltimaLectura().truncatedTo(ChronoUnit.SECONDS);
     }
 }
