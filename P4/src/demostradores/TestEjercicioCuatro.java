@@ -36,6 +36,7 @@ public class TestEjercicioCuatro {
             SensorTemperatura s1 = estacionMeteo.addSensorTemperatura(10.0, UdsMedidaTemp.CELSIUS);
             estacionMeteo.setFechaInstalacionSensor(s1, LocalDate.parse("2023-09-01"));
             estacionMeteo.lecturaPuntual(s1, 30.5);
+            estacionMeteo.lecturaPuntual(s1, 32.5);
         } catch (SensorYaInstalado e) {
             System.out.println("[!]" + e.toString());
         }
@@ -44,6 +45,7 @@ public class TestEjercicioCuatro {
             SensorHumedad s2 = estacionMeteo.addSensorHumedad(5.0, UdsMedidaHum.PORCENTAJE);
             estacionMeteo.setFechaInstalacionSensor(s2, LocalDate.parse("2024-09-01"));
             estacionMeteo.lecturaPuntual(s2, 70.0);
+            estacionMeteo.lecturaPuntual(s2, 80.0);
         } catch (SensorYaInstalado e) {
             System.out.println("[!]" + e.toString());
         }
@@ -77,7 +79,10 @@ public class TestEjercicioCuatro {
             SensorTemperatura s6 = estacionMeteo.addSensorTemperatura(10.0, UdsMedidaTemp.CELSIUS);
             estacionMeteo.setFechaInstalacionSensor(s6, LocalDate.parse("2023-09-01"));
             estacionMeteo.lecturaPuntual(s6, 30.5);
-            estacionMeteo.lecturaPuntual(s6, 60.5);
+            estacionMeteo.lecturaPuntual(s6, 68.5);
+            estacionMeteo.calibrarSensor(s6, 3.0);
+            estacionMeteo.configurarPorcentajeBrusco(s6, 100);
+            estacionMeteo.lecturaPuntual(s6, 105.5);
         } catch (SensorYaInstalado e) {
             System.out.println("[!]" + e.toString());
         }
@@ -91,7 +96,7 @@ public class TestEjercicioCuatro {
             System.out.println("Calibrado: " + estacionMeteo.comprobarCalibracion(s7));
             estacionMeteo.imprimirEstacion();
 
-            estacionMeteo.calibrarSensor(s7.getId(), 2);
+            estacionMeteo.calibrarSensor(s7, 2);
             System.out.println("Calibrado: " + estacionMeteo.comprobarCalibracion(s7));
             estacionMeteo.imprimirEstacion();
         } catch (SensorYaInstalado e) {

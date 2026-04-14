@@ -124,12 +124,9 @@ public class EstacionMeteorologica implements IDocumento {
 
     /**
      * Permite calibrar un sensor ajustando su offset
-     * @param id          el id del sensor
      * @param nuevoOffset el nuevo offset del sensor
      */
-    public void calibrarSensor(String id, double nuevoOffset) {
-        Sensor sensor = sensores.get(id);
-
+    public void calibrarSensor(Sensor sensor, double nuevoOffset) {
         sensor.setOffset(nuevoOffset);
         sensor.setCalibrado(true);
 
@@ -338,6 +335,15 @@ public class EstacionMeteorologica implements IDocumento {
      */
     public boolean comprobarCalibracion(Sensor s) {
         return s.getCalibrado();
+    }
+
+    /**
+     * Permite establecer el porcentaje máximo de fluctuación de un sensor
+     * @param sensor     el sensor
+     * @param porcentaje el porcentaje
+     */
+    public void configurarPorcentajeBrusco(Sensor sensor, double porcentaje) {
+        sensor.setPorcentajeCambioMax(porcentaje);
     }
 
     /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
