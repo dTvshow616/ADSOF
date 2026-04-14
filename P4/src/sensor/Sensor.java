@@ -372,6 +372,14 @@ public abstract class Sensor {
         this.tiempoCaducidad = newTiempoCaducidad;
     }
 
+    public void setTiempoCaducidad(LocalDateTime fechaCaducidad) {
+        if (fechaCaducidad.isBefore(this.fechaCalibracion)) {
+            this.tiempoCaducidad = Period.between(fechaCaducidad.toLocalDate(), this.fechaCalibracion.toLocalDate());
+        } else {
+            this.tiempoCaducidad = Period.between(this.fechaCalibracion.toLocalDate(), fechaCaducidad.toLocalDate());
+        }
+    }
+
     /**
      * Devuelve el último valor leído
      * @return el último valor leído

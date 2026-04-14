@@ -5,7 +5,9 @@ import sensor.Sensor;
 import java.time.LocalDateTime;
 
 /**
- * The type Cambio brusco lectura.
+ * Implementa la excepción para un cambio brusco en la lectura de valores
+ * @author Alvaro G.S. and Ana O.R.
+ * @version 1.1
  */
 public class CambioBruscoLectura extends Exception {
     /** El sensor de la excepción */

@@ -2,6 +2,11 @@ package alerta;
 
 import sensor.Sensor;
 
+/**
+ * Implementa la excepción para un sensor instalado previamente
+ * @author Alvaro G.S. and Ana O.R.
+ * @version 1.1
+ */
 public class SensorYaInstalado extends Exception {
     /** El sensor de la excepción */
     private final Sensor sensor;

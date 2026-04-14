@@ -251,16 +251,13 @@ public class EstacionMeteorologica {
      */
     public void imprimirEstacion() {
         System.out.println("Estación Meteorológica :" + this.nombre);
-        System.out.println("Ubicación: " + this.latitud + "," + this.longitud);
+        System.out.println("Ubicación: " + this.latitud + ", " + this.longitud);
         System.out.println(
-                "--------------------------------------------------------------------------------------------------");
+                "--------------------------------------------------------------------------------------------------\n");
 
         System.out.println("Sensores instalados: " + this.sensores.size());
         System.out.println("Última lectura: " + this.fechaUtimaLectura);
 
-        System.out.println("\n");
-
-        System.out.println("Sensores y procesadores de datos instalados");
         for (Sensor sensor : this.sensores.values()) {
             System.out.println(sensor.toString());
             System.out.println("-> " + this.procesadores.get(sensor));
