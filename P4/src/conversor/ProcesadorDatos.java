@@ -21,7 +21,7 @@ public class ProcesadorDatos {
     }
 
     public void addregistro(LocalDateTime fechaLectura, double valor) {
-        registro.put(fechaLectura, valor);
+        registro.put(fechaLectura, conversor.convertir(valor));
     }
 
     /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
@@ -37,4 +37,60 @@ public class ProcesadorDatos {
         return registro.get(Collections.max(registro.keySet()));
     }
 
+    public double getMinRegistro(){
+        double result = this.conversor.getMedidaDestino().getMaxRango();
+
+        for(Map.Entry<LocalDateTime,Double> entry : this.registro.entrySet()){
+            if(entry.getValue() < result){
+                result = entry.getValue();
+            }
+        }
+        return result;
+    }
+
+    public double getMaxRegistro(){
+        double result = this.conversor.getMedidaDestino().getMinRango();
+
+        for(Map.Entry<LocalDateTime,Double> entry : this.registro.entrySet()){
+            if(entry.getValue() > result){
+                result = entry.getValue();
+            }
+        }
+        return result;
+    }
+
+    public double getaverage(){
+        double suma = 0;
+        int i = 0;
+
+        for(Map.Entry<LocalDateTime,Double> entry : this.registro.entrySet()){
+            suma = suma + entry.getValue();
+            i++;
+        }
+
+        return (suma/i);
+    }
+
+        /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/
+    @Override
+    public String toString() {
+        String result;
+
+
+        result = "(" + this.conversor.getMedidaOrigen().getSimbolo() + ")";
+
+        if(this.conversor instanceof ConversorIdentidad){
+            result = result + ": [";
+        }else{
+            result = result + "con conversor a" + this.conversor.getMedidaDestino().getSimbolo() + ": [";
+        }
+
+        for(Map.Entry<LocalDateTime,Double> entry : this.registro.entrySet()){
+            result = result + entry.getValue() + ", ";
+        }
+
+        result = result + "] -- MIN: " + this.getMinRegistro() + "MAX: " + this.getMaxRegistro() + "AVG: " + this.getaverage(); 
+
+        return result;
+    }
 }
