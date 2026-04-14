@@ -6,7 +6,7 @@ import sensor.*;
  * Implementa la interfaz de un conversor
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.1
- * @see udsMedida
+ * @see UdsMedida
  */
 public interface Conversores {
     /**

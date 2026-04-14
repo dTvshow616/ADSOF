@@ -6,10 +6,13 @@ import sensor.*;
  * Implementa la clase de un conversor de kelvin a celsius
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.1
- * @see udsMedida
+ * @see UdsMedida
  */
 public class ConversorKelvinCelsius implements Conversores{
 
+    /**
+     * Constructor del conversor
+     */
     public ConversorKelvinCelsius(){}
 
     /**

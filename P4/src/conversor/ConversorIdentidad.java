@@ -6,7 +6,7 @@ import sensor.*;
  * Implementa la clase de un conversor que cambia el valor a si mismo
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.1
- * @see udsMedida
+ * @see UdsMedida
  */
 public class ConversorIdentidad implements Conversores{
     /** la medida que va a ser tanto el origen como el destino */

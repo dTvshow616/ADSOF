@@ -72,9 +72,10 @@ public abstract class Sensor {
 
     /**
      * Constructor de un sensor con un tipo de lectura específico, tiempo de calibrado estándar (1 año)
-     * @param id            el id de sensor
-     * @param offset        el offset del sensor
-     * @param lecturaSensor el tipo de lectura de sensor
+     * @param id                el id de sensor
+     * @param offset            el offset del sensor
+     * @param lecturaSensor     el tipo de lectura de sensor
+     * @param procesadorDeDatos el procesador de datos
      */
     public Sensor(String id, double offset, TipoLecturaSensor lecturaSensor, ProcesadorDatos procesadorDeDatos) {
         this(id, offset, procesadorDeDatos);
@@ -131,7 +132,8 @@ public abstract class Sensor {
     /**
      * Permite al sensor medir un valor
      * @param valor el valor a medir
-     * @throws SensorSinCalibrar el sensor no está calibrado
+     * @throws SensorSinCalibrar   el sensor no está calibrado
+     * @throws CambioBruscoLectura cambio brusco de lectura
      */
     public void leerValor(double valor) throws SensorSinCalibrar, CambioBruscoLectura {
         this.fechaUltimaLectura = LocalDateTime.now();
@@ -166,6 +168,8 @@ public abstract class Sensor {
     /**
      * Simula la lectura por parte de un sensor
      * @return true si funciona correctamente, false en caso contrario
+     * @throws SensorSinCalibrar   el sensor no está calibrado
+     * @throws CambioBruscoLectura cambio brusco de lectura
      */
     public boolean simulacionLectura() throws SensorSinCalibrar, CambioBruscoLectura {
         Random rand = new Random();
@@ -180,6 +184,8 @@ public abstract class Sensor {
      * Simula la lectura por parte de un sensor
      * @param valorConfigurable el valor a medir
      * @return true si todo funciona correctamente, false en caso contrario
+     * @throws SensorSinCalibrar   el sensor no está calibrado
+     * @throws CambioBruscoLectura cambio brusco de lectura
      */
     public boolean simulacionLectura(double valorConfigurable) throws SensorSinCalibrar, CambioBruscoLectura {
         Random rand = new Random();
@@ -336,6 +342,10 @@ public abstract class Sensor {
         return this.valorUltimaLectura;
     }
 
+    /**
+     * Establece el valor de la última lectura.
+     * @param valor el valor a leer
+     */
     public void setValorUltimaLectura(double valor) {
         this.valorUltimaLectura = valor;
     }
@@ -356,6 +366,10 @@ public abstract class Sensor {
         this.fechaInstalacion = newFechaInstalacion;
     }
 
+    /**
+     * Establece la lectura del sensor
+     * @param a el tipo de lectura del sensor
+     */
     public void setLecturaSensor(TipoLecturaSensor a) {
         this.lecturaSensor = a;
     }
@@ -384,6 +398,10 @@ public abstract class Sensor {
         this.offset = newOffset;
     }
 
+    /**
+     * Establece el porcentaje de cambio máximo del sensor
+     * @param porcentaje el porcentaje de cambio máximo del sensor
+     */
     public void setPorcentajeCambioMax(double porcentaje) {
         this.porcentajeCambioMax = porcentaje;
     }

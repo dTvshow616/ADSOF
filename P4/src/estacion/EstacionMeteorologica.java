@@ -38,7 +38,7 @@ public class EstacionMeteorologica implements IDocumento {
     /** Histórico de alertas de la estación */
     private HashMap<Exception, Sensor> alertas = new HashMap<>();
     /** Fecha en la que se realizó la última lectura */
-    private LocalDateTime fechaUtimaLectura = LocalDateTime.now();
+    private LocalDateTime fechaUltimaLectura = LocalDateTime.now();
     /** Periodicidad de las lecturas periódicas */
     private Period periodicidadLecturas;
     /** Número de lecturas que se han realizado */
@@ -105,7 +105,8 @@ public class EstacionMeteorologica implements IDocumento {
 
     /**
      * Permite simular la lectura de un sensor en concreto
-     * @param sensor el sensor deseado
+     * @param sensor            el sensor deseado
+     * @param valorConfigurable el valor configurable de la simulación de lectura
      */
     public void simulacionPuntual(Sensor sensor, double valorConfigurable) {
         if (!sensoresExcluidos.contains(sensor)) {
@@ -146,8 +147,8 @@ public class EstacionMeteorologica implements IDocumento {
      */
     public void lecturaPeriodica() {
         if ((this.numLecturas < this.numMaxLecturas) &&
-            (this.fechaUtimaLectura.plus(this.periodicidadLecturas).isBefore(LocalDateTime.now()))) {
-            this.fechaUtimaLectura = LocalDateTime.now();
+            (this.fechaUltimaLectura.plus(this.periodicidadLecturas).isBefore(LocalDateTime.now()))) {
+            this.fechaUltimaLectura = LocalDateTime.now();
             lecturaSimultanea();
             this.numLecturas++;
         }
@@ -157,6 +158,8 @@ public class EstacionMeteorologica implements IDocumento {
      * Permite que se añada un sensor de humedad a la estación meteorológica sin especificar la fecha de instalación
      * @param offset el offset del sensor
      * @param medida las unidades de medida del sensor
+     * @return el sensor deseado
+     * @throws SensorYaInstalado el sensor con el ID deseado ya estaba instalado
      */
     public SensorHumedad addSensorHumedad(double offset, UdsMedidaHum medida) throws SensorYaInstalado {
         Conversores a = new ConversorIdentidad(UdsMedidaHum.PORCENTAJE);
@@ -175,8 +178,12 @@ public class EstacionMeteorologica implements IDocumento {
 
     /**
      * Permite que se añada un sensor de humedad a la estación meteorológica sin especificar la fecha de instalación
-     * @param offset el offset del sensor
-     * @param medida las unidades de medida del sensor
+     * @param offset    el offset del sensor
+     * @param medida    las unidades de medida del sensor
+     * @param conversor el conversor deseado
+     * @return el sensor deseado
+     * @throws SensorYaInstalado el sensor con el ID deseado ya estaba instalado
+     * @throws ConversorNoValido conversor no válido
      */
     public SensorHumedad addSensorHumedad(double offset, UdsMedidaHum medida, Conversores conversor)
             throws SensorYaInstalado, ConversorNoValido {
@@ -201,6 +208,8 @@ public class EstacionMeteorologica implements IDocumento {
      * Permite que se añada un sensor de presión a la estación meteorológica sin especificar la fecha de instalación
      * @param offset el offset del sensor
      * @param medida las unidades de medida del sensor
+     * @return el sensor deseado
+     * @throws SensorYaInstalado el sensor con el ID deseado ya estaba instalado
      */
     public SensorPresion addSensorPresion(double offset, UdsMedidaPres medida) throws SensorYaInstalado {
         Conversores a = new ConversorIdentidad(UdsMedidaPres.HECTOPASCALES);
@@ -219,8 +228,12 @@ public class EstacionMeteorologica implements IDocumento {
 
     /**
      * Permite que se añada un sensor de presión a la estación meteorológica sin especificar la fecha de instalación
-     * @param offset el offset del sensor
-     * @param medida las unidades de medida del sensor
+     * @param offset    el offset del sensor
+     * @param medida    las unidades de medida del sensor
+     * @param conversor el conversor deseado
+     * @return el sensor deseado
+     * @throws SensorYaInstalado el sensor con el ID deseado ya estaba instalado
+     * @throws ConversorNoValido conversor no válido
      */
     public SensorPresion addSensorPresion(double offset, UdsMedidaPres medida, Conversores conversor)
             throws SensorYaInstalado, ConversorNoValido {
@@ -246,6 +259,8 @@ public class EstacionMeteorologica implements IDocumento {
      * instalación
      * @param offset el offset del sensor
      * @param medida las unidades de medida del sensor
+     * @return el sensor deseado
+     * @throws SensorYaInstalado el sensor con el ID deseado ya estaba instalado
      */
     public SensorTemperatura addSensorTemperatura(double offset, UdsMedidaTemp medida) throws SensorYaInstalado {
         Conversores a = new ConversorIdentidad(UdsMedidaTemp.CELSIUS);
@@ -265,8 +280,12 @@ public class EstacionMeteorologica implements IDocumento {
     /**
      * Permite que se añada un sensor de temperatura a la estación meteorológica sin especificar la fecha de
      * instalación
-     * @param offset el offset del sensor
-     * @param medida las unidades de medida del sensor
+     * @param offset    el offset del sensor
+     * @param medida    las unidades de medida del sensor
+     * @param conversor el conversor deseado
+     * @return el sensor deseado
+     * @throws SensorYaInstalado el sensor con el ID deseado ya estaba instalado
+     * @throws ConversorNoValido conversor no válido
      */
     public SensorTemperatura addSensorTemperatura(double offset, UdsMedidaTemp medida, Conversores conversor)
             throws SensorYaInstalado, ConversorNoValido {
@@ -297,7 +316,7 @@ public class EstacionMeteorologica implements IDocumento {
                 "--------------------------------------------------------------------------------------------------\n");
 
         System.out.println("Sensores instalados: " + this.sensores.size());
-        System.out.println("Última lectura: " + this.fechaUtimaLectura);
+        System.out.println("Última lectura: " + this.fechaUltimaLectura);
 
         for (Sensor sensor : this.sensores.values()) {
             if (!sensoresExcluidos.contains(sensor)) {
@@ -318,14 +337,26 @@ public class EstacionMeteorologica implements IDocumento {
 
     /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
 
-    public LocalDateTime getFechaUtimaLectura() {
-        return fechaUtimaLectura;
+    /**
+     * Gets fecha ultima lectura.
+     * @return fecha ultima lectura
+     */
+    public LocalDateTime getFechaUltimaLectura() {
+        return fechaUltimaLectura;
     }
 
-    public void setFechaUtimaLectura(LocalDateTime newFechaUtimaLectura) {
-        this.fechaUtimaLectura = newFechaUtimaLectura;
+    /**
+     * Sets fecha ultima lectura.
+     * @param newFechaUltimaLectura new fecha ultima lectura
+     */
+    public void setFechaUltimaLectura(LocalDateTime newFechaUltimaLectura) {
+        this.fechaUltimaLectura = newFechaUltimaLectura;
     }
 
+    /**
+     * Gets latitud.
+     * @return latitud
+     */
     public double getLatitud() {
         return latitud;
     }
@@ -362,26 +393,50 @@ public class EstacionMeteorologica implements IDocumento {
         return new ArrayList<>(this.sensoresTemperatura.values());
     }
 
+    /**
+     * Gets longitud.
+     * @return longitud
+     */
     public double getLongitud() {
         return longitud;
     }
 
+    /**
+     * Gets nombre.
+     * @return nombre
+     */
     public String getNombre() {
         return nombre;
     }
 
+    /**
+     * Gets num lecturas.
+     * @return num lecturas
+     */
     public int getNumLecturas() {
         return numLecturas;
     }
 
+    /**
+     * Sets num lecturas.
+     * @param newNumLecturas new num lecturas
+     */
     public void setNumLecturas(int newNumLecturas) {
         this.numLecturas = newNumLecturas;
     }
 
+    /**
+     * Gets num max lecturas.
+     * @return num max lecturas
+     */
     public int getNumMaxLecturas() {
         return numMaxLecturas;
     }
 
+    /**
+     * Sets num max lecturas.
+     * @param newNumMaxLecturas new num max lecturas
+     */
     public void setNumMaxLecturas(int newNumMaxLecturas) {
         this.numMaxLecturas = newNumMaxLecturas;
     }
@@ -397,18 +452,34 @@ public class EstacionMeteorologica implements IDocumento {
         return parrafosSeccionPrincipal;
     }
 
+    /**
+     * Gets periodicidad lecturas.
+     * @return periodicidad lecturas
+     */
     public Period getPeriodicidadLecturas() {
         return periodicidadLecturas;
     }
 
+    /**
+     * Sets periodicidad lecturas.
+     * @param newPeriodicidadLecturas new periodicidad lecturas
+     */
     public void setPeriodicidadLecturas(Period newPeriodicidadLecturas) {
         this.periodicidadLecturas = newPeriodicidadLecturas;
     }
 
+    /**
+     * Gets procesadores.
+     * @return procesadores
+     */
     public HashMap<Sensor, ProcesadorDatos> getProcesadores() {
         return procesadores;
     }
 
+    /**
+     * Sets procesadores.
+     * @param newProcesadores new procesadores
+     */
     public void setProcesadores(HashMap<Sensor, ProcesadorDatos> newProcesadores) {
         this.procesadores = newProcesadores;
     }
@@ -450,42 +521,82 @@ public class EstacionMeteorologica implements IDocumento {
         return this.sensores.get(desiredId);
     }
 
+    /**
+     * Gets sensores.
+     * @return sensores
+     */
     public HashMap<String, Sensor> getSensores() {
         return sensores;
     }
 
+    /**
+     * Sets sensores.
+     * @param newSensores new sensores
+     */
     public void setSensores(HashMap<String, Sensor> newSensores) {
         this.sensores = newSensores;
     }
 
+    /**
+     * Gets sensores excluidos.
+     * @return sensores excluidos
+     */
     public List<Sensor> getSensoresExcluidos() {
         return sensoresExcluidos;
     }
 
+    /**
+     * Sets sensores excluidos.
+     * @param newSensoresExcluidos new sensores excluidos
+     */
     public void setSensoresExcluidos(List<Sensor> newSensoresExcluidos) {
         this.sensoresExcluidos = newSensoresExcluidos;
     }
 
+    /**
+     * Gets sensores humedad.
+     * @return sensores humedad
+     */
     public HashMap<String, SensorHumedad> getSensoresHumedad() {
         return sensoresHumedad;
     }
 
+    /**
+     * Sets sensores humedad.
+     * @param newSensoresHumedad new sensores humedad
+     */
     public void setSensoresHumedad(HashMap<String, SensorHumedad> newSensoresHumedad) {
         this.sensoresHumedad = newSensoresHumedad;
     }
 
+    /**
+     * Gets sensores presion.
+     * @return sensores presion
+     */
     public HashMap<String, SensorPresion> getSensoresPresion() {
         return sensoresPresion;
     }
 
+    /**
+     * Sets sensores presion.
+     * @param newSensoresPresion new sensores presion
+     */
     public void setSensoresPresion(HashMap<String, SensorPresion> newSensoresPresion) {
         this.sensoresPresion = newSensoresPresion;
     }
 
+    /**
+     * Gets sensores temperatura.
+     * @return sensores temperatura
+     */
     public HashMap<String, SensorTemperatura> getSensoresTemperatura() {
         return sensoresTemperatura;
     }
 
+    /**
+     * Sets sensores temperatura.
+     * @param newSensoresTemperatura new sensores temperatura
+     */
     public void setSensoresTemperatura(HashMap<String, SensorTemperatura> newSensoresTemperatura) {
         this.sensoresTemperatura = newSensoresTemperatura;
     }

@@ -6,10 +6,13 @@ import sensor.*;
  * Implementa la clase de un conversor de HectoPascales a pascales
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.1
- * @see udsMedida
+ * @see UdsMedida
  */
 public class ConversorHectoPascalesPascales implements Conversores{
 
+    /**
+     * Constructor del conversor
+     */
     public ConversorHectoPascalesPascales(){}
 
     /**

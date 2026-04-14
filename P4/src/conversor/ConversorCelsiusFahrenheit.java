@@ -6,12 +6,15 @@ import sensor.*;
  * Implementa la clase de un conversor de celsius a farenheit
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.1
- * @see udsMedida
+ * @see UdsMedida
  */
 public class ConversorCelsiusFahrenheit implements Conversores{
     private final ConversorCelsiusKelvin primero;
     private final ConversorKelvinFahrenheit segundo;
 
+    /**
+     * Constructor del conversor
+     */
     public ConversorCelsiusFahrenheit(){
         this.primero = new ConversorCelsiusKelvin();
         this.segundo = new ConversorKelvinFahrenheit();

@@ -17,7 +17,8 @@ public class SensorYaInstalado extends Exception {
 
     /**
      * Constructor para esta excepción
-     * @param sensor el sensor
+     * @param sensor          el sensor
+     * @param sensorInstalado el sensor que ya estaba instalado
      */
     public SensorYaInstalado(Sensor sensor, Sensor sensorInstalado) {
         this.sensor = sensor;

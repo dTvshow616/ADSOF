@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ====
 
 Copyright and related rights for sample code are waived via CC0. Sample
-code is defined as all source code contained within the demos directory.
+code is defined as all source code contained within the demostradores directory.
 
 CC0: http://creativecommons.org/publicdomain/zero/1.0/
 
