@@ -2,6 +2,7 @@ package estacion;
 
 import alerta.*;
 import conversor.*;
+import formateador.IDocumento;
 import sensor.*;
 
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ import java.util.*;
  * @version 1.1
  * @see Sensor
  */
-public class EstacionMeteorologica {
+public class EstacionMeteorologica implements IDocumento {
     /** Nombre de la estación */
     private final String nombre;
     /** Latitud de la ubicación geográfica de la estación */
@@ -340,6 +341,17 @@ public class EstacionMeteorologica {
         this.numMaxLecturas = newNumMaxLecturas;
     }
 
+    @Override
+    public List<String> getParrafosSeccionPrincipal() {
+        List<String> parrafosSeccionPrincipal = new ArrayList<>();
+
+        parrafosSeccionPrincipal.add("Ubicación: " + this.latitud + ", " + this.longitud);
+        parrafosSeccionPrincipal.add("Sensores instalados: " + this.sensores.size());
+        parrafosSeccionPrincipal.add("Alertas activas: " + this.alertas.size());
+
+        return parrafosSeccionPrincipal;
+    }
+
     public Period getPeriodicidadLecturas() {
         return periodicidadLecturas;
     }
@@ -354,6 +366,32 @@ public class EstacionMeteorologica {
 
     public void setProcesadores(HashMap<Sensor, ProcesadorDatos> newProcesadores) {
         this.procesadores = newProcesadores;
+    }
+
+    @Override
+    public String getSeccionPrincipal() {
+        return this.nombre;
+    }
+
+    @Override
+    public HashMap<String, List<String>> getSecciones() {
+        HashMap<String, List<String>> secciones = new HashMap<>();
+
+        List<String> listaSensores = new ArrayList<>();
+        for (Sensor sensor : this.sensores.values()) {
+            listaSensores.add(sensor.toString());
+        }
+
+        secciones.put("Sensores activos", listaSensores);
+
+        List<String> listaAlertas = new ArrayList<>();
+        for (Exception alerta : this.alertas.keySet()) {
+            listaAlertas.add(alerta.toString());
+        }
+
+        secciones.put("Alertas activas: " + this.alertas.size(), listaAlertas);
+
+        return secciones;
     }
 
     /**
@@ -403,6 +441,11 @@ public class EstacionMeteorologica {
 
     public void setSensoresTemperatura(HashMap<String, SensorTemperatura> newSensoresTemperatura) {
         this.sensoresTemperatura = newSensoresTemperatura;
+    }
+
+    @Override
+    public String getTitulo() {
+        return "Estación Meteorológica: " + this.nombre;
     }
 
     /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/
