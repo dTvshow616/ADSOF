@@ -124,6 +124,7 @@ public class EstacionMeteorologica implements IDocumento {
 
     /**
      * Permite calibrar un sensor ajustando su offset
+     * @param sensor      el sensor
      * @param nuevoOffset el nuevo offset del sensor
      */
     public void calibrarSensor(Sensor sensor, double nuevoOffset) {
