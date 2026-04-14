@@ -252,7 +252,7 @@ public class EstacionMeteorologica implements IDocumento {
      * Permite imprimir la información de la estación meteorológica
      */
     public void imprimirEstacion() {
-        System.out.println("Estación Meteorológica :" + this.nombre);
+        System.out.println("Estación Meteorológica: " + this.nombre);
         System.out.println("Ubicación: " + this.latitud + ", " + this.longitud);
         System.out.println(
                 "--------------------------------------------------------------------------------------------------\n");
