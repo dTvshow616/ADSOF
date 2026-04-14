@@ -2,17 +2,20 @@ package test;
 
 import alerta.*;
 import estacion.EstacionMeteorologica;
+import formateador.FormateadorHtml;
+import formateador.FormateadorMarkdown;
 import sensor.*;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
- * Permite probar los requisitos del apartado 4
+ * Permite probar los requisitos del apartado 5
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.0
  */
-public class TestEjercicioCuatro {
+public class TestEjercicioCinco {
     /*----------------------------------------------------- MISC -----------------------------------------------------*/
     public static void main(String[] args) {
         EstacionMeteorologica estacionMeteo = new EstacionMeteorologica("Madrid Centro", 40.4168, -3.7038);
@@ -51,6 +54,18 @@ public class TestEjercicioCuatro {
             System.out.println("[!]" + e.toString());
         }
 
-        estacionMeteo.imprimirEstacion();
+        FormateadorHtml f1 = new FormateadorHtml(estacionMeteo);
+        try {
+            f1.formatearDocumento("testCinco");
+        } catch (IOException e) {
+            System.out.println("[!] " + e.toString());
+        }
+
+        FormateadorMarkdown f2 = new FormateadorMarkdown(estacionMeteo);
+        try {
+            f2.formatearDocumento("testCinco");
+        } catch (IOException e) {
+            System.out.println("[!] " + e.toString());
+        }
     }
 }

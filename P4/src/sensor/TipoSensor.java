@@ -10,7 +10,7 @@ public enum TipoSensor {
     TEMPERATURA("TEMP"),
     /** Tipo de sensor Humedad */
     HUMEDAD("HUM"),
-    /** Tipo de sensor Presion */
+    /** Tipo de sensor Presión */
     PRESION("PRES");
 
     /** Nombre que corresponde a un tipo de sensor */
@@ -22,7 +22,7 @@ public enum TipoSensor {
      * Constructor para un sensor
      * @param nombre el nombre que corresponde a un tipo de sensor
      */
-    private TipoSensor(String nombre) {
+    TipoSensor(String nombre) {
         this.nombre = nombre;
     }
 

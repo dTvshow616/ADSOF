@@ -6,6 +6,11 @@ import sensor.*;
 
 import java.time.LocalDate;
 
+/**
+ * Permite probar los requisitos del apartado 1
+ * @author Alvaro G.S. and Ana O.R.
+ * @version 1.0
+ */
 public class TestEjercicioUno {
     /*----------------------------------------------------- MISC -----------------------------------------------------*/
     public static void main(String[] args) {

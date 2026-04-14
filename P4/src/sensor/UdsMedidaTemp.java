@@ -4,7 +4,6 @@ package sensor;
  * Define las unidades de medida posible para los sensores de temperatura
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.0
- * @see SensorTemperatura
  */
 public enum UdsMedidaTemp implements UdsMedida {
     /** La temperatura se mide en Celsius */

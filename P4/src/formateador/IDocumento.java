@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * The interface Documento.
+ * Define la interfaz IDocumento
+ * @author Alvaro G.S. and Ana O.R.
+ * @version 1.0
  */
 public interface IDocumento {
     /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/

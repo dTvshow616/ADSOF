@@ -11,10 +11,13 @@ import java.util.Random;
  * Implementa un sensor
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.1
+ * @see ProcesadorDatos
  */
 public abstract class Sensor {
     /** Identificador único del sensor */
     private final String id;
+    /** Procesador de datos */
+    private final ProcesadorDatos procesadorDeDatos;
     /** Cantidad de todos los valores obtenidos hasta el momento */
     public int cantidadLecturas;
     /** El tiempo tras el cual caduca la calibración de un sensor */
@@ -41,8 +44,6 @@ public abstract class Sensor {
     private LocalDate fechaInstalacion;
     /** Tipo de lectura de sensor */
     private TipoLecturaSensor lecturaSensor;
-    /** Procesador de datos */
-    private ProcesadorDatos procesadorDeDatos;
     /** El porcentaje de fluctuación máximo que puede haber entre dos lecturas consecutivas */
     private double porcentajeCambioMax = 50.0;
 
@@ -236,10 +237,6 @@ public abstract class Sensor {
         this.fechaCalibracion = LocalDateTime.now();
     }
 
-    public boolean isCalibrado() {
-        return calibrado;
-    }
-
     /**
      * Permite modificar la fecha de caducidad del sensor
      * @param diasDuracionCalibracion los días que durará el sensor calibrado desde que se instaló
@@ -264,33 +261,21 @@ public abstract class Sensor {
         return this.calibrado;
     }
 
+    /**
+     * Permite marcar el sensor como calibrado o no
+     * @param newCalibrado true si está calibrado, false si no
+     */
     public void setCalibrado(boolean newCalibrado) {
         this.calibrado = newCalibrado;
         this.fechaCalibracion = LocalDateTime.now();
     }
 
-    public int getCantidadLecturas() {
-        return cantidadLecturas;
-    }
-
-    public void setCantidadLecturas(int newCantidadLecturas) {
-        this.cantidadLecturas = newCantidadLecturas;
-    }
-
+    /**
+     * Obtiene la fecha en la que se calibró el sensor por última vez
+     * @return la fecha en la que se calibró el sensor por última vez
+     */
     public LocalDateTime getFechaCalibracion() {
         return fechaCalibracion;
-    }
-
-    public void setFechaCalibracion(LocalDateTime newFechaCalibracion) {
-        this.fechaCalibracion = newFechaCalibracion;
-    }
-
-    public LocalDate getFechaInstalacion() {
-        return fechaInstalacion;
-    }
-
-    public void setFechaInstalacion(LocalDate newFechaInstalacion) {
-        this.fechaInstalacion = newFechaInstalacion;
     }
 
     /**
@@ -301,10 +286,6 @@ public abstract class Sensor {
         return this.fechaUltimaLectura;
     }
 
-    public void setFechaUltimaLectura(LocalDateTime newFechaUltimaLectura) {
-        this.fechaUltimaLectura = newFechaUltimaLectura;
-    }
-
     /**
      * Devuelve el ID del sensor
      * @return el ID del sensor
@@ -313,75 +294,35 @@ public abstract class Sensor {
         return this.id;
     }
 
-    public TipoLecturaSensor getLecturaSensor() {
-        return lecturaSensor;
-    }
-
-    public void setLecturaSensor(TipoLecturaSensor newLecturaSensor) {
-        this.lecturaSensor = newLecturaSensor;
-    }
-
-    public double getMaxRango() {
-        return maxRango;
-    }
-
     /**
-     * Establece el valor máximo del rango de valores válidos del sensor
-     * @param newRangoMax el valor máximo del rango de valores válidos del sensor
+     * Obtiene el procesador de datos del sensor
+     * @return el procesador de datos del sensor
      */
-    public void setMaxRango(double newRangoMax) {
-        this.maxRango = newRangoMax;
-    }
-
-    public double getMinRango() {
-        return minRango;
-    }
-
-    /**
-     * Establece el valor mínimo del rango de valores válidos del sensor
-     * @param newRangoMin el valor mínimo del rango de valores válidos del sensor
-     */
-    public void setMinRango(double newRangoMin) {
-        this.minRango = newRangoMin;
-    }
-
-    public double getOffset() {
-        return offset;
-    }
-
-    public void setOffset(double newOffset) {
-        this.offset = newOffset;
-    }
-
     public ProcesadorDatos getProcesadorDeDatos() {
         return procesadorDeDatos;
     }
 
-    public void setProcesadorDeDatos(ProcesadorDatos newProcesadorDeDatos) {
-        this.procesadorDeDatos = newProcesadorDeDatos;
-    }
-
+    /**
+     * Obtiene el símbolo correspondiente a las medidas del sensor
+     * @return el símbolo correspondiente a las medidas del sensor
+     */
     public abstract String getSimboloMedida();
 
-    public double getSumaValores() {
-        return sumaValores;
-    }
-
-    public void setSumaValores(double newSumaValores) {
-        this.sumaValores = newSumaValores;
-    }
-
+    /**
+     * Obtiene el periodo de validez de la calibración de un sensor
+     * @return el periodo de validez de la calibración de un sensor
+     */
     public Period getTiempoCaducidad() {
         return tiempoCaducidad;
     }
 
+    /**
+     * Permite alterar el periodo de validez de la calibración de un sensor
+     * @param newTiempoCaducidad el periodo de validez de la calibración de un sensor
+     */
     public void setTiempoCaducidad(Period newTiempoCaducidad) {
         this.tiempoCaducidad = newTiempoCaducidad;
         this.fechaCaducidad = this.fechaCalibracion.plusDays(this.tiempoCaducidad.getDays());
-    }
-
-    public void setTiempoCaducidad(LocalDateTime fechaCaducidad) {
-        this.fechaCaducidad = fechaCaducidad;
     }
 
     /**
@@ -392,8 +333,44 @@ public abstract class Sensor {
         return this.valorUltimaLectura;
     }
 
-    public void setValorUltimaLectura(double newValorUltimaLectura) {
-        this.valorUltimaLectura = newValorUltimaLectura;
+    /**
+     * Permite asignar la fecha de caducidad del sensor
+     * @param fechaCaducidad la fecha de caducidad del sensor
+     */
+    public void setFechaCaducidad(LocalDateTime fechaCaducidad) {
+        this.fechaCaducidad = fechaCaducidad;
+    }
+
+    /**
+     * Permite marcar la fecha de instalación del sensor
+     * @param newFechaInstalacion la fecha de instalación del sensor
+     */
+    public void setFechaInstalacion(LocalDate newFechaInstalacion) {
+        this.fechaInstalacion = newFechaInstalacion;
+    }
+
+    /**
+     * Establece el valor máximo del rango de valores válidos del sensor
+     * @param newRangoMax el valor máximo del rango de valores válidos del sensor
+     */
+    public void setMaxRango(double newRangoMax) {
+        this.maxRango = newRangoMax;
+    }
+
+    /**
+     * Establece el valor mínimo del rango de valores válidos del sensor
+     * @param newRangoMin el valor mínimo del rango de valores válidos del sensor
+     */
+    public void setMinRango(double newRangoMin) {
+        this.minRango = newRangoMin;
+    }
+
+    /**
+     * Permite cambiar el offset del sensor
+     * @param newOffset el offset del sensor
+     */
+    public void setOffset(double newOffset) {
+        this.offset = newOffset;
     }
 
     /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/

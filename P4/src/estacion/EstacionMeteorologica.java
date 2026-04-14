@@ -14,6 +14,7 @@ import java.util.*;
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.1
  * @see Sensor
+ * @see ProcesadorDatos
  */
 public class EstacionMeteorologica implements IDocumento {
     /** Nombre de la estación */

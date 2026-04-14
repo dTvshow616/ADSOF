@@ -4,13 +4,12 @@ package sensor;
  * Define las unidades de medida posible para los sensores de presión
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.0
- * @see SensorPresion
  */
 public enum UdsMedidaPres implements UdsMedida {
     /** La presión se mide en Hectopascales */
     HECTOPASCALES("hPa", 300, 1100),
     /** La presión se mide en Hectopascales */
-    PASCALES("Pa",30000,110000);
+    PASCALES("Pa", 30000, 110000);
     /** Símbolo que representa a la medida */
     private final String simbolo;
     /** Valor mínimo del rango de valores aceptados */

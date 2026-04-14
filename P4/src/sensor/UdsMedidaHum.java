@@ -4,7 +4,6 @@ package sensor;
  * Define las unidades de medida posible para los sensores de humedad
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.0
- * @see SensorHumedad
  */
 public enum UdsMedidaHum implements UdsMedida {
     /** La humedad se mide en porcentaje */

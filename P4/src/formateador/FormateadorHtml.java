@@ -1,7 +1,5 @@
 package formateador;
 
-import sensor.Sensor;
-
 import java.io.*;
 import java.util.List;
 import java.util.Set;
@@ -10,7 +8,6 @@ import java.util.Set;
  * Implementa el formateador de un IDocumento a HTML
  * @author Alvaro G.S. and Ana O.R.
  * @version 1.1
- * @see Sensor
  */
 public class FormateadorHtml {
     /** El documento a formatear */
