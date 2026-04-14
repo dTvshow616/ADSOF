@@ -10,6 +10,8 @@ import sensor.*;
  */
 public class ConversorKelvinFahrenheit implements Conversores{
 
+    public ConversorKelvinFahrenheit(){}
+
     /**
      * Convierte el valor que esta en una medida x a la medida y
      * @param valor valor que va a convertir
@@ -17,7 +19,7 @@ public class ConversorKelvinFahrenheit implements Conversores{
      */
     @Override
     public double convertir(double valor){
-        return ((valor - 273.15) * (9/5)) + 32 ;
+        return (valor - 273.15) * 9/5 + 32 ;
     }
 
     /**

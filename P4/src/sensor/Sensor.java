@@ -140,12 +140,11 @@ public abstract class Sensor {
             throw new SensorSinCalibrar(this, false);
         }
 
+        double anteriorLectura = this.valorUltimaLectura;
         double valorReal = valor - this.offset;
 
-        if (valorReal > maxRango || valorReal < minRango) {
-            /* El sensor se considera no calibrado cuando se realice una lectura fuera de rango */
-            this.calibrado = false;
-            throw new SensorSinCalibrar(this, true);
+        if(anteriorLectura == 0){
+            anteriorLectura = 1;
         }
 
         this.valorUltimaLectura = valorReal;
@@ -154,7 +153,12 @@ public abstract class Sensor {
 
         this.procesadorDeDatos.addregistro(this.fechaUltimaLectura, this.valorUltimaLectura);
 
-        double anteriorLectura = this.procesadorDeDatos.getUltimoRegistro();
+        if (valorReal > maxRango || valorReal < minRango) {
+            /* El sensor se considera no calibrado cuando se realice una lectura fuera de rango */
+            this.calibrado = false;
+            throw new SensorSinCalibrar(this, true);
+        }
+
         if ((Math.abs(valorReal - anteriorLectura) / anteriorLectura) * 100 >= porcentajeCambioMax) {
             throw new CambioBruscoLectura(this, anteriorLectura);
         }
@@ -173,7 +177,7 @@ public abstract class Sensor {
         }
     }
 
-    /**
+    /** 
      * Simula la lectura por parte de un sensor
      * @param valorConfigurable el valor a medir
      * @return true si todo funciona correctamente, false en caso contrario
@@ -371,6 +375,18 @@ public abstract class Sensor {
      */
     public void setOffset(double newOffset) {
         this.offset = newOffset;
+    }
+
+    public void setPorcentajeCambioMax(double porcentaje){
+        this.porcentajeCambioMax = porcentaje;
+    }
+
+    public void setLecturaSensor(TipoLecturaSensor a){
+        this.lecturaSensor = a;
+    }
+
+    public void setValorUltimaLectura(double valor){
+        this.valorUltimaLectura = valor;
     }
 
     /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/

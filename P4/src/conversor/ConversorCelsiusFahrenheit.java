@@ -9,8 +9,13 @@ import sensor.*;
  * @see udsMedida
  */
 public class ConversorCelsiusFahrenheit implements Conversores{
-    private CoversorCelsiusKelvin primero;
-    private ConversorKelvinFahrenheit segundo;
+    private final ConversorCelsiusKelvin primero;
+    private final ConversorKelvinFahrenheit segundo;
+
+    public ConversorCelsiusFahrenheit(){
+        this.primero = new ConversorCelsiusKelvin();
+        this.segundo = new ConversorKelvinFahrenheit();
+    }
 
     /**
      * Convierte el valor que esta en una medida x a la medida y

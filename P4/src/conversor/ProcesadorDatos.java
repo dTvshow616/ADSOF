@@ -9,8 +9,9 @@ import java.util.*;
  * @version 1.1
  */
 public class ProcesadorDatos {
+    private List<LocalDateTime> horaRegistro;
     /** Registro de lecturas */
-    private Map<LocalDateTime, Double> registro;
+    private List<Double> registro;
     /** Conversor de valores */
     private Conversores conversor;
 
@@ -21,7 +22,8 @@ public class ProcesadorDatos {
      * @param conversor Conversor de valores
      */
     public ProcesadorDatos(Conversores conversor) {
-        registro = new HashMap<>();
+        this.horaRegistro = new ArrayList<>();
+        this.registro = new ArrayList<>();
         this.conversor = conversor;
     }
 
@@ -31,7 +33,8 @@ public class ProcesadorDatos {
      * @param valor valor que se va a añadir al registro convertido
      */
     public void addregistro(LocalDateTime fechaLectura, double valor) {
-        registro.put(fechaLectura, conversor.convertir(valor));
+        horaRegistro.add(fechaLectura);
+        registro.add(conversor.convertir(valor));
     }
 
     /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
@@ -49,7 +52,11 @@ public class ProcesadorDatos {
      * @return el último registro leído
      */
     public double getUltimoRegistro() {
-        return registro.get(Collections.max(registro.keySet()));
+        if (registro.isEmpty()) {
+        return 0; 
+        }
+
+        return registro.get(registro.size()-1);
     }
 
     /**
@@ -59,9 +66,9 @@ public class ProcesadorDatos {
     public double getMinRegistro(){
         double result = this.conversor.getMedidaDestino().getMaxRango();
 
-        for(Map.Entry<LocalDateTime,Double> entry : this.registro.entrySet()){
-            if(entry.getValue() < result){
-                result = entry.getValue();
+        for(double entry : this.registro){
+            if(entry < result){
+                result = entry;
             }
         }
         return result;
@@ -74,9 +81,9 @@ public class ProcesadorDatos {
     public double getMaxRegistro(){
         double result = this.conversor.getMedidaDestino().getMinRango();
 
-        for(Map.Entry<LocalDateTime,Double> entry : this.registro.entrySet()){
-            if(entry.getValue() > result){
-                result = entry.getValue();
+        for(double entry : this.registro){
+            if(entry > result){
+                result = entry;
             }
         }
         return result;
@@ -90,8 +97,8 @@ public class ProcesadorDatos {
         double suma = 0;
         int i = 0;
 
-        for(Map.Entry<LocalDateTime,Double> entry : this.registro.entrySet()){
-            suma = suma + entry.getValue();
+        for(double entry : this.registro){
+            suma = suma + entry;
             i++;
         }
 
@@ -112,8 +119,8 @@ public class ProcesadorDatos {
             result = result + "con conversor a" + this.conversor.getMedidaDestino().getSimbolo() + ": [";
         }
 
-        for(Map.Entry<LocalDateTime,Double> entry : this.registro.entrySet()){
-            result = result + entry.getValue() + ", ";
+        for(double entry : this.registro){
+            result = result + entry + ", ";
         }
 
         result = result + "] -- MIN: " + this.getMinRegistro() + "MAX: " + this.getMaxRegistro() + "AVG: " + this.getaverage(); 

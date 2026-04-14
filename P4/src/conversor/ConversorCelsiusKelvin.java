@@ -8,7 +8,9 @@ import sensor.*;
  * @version 1.1
  * @see udsMedida
  */
-public class CoversorCelsiusKelvin implements Conversores{
+public class ConversorCelsiusKelvin implements Conversores{
+
+    public ConversorCelsiusKelvin(){}
 
     /**
      * Convierte el valor que esta en una medida x a la medida y

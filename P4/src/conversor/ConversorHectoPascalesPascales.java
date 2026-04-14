@@ -10,6 +10,8 @@ import sensor.*;
  */
 public class ConversorHectoPascalesPascales implements Conversores{
 
+    public ConversorHectoPascalesPascales(){}
+
     /**
      * Convierte el valor que esta en una medida x a la medida y
      * @param valor valor que va a convertir

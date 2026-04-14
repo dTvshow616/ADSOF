@@ -10,6 +10,8 @@ import sensor.*;
  */
 public class ConversorKelvinCelsius implements Conversores{
 
+    public ConversorKelvinCelsius(){}
+
     /**
      * Convierte el valor que esta en una medida x a la medida y
      * @param valor valor que va a convertir
