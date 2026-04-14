@@ -67,6 +67,7 @@ public abstract class Sensor {
         this.fechaCaducidad = this.fechaCalibracion.plus(this.tiempoCaducidad);
         this.lecturaSensor = TipoLecturaSensor.MINMAX;
         this.procesadorDeDatos = procesadorDeDatos;
+        this.valorUltimaLectura = Double.NaN;
     }
 
     /**
@@ -143,15 +144,11 @@ public abstract class Sensor {
         double anteriorLectura = this.valorUltimaLectura;
         double valorReal = valor - this.offset;
 
-        if(anteriorLectura == 0){
-            anteriorLectura = 1;
-        }
-
         this.valorUltimaLectura = valorReal;
         this.cantidadLecturas = this.cantidadLecturas + 1;
         this.sumaValores = this.sumaValores + this.valorUltimaLectura;
 
-        this.procesadorDeDatos.addregistro(this.fechaUltimaLectura, this.valorUltimaLectura);
+        this.procesadorDeDatos.addRegistro(this.fechaUltimaLectura, this.valorUltimaLectura);
 
         if (valorReal > maxRango || valorReal < minRango) {
             /* El sensor se considera no calibrado cuando se realice una lectura fuera de rango */
@@ -159,8 +156,10 @@ public abstract class Sensor {
             throw new SensorSinCalibrar(this, true);
         }
 
-        if ((Math.abs(valorReal - anteriorLectura) / anteriorLectura) * 100 >= porcentajeCambioMax) {
-            throw new CambioBruscoLectura(this, anteriorLectura);
+        if (!Double.isNaN(anteriorLectura)) {
+            if ((Math.abs(valorReal - anteriorLectura) / anteriorLectura) * 100 >= porcentajeCambioMax) {
+                throw new CambioBruscoLectura(this, anteriorLectura);
+            }
         }
     }
 
@@ -177,7 +176,7 @@ public abstract class Sensor {
         }
     }
 
-    /** 
+    /**
      * Simula la lectura por parte de un sensor
      * @param valorConfigurable el valor a medir
      * @return true si todo funciona correctamente, false en caso contrario
@@ -337,6 +336,10 @@ public abstract class Sensor {
         return this.valorUltimaLectura;
     }
 
+    public void setValorUltimaLectura(double valor) {
+        this.valorUltimaLectura = valor;
+    }
+
     /**
      * Permite asignar la fecha de caducidad del sensor
      * @param fechaCaducidad la fecha de caducidad del sensor
@@ -351,6 +354,10 @@ public abstract class Sensor {
      */
     public void setFechaInstalacion(LocalDate newFechaInstalacion) {
         this.fechaInstalacion = newFechaInstalacion;
+    }
+
+    public void setLecturaSensor(TipoLecturaSensor a) {
+        this.lecturaSensor = a;
     }
 
     /**
@@ -377,16 +384,8 @@ public abstract class Sensor {
         this.offset = newOffset;
     }
 
-    public void setPorcentajeCambioMax(double porcentaje){
+    public void setPorcentajeCambioMax(double porcentaje) {
         this.porcentajeCambioMax = porcentaje;
-    }
-
-    public void setLecturaSensor(TipoLecturaSensor a){
-        this.lecturaSensor = a;
-    }
-
-    public void setValorUltimaLectura(double valor){
-        this.valorUltimaLectura = valor;
     }
 
     /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/

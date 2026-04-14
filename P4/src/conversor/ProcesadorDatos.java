@@ -29,10 +29,10 @@ public class ProcesadorDatos {
 
     /**
      * Añade un valor al registro del procesador de datos
-     * @param fechaLectura cuando se ha leido el ultimo valor
+     * @param fechaLectura cuando se ha leído el último valor
      * @param valor valor que se va a añadir al registro convertido
      */
-    public void addregistro(LocalDateTime fechaLectura, double valor) {
+    public void addRegistro(LocalDateTime fechaLectura, double valor) {
         horaRegistro.add(fechaLectura);
         registro.add(conversor.convertir(valor));
     }
@@ -53,7 +53,7 @@ public class ProcesadorDatos {
      */
     public double getUltimoRegistro() {
         if (registro.isEmpty()) {
-        return 0; 
+            return Double.NaN;
         }
 
         return registro.get(registro.size()-1);
@@ -67,7 +67,7 @@ public class ProcesadorDatos {
         double result = this.conversor.getMedidaDestino().getMaxRango();
 
         for(double entry : this.registro){
-            if(entry < result){
+            if(!Double.isNaN(entry) && entry < result){
                 result = entry;
             }
         }
@@ -75,14 +75,14 @@ public class ProcesadorDatos {
     }
 
     /**
-     * Devuelve el valor maximo de registro
-     * @return el valor maximo del registro
+     * Devuelve el valor máximo de registro
+     * @return el valor máximo del registro
      */
     public double getMaxRegistro(){
         double result = this.conversor.getMedidaDestino().getMinRango();
 
         for(double entry : this.registro){
-            if(entry > result){
+            if(!Double.isNaN(entry) && entry > result){
                 result = entry;
             }
         }
@@ -93,13 +93,15 @@ public class ProcesadorDatos {
      * Devuelve la media de registro
      * @return la media del registro
      */
-    public double getaverage(){
+    public double getAverage(){
         double suma = 0;
         int i = 0;
 
         for(double entry : this.registro){
-            suma = suma + entry;
-            i++;
+            if (!Double.isNaN(entry)) {
+                suma = suma + entry;
+                i++;
+            }
         }
 
         return (suma/i);
@@ -123,7 +125,7 @@ public class ProcesadorDatos {
             result = result + entry + ", ";
         }
 
-        result = result + "] -- MIN: " + this.getMinRegistro() + "MAX: " + this.getMaxRegistro() + "AVG: " + this.getaverage(); 
+        result = result + "] -- MIN: " + this.getMinRegistro() + "MAX: " + this.getMaxRegistro() + "AVG: " + this.getAverage();
 
         return result;
     }

@@ -37,10 +37,10 @@ public class SensorSinCalibrar extends Exception {
     @Override
     public String toString() {
         if (this.fueraRango) {
-            return "- [" + LocalDateTime.now() + "] Lectura fuera de rango en " + this.sensor.getId() + ": " +
+            return "[" + LocalDateTime.now() + "] Lectura fuera de rango en " + this.sensor.getId() + ": " +
                    this.sensor.getValorUltimaLectura() + this.sensor.getSimboloMedida();
         } else {
-            return "- [" + LocalDateTime.now() + "] Sensor " + this.sensor.getId() +
+            return "[" + LocalDateTime.now() + "] Sensor " + this.sensor.getId() +
                    " sin calibrar (calibración caducada desde " +
                    this.sensor.getFechaCalibracion().plus(this.sensor.getTiempoCaducidad())
                               .truncatedTo(ChronoUnit.SECONDS) + ")";

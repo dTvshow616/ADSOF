@@ -35,7 +35,7 @@ public class CambioBruscoLectura extends Exception {
      */
     @Override
     public String toString() {
-        return "- [" + LocalDateTime.now() + "] Cambio brusco en " + this.sensor.getId() + ": " +
+        return "[" + LocalDateTime.now() + "] Cambio brusco en " + this.sensor.getId() + ": " +
                this.sensor.getValorUltimaLectura() + this.sensor.getSimboloMedida() + "(anterior: " +
                this.lecturaAnterior + this.sensor.getSimboloMedida() + ")";
     }

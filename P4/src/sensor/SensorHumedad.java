@@ -13,7 +13,7 @@ import java.time.temporal.ChronoUnit;
  */
 public class SensorHumedad extends Sensor {
     /** Contador de ids de todos los sensores de este tipo */
-    private static int totalId = -1;
+    private static int totalId = 0;
     /** Unidades de medida del sensor */
     private UdsMedidaHum medida;
 

@@ -72,13 +72,52 @@ public class EstacionMeteorologica implements IDocumento {
                 try {
                     sensor.simulacionLectura();
                 } catch (SensorSinCalibrar e1) {
-                    System.out.println(e1.getMessage());
+                    System.out.println(e1.toString());
                     this.sensoresExcluidos.add(sensor);
                     this.alertas.put(e1, sensor);
                 } catch (CambioBruscoLectura e2) {
-                    System.out.println(e2.getMessage());
+                    System.out.println(e2.toString());
                     this.alertas.put(e2, sensor);
                 }
+            }
+        }
+    }
+
+    /**
+     * Permite medir un cierto valor con un sensor en concreto
+     * @param sensor el sensor deseado
+     * @param valor  el valor inicial de la medición
+     */
+    public void lecturaPuntual(Sensor sensor, double valor) {
+        if (!sensoresExcluidos.contains(sensor)) {
+            try {
+                sensor.leerValor(valor);
+            } catch (SensorSinCalibrar e1) {
+                System.out.println(e1.toString());
+                this.sensoresExcluidos.add(sensor);
+                this.alertas.put(e1, sensor);
+            } catch (CambioBruscoLectura e2) {
+                System.out.println(e2.toString());
+                this.alertas.put(e2, sensor);
+            }
+        }
+    }
+
+    /**
+     * Permite simular la lectura de un sensor en concreto
+     * @param sensor el sensor deseado
+     */
+    public void simulacionPuntual(Sensor sensor, double valorConfigurable) {
+        if (!sensoresExcluidos.contains(sensor)) {
+            try {
+                sensor.simulacionLectura(valorConfigurable);
+            } catch (SensorSinCalibrar e1) {
+                System.out.println(e1.toString());
+                this.sensoresExcluidos.add(sensor);
+                this.alertas.put(e1, sensor);
+            } catch (CambioBruscoLectura e2) {
+                System.out.println(e2.toString());
+                this.alertas.put(e2, sensor);
             }
         }
     }
@@ -261,14 +300,19 @@ public class EstacionMeteorologica implements IDocumento {
         System.out.println("Última lectura: " + this.fechaUtimaLectura);
 
         for (Sensor sensor : this.sensores.values()) {
-            System.out.println(sensor.toString());
-            System.out.println("-> " + this.procesadores.get(sensor));
+            if (!sensoresExcluidos.contains(sensor)) {
+                System.out.println(sensor.toString());
+                System.out.println("-> " + this.procesadores.get(sensor));
+            }
         }
 
-        System.out.println("\n");
+        System.out.println(" ");
 
+        if (!this.alertas.isEmpty()) {
+            System.out.println("Alertas activas: " + this.alertas.size());
+        }
         for (Exception alerta : this.alertas.keySet()) {
-            System.out.println(alerta.toString());
+            System.out.println("- " + alerta.toString());
         }
     }
 
@@ -380,7 +424,9 @@ public class EstacionMeteorologica implements IDocumento {
 
         List<String> listaSensores = new ArrayList<>();
         for (Sensor sensor : this.sensores.values()) {
-            listaSensores.add(sensor.toString());
+            if (!sensoresExcluidos.contains(sensor)) {
+                listaSensores.add(sensor.toString());
+            }
         }
 
         secciones.put("Sensores activos", listaSensores);

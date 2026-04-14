@@ -15,7 +15,7 @@ import java.time.temporal.ChronoUnit;
  */
 public class SensorPresion extends Sensor {
     /** Contador de ids de todos los sensores de este tipo */
-    private static int totalId = -1;
+    private static int totalId = 0;
     /** Unidades de medida del sensor */
     private UdsMedidaPres medida;
 

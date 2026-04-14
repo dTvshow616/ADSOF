@@ -20,24 +20,24 @@ public class TestEjercicioCuatro {
         try {
             SensorTemperatura s1 = estacionMeteo.addSensorTemperatura(10.0, UdsMedidaTemp.CELSIUS);
             s1.setFechaInstalacion(LocalDate.parse("2023-09-01"));
-            s1.leerValor(30.5);
-        } catch (SensorYaInstalado | CambioBruscoLectura | SensorSinCalibrar e) {
+            estacionMeteo.lecturaPuntual(s1, 30.5);
+        } catch (SensorYaInstalado e) {
             System.out.println("[!]" + e.toString());
         }
 
         try {
             SensorHumedad s2 = estacionMeteo.addSensorHumedad(5.0, UdsMedidaHum.PORCENTAJE);
             s2.setFechaInstalacion(LocalDate.parse("2024-09-01"));
-            s2.leerValor(70.0);
-        } catch (SensorYaInstalado | CambioBruscoLectura | SensorSinCalibrar e) {
+            estacionMeteo.lecturaPuntual(s2, 70.0);
+        } catch (SensorYaInstalado e) {
             System.out.println("[!]" + e.toString());
         }
 
         try {
             SensorPresion s3 = estacionMeteo.addSensorPresion(-0.25, UdsMedidaPres.HECTOPASCALES);
             s3.setFechaInstalacion(LocalDate.parse("2025-11-01"));
-            s3.leerValor(1013.0);
-        } catch (SensorYaInstalado | CambioBruscoLectura | SensorSinCalibrar e) {
+            estacionMeteo.lecturaPuntual(s3, 1013.0);
+        } catch (SensorYaInstalado e) {
             System.out.println("[!]" + e.toString());
         }
 
@@ -45,16 +45,16 @@ public class TestEjercicioCuatro {
             SensorTemperatura s4 = estacionMeteo.addSensorTemperatura(10.0, UdsMedidaTemp.CELSIUS);
             s4.setFechaInstalacion(LocalDate.parse("2023-09-01"));
             s4.setFechaCaducidad(LocalDateTime.parse("2026-01-01T00:00:00"));
-            s4.leerValor(30.5);
-        } catch (SensorYaInstalado | CambioBruscoLectura | SensorSinCalibrar e) {
+            estacionMeteo.lecturaPuntual(s4, 30.5);
+        } catch (SensorYaInstalado e) {
             System.out.println("[!]" + e.toString());
         }
 
         try {
             SensorHumedad s5 = estacionMeteo.addSensorHumedad(5.0, UdsMedidaHum.PORCENTAJE);
             s5.setFechaInstalacion(LocalDate.parse("2024-09-01"));
-            s5.leerValor(70.0);
-        } catch (SensorYaInstalado | CambioBruscoLectura | SensorSinCalibrar e) {
+            estacionMeteo.lecturaPuntual(s5, 70.0);
+        } catch (SensorYaInstalado e) {
             System.out.println("[!]" + e.toString());
         }
 

@@ -1,6 +1,6 @@
 package demos;
 
-import alerta.*;
+import alerta.SensorYaInstalado;
 import estacion.EstacionMeteorologica;
 import sensor.*;
 
@@ -19,17 +19,17 @@ public class TestEjercicioUno {
         try {
             SensorTemperatura s1 = estacionMeteo.addSensorTemperatura(10.0, UdsMedidaTemp.CELSIUS);
             s1.setFechaInstalacion(LocalDate.parse("2023-09-01"));
-            s1.leerValor(30.5);
+            estacionMeteo.lecturaPuntual(s1, 30.5);
 
             SensorHumedad s2 = estacionMeteo.addSensorHumedad(5.0, UdsMedidaHum.PORCENTAJE);
             s2.setFechaInstalacion(LocalDate.parse("2024-09-01"));
-            s2.leerValor(70.0);
+            estacionMeteo.lecturaPuntual(s2, 70.0);
 
             SensorPresion s3 = estacionMeteo.addSensorPresion(-0.25, UdsMedidaPres.HECTOPASCALES);
             s3.setFechaInstalacion(LocalDate.parse("2025-11-01"));
-            s3.leerValor(1013.0);
+            estacionMeteo.lecturaPuntual(s3, 1013.0);
 
-        } catch (SensorYaInstalado | CambioBruscoLectura | SensorSinCalibrar e) {
+        } catch (SensorYaInstalado e) {
             System.out.println("[!]" + e.toString());
         }
 
