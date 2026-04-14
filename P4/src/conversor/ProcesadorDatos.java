@@ -15,16 +15,31 @@ public class ProcesadorDatos {
     private Conversores conversor;
 
     /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
+
+    /**
+     * Constructor del procesador de datos
+     * @param conversor Conversor de valores
+     */
     public ProcesadorDatos(Conversores conversor) {
         registro = new HashMap<>();
         this.conversor = conversor;
     }
 
+    /**
+     * Añade un valor al registro del procesador de datos
+     * @param fechaLectura cuando se ha leido el ultimo valor
+     * @param valor valor que se va a añadir al registro convertido
+     */
     public void addregistro(LocalDateTime fechaLectura, double valor) {
         registro.put(fechaLectura, conversor.convertir(valor));
     }
 
     /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
+
+    /**
+     * Devuelve el conversor
+     * @return el Conversor
+     */
     public Conversores getConversor() {
         return this.conversor;
     }
@@ -37,6 +52,10 @@ public class ProcesadorDatos {
         return registro.get(Collections.max(registro.keySet()));
     }
 
+    /**
+     * Devuelve el valor minimo de registro
+     * @return el valor minimo del registro
+     */
     public double getMinRegistro(){
         double result = this.conversor.getMedidaDestino().getMaxRango();
 
@@ -48,6 +67,10 @@ public class ProcesadorDatos {
         return result;
     }
 
+    /**
+     * Devuelve el valor maximo de registro
+     * @return el valor maximo del registro
+     */
     public double getMaxRegistro(){
         double result = this.conversor.getMedidaDestino().getMinRango();
 
@@ -59,6 +82,10 @@ public class ProcesadorDatos {
         return result;
     }
 
+    /**
+     * Devuelve la media de registro
+     * @return la media del registro
+     */
     public double getaverage(){
         double suma = 0;
         int i = 0;
