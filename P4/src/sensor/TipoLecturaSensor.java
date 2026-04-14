@@ -17,5 +17,5 @@ public enum TipoLecturaSensor {
     /**
      * Rango cercano a la media
      */
-    RANGOMEDIA;
+    RANGOMEDIA
 }

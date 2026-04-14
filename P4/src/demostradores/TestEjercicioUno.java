@@ -32,16 +32,31 @@ public class TestEjercicioUno {
 
         try {
             SensorTemperatura s1 = estacionMeteo.addSensorTemperatura(10.0, UdsMedidaTemp.CELSIUS);
-            s1.setFechaInstalacion(LocalDate.parse("2023-09-01"));
+            estacionMeteo.setFechaInstalacionSensor(s1, LocalDate.parse("2023-09-01"));
+            System.out.println("Calibrado: " + estacionMeteo.comprobarCalibracion(s1));
             estacionMeteo.lecturaPuntual(s1, 30.5);
+            System.out.println(" ");
+        } catch (SensorYaInstalado e) {
+            System.out.println("[!]" + e.toString());
+        }
 
+        try {
             SensorHumedad s2 = estacionMeteo.addSensorHumedad(5.0, UdsMedidaHum.PORCENTAJE);
-            s2.setFechaInstalacion(LocalDate.parse("2024-09-01"));
-            estacionMeteo.lecturaPuntual(s2, 70.0);
+            estacionMeteo.setFechaInstalacionSensor(s2, LocalDate.parse("2024-09-01"));
+            System.out.println("Calibrado: " + estacionMeteo.comprobarCalibracion(s2));
+            estacionMeteo.lecturaPuntual(s2, 170.0);
+            System.out.println("Calibrado: " + estacionMeteo.comprobarCalibracion(s2));
+            System.out.println(" ");
+        } catch (SensorYaInstalado e) {
+            System.out.println("[!]" + e.toString());
+        }
 
+        try {
             SensorPresion s3 = estacionMeteo.addSensorPresion(-0.25, UdsMedidaPres.HECTOPASCALES);
-            s3.setFechaInstalacion(LocalDate.parse("2025-11-01"));
+            estacionMeteo.setFechaInstalacionSensor(s3, LocalDate.parse("2025-11-01"));
+            System.out.println("Calibrado: " + estacionMeteo.comprobarCalibracion(s3));
             estacionMeteo.lecturaPuntual(s3, 1013.0);
+            System.out.println(" ");
 
         } catch (SensorYaInstalado e) {
             System.out.println("[!]" + e.toString());

@@ -5,8 +5,7 @@ import conversor.*;
 import formateador.IDocumento;
 import sensor.*;
 
-import java.time.LocalDateTime;
-import java.time.Period;
+import java.time.*;
 import java.util.*;
 
 /**
@@ -133,13 +132,8 @@ public class EstacionMeteorologica implements IDocumento {
 
         sensor.setOffset(nuevoOffset);
         sensor.setCalibrado(true);
-        for (Exception alerta : this.alertas.keySet()) {
-            if (alertas.get(alerta) == sensor) {
-                alertas.remove(alerta);
-            }
-        }
 
-        sensoresExcluidos.remove(sensor);
+        this.alertas.values().removeAll(Collections.singleton(sensor));
     }
 
     /**
@@ -310,6 +304,8 @@ public class EstacionMeteorologica implements IDocumento {
      * Permite imprimir la información de la estación meteorológica
      */
     public void imprimirEstacion() {
+        System.out.println(
+                "\n--------------------------------------------------------------------------------------------------");
         System.out.println("Estación Meteorológica: " + this.nombre);
         System.out.println("Ubicación: " + this.latitud + ", " + this.longitud);
         System.out.println(
@@ -335,31 +331,16 @@ public class EstacionMeteorologica implements IDocumento {
         }
     }
 
+    /**
+     * Comprueba si un sensor está calibrado
+     * @param s el sensor a probar
+     * @return true si lo está, false si no
+     */
+    public boolean comprobarCalibracion(Sensor s) {
+        return s.getCalibrado();
+    }
+
     /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
-
-    /**
-     * Gets fecha ultima lectura.
-     * @return fecha ultima lectura
-     */
-    public LocalDateTime getFechaUltimaLectura() {
-        return fechaUltimaLectura;
-    }
-
-    /**
-     * Sets fecha ultima lectura.
-     * @param newFechaUltimaLectura new fecha ultima lectura
-     */
-    public void setFechaUltimaLectura(LocalDateTime newFechaUltimaLectura) {
-        this.fechaUltimaLectura = newFechaUltimaLectura;
-    }
-
-    /**
-     * Gets latitud.
-     * @return latitud
-     */
-    public double getLatitud() {
-        return latitud;
-    }
 
     /**
      * Permite obtener todos los sensores registrados
@@ -393,54 +374,6 @@ public class EstacionMeteorologica implements IDocumento {
         return new ArrayList<>(this.sensoresTemperatura.values());
     }
 
-    /**
-     * Gets longitud.
-     * @return longitud
-     */
-    public double getLongitud() {
-        return longitud;
-    }
-
-    /**
-     * Gets nombre.
-     * @return nombre
-     */
-    public String getNombre() {
-        return nombre;
-    }
-
-    /**
-     * Gets num lecturas.
-     * @return num lecturas
-     */
-    public int getNumLecturas() {
-        return numLecturas;
-    }
-
-    /**
-     * Sets num lecturas.
-     * @param newNumLecturas new num lecturas
-     */
-    public void setNumLecturas(int newNumLecturas) {
-        this.numLecturas = newNumLecturas;
-    }
-
-    /**
-     * Gets num max lecturas.
-     * @return num max lecturas
-     */
-    public int getNumMaxLecturas() {
-        return numMaxLecturas;
-    }
-
-    /**
-     * Sets num max lecturas.
-     * @param newNumMaxLecturas new num max lecturas
-     */
-    public void setNumMaxLecturas(int newNumMaxLecturas) {
-        this.numMaxLecturas = newNumMaxLecturas;
-    }
-
     @Override
     public List<String> getParrafosSeccionPrincipal() {
         List<String> parrafosSeccionPrincipal = new ArrayList<>();
@@ -450,38 +383,6 @@ public class EstacionMeteorologica implements IDocumento {
         parrafosSeccionPrincipal.add("Alertas activas: " + this.alertas.size());
 
         return parrafosSeccionPrincipal;
-    }
-
-    /**
-     * Gets periodicidad lecturas.
-     * @return periodicidad lecturas
-     */
-    public Period getPeriodicidadLecturas() {
-        return periodicidadLecturas;
-    }
-
-    /**
-     * Sets periodicidad lecturas.
-     * @param newPeriodicidadLecturas new periodicidad lecturas
-     */
-    public void setPeriodicidadLecturas(Period newPeriodicidadLecturas) {
-        this.periodicidadLecturas = newPeriodicidadLecturas;
-    }
-
-    /**
-     * Gets procesadores.
-     * @return procesadores
-     */
-    public HashMap<Sensor, ProcesadorDatos> getProcesadores() {
-        return procesadores;
-    }
-
-    /**
-     * Sets procesadores.
-     * @param newProcesadores new procesadores
-     */
-    public void setProcesadores(HashMap<Sensor, ProcesadorDatos> newProcesadores) {
-        this.procesadores = newProcesadores;
     }
 
     @Override
@@ -521,89 +422,27 @@ public class EstacionMeteorologica implements IDocumento {
         return this.sensores.get(desiredId);
     }
 
-    /**
-     * Gets sensores.
-     * @return sensores
-     */
-    public HashMap<String, Sensor> getSensores() {
-        return sensores;
-    }
-
-    /**
-     * Sets sensores.
-     * @param newSensores new sensores
-     */
-    public void setSensores(HashMap<String, Sensor> newSensores) {
-        this.sensores = newSensores;
-    }
-
-    /**
-     * Gets sensores excluidos.
-     * @return sensores excluidos
-     */
-    public List<Sensor> getSensoresExcluidos() {
-        return sensoresExcluidos;
-    }
-
-    /**
-     * Sets sensores excluidos.
-     * @param newSensoresExcluidos new sensores excluidos
-     */
-    public void setSensoresExcluidos(List<Sensor> newSensoresExcluidos) {
-        this.sensoresExcluidos = newSensoresExcluidos;
-    }
-
-    /**
-     * Gets sensores humedad.
-     * @return sensores humedad
-     */
-    public HashMap<String, SensorHumedad> getSensoresHumedad() {
-        return sensoresHumedad;
-    }
-
-    /**
-     * Sets sensores humedad.
-     * @param newSensoresHumedad new sensores humedad
-     */
-    public void setSensoresHumedad(HashMap<String, SensorHumedad> newSensoresHumedad) {
-        this.sensoresHumedad = newSensoresHumedad;
-    }
-
-    /**
-     * Gets sensores presion.
-     * @return sensores presion
-     */
-    public HashMap<String, SensorPresion> getSensoresPresion() {
-        return sensoresPresion;
-    }
-
-    /**
-     * Sets sensores presion.
-     * @param newSensoresPresion new sensores presion
-     */
-    public void setSensoresPresion(HashMap<String, SensorPresion> newSensoresPresion) {
-        this.sensoresPresion = newSensoresPresion;
-    }
-
-    /**
-     * Gets sensores temperatura.
-     * @return sensores temperatura
-     */
-    public HashMap<String, SensorTemperatura> getSensoresTemperatura() {
-        return sensoresTemperatura;
-    }
-
-    /**
-     * Sets sensores temperatura.
-     * @param newSensoresTemperatura new sensores temperatura
-     */
-    public void setSensoresTemperatura(HashMap<String, SensorTemperatura> newSensoresTemperatura) {
-        this.sensoresTemperatura = newSensoresTemperatura;
-    }
-
     @Override
     public String getTitulo() {
         return "Estación Meteorológica: " + this.nombre;
+    }
+
+    /**
+     * Permite establecer la fecha de caducidad de un sensor
+     * @param sensor         el sensor
+     * @param fechaCaducidad la fecha de caducidad
+     */
+    public void setFechaCaducidadSensor(Sensor sensor, LocalDateTime fechaCaducidad) {
+        sensor.setFechaCaducidad(fechaCaducidad);
+    }
+
+    /**
+     * Permite establecer la fecha de instalación de un sensor
+     * @param sensor           el sensor
+     * @param fechaInstalacion la fecha de instalación
+     */
+    public void setFechaInstalacionSensor(Sensor sensor, LocalDate fechaInstalacion) {
+        sensor.setFechaInstalacion(fechaInstalacion);
     }
 
     /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/

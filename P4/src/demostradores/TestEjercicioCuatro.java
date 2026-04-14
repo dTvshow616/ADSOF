@@ -1,6 +1,6 @@
 package demostradores;
 
-import alerta.*;
+import alerta.SensorYaInstalado;
 import estacion.EstacionMeteorologica;
 import sensor.*;
 
@@ -34,7 +34,7 @@ public class TestEjercicioCuatro {
 
         try {
             SensorTemperatura s1 = estacionMeteo.addSensorTemperatura(10.0, UdsMedidaTemp.CELSIUS);
-            s1.setFechaInstalacion(LocalDate.parse("2023-09-01"));
+            estacionMeteo.setFechaInstalacionSensor(s1, LocalDate.parse("2023-09-01"));
             estacionMeteo.lecturaPuntual(s1, 30.5);
         } catch (SensorYaInstalado e) {
             System.out.println("[!]" + e.toString());
@@ -42,7 +42,7 @@ public class TestEjercicioCuatro {
 
         try {
             SensorHumedad s2 = estacionMeteo.addSensorHumedad(5.0, UdsMedidaHum.PORCENTAJE);
-            s2.setFechaInstalacion(LocalDate.parse("2024-09-01"));
+            estacionMeteo.setFechaInstalacionSensor(s2, LocalDate.parse("2024-09-01"));
             estacionMeteo.lecturaPuntual(s2, 70.0);
         } catch (SensorYaInstalado e) {
             System.out.println("[!]" + e.toString());
@@ -50,7 +50,7 @@ public class TestEjercicioCuatro {
 
         try {
             SensorPresion s3 = estacionMeteo.addSensorPresion(-0.25, UdsMedidaPres.HECTOPASCALES);
-            s3.setFechaInstalacion(LocalDate.parse("2025-11-01"));
+            estacionMeteo.setFechaInstalacionSensor(s3, LocalDate.parse("2025-11-01"));
             estacionMeteo.lecturaPuntual(s3, 1013.0);
         } catch (SensorYaInstalado e) {
             System.out.println("[!]" + e.toString());
@@ -58,8 +58,8 @@ public class TestEjercicioCuatro {
 
         try {
             SensorTemperatura s4 = estacionMeteo.addSensorTemperatura(10.0, UdsMedidaTemp.CELSIUS);
-            s4.setFechaInstalacion(LocalDate.parse("2023-09-01"));
-            s4.setFechaCaducidad(LocalDateTime.parse("2026-01-01T00:00:00"));
+            estacionMeteo.setFechaInstalacionSensor(s4, LocalDate.parse("2023-09-01"));
+            estacionMeteo.setFechaCaducidadSensor(s4, LocalDateTime.parse("2026-01-01T00:00:00"));
             estacionMeteo.lecturaPuntual(s4, 30.5);
         } catch (SensorYaInstalado e) {
             System.out.println("[!]" + e.toString());
@@ -67,7 +67,7 @@ public class TestEjercicioCuatro {
 
         try {
             SensorHumedad s5 = estacionMeteo.addSensorHumedad(5.0, UdsMedidaHum.PORCENTAJE);
-            s5.setFechaInstalacion(LocalDate.parse("2024-09-01"));
+            estacionMeteo.setFechaInstalacionSensor(s5, LocalDate.parse("2024-09-01"));
             estacionMeteo.lecturaPuntual(s5, 70.0);
         } catch (SensorYaInstalado e) {
             System.out.println("[!]" + e.toString());
@@ -75,20 +75,27 @@ public class TestEjercicioCuatro {
 
         try {
             SensorTemperatura s6 = estacionMeteo.addSensorTemperatura(10.0, UdsMedidaTemp.CELSIUS);
-            s6.setFechaInstalacion(LocalDate.parse("2023-09-01"));
-            s6.leerValor(30.5);
-        } catch (SensorYaInstalado | CambioBruscoLectura | SensorSinCalibrar e) {
+            estacionMeteo.setFechaInstalacionSensor(s6, LocalDate.parse("2023-09-01"));
+            estacionMeteo.lecturaPuntual(s6, 30.5);
+            estacionMeteo.lecturaPuntual(s6, 60.5);
+        } catch (SensorYaInstalado e) {
             System.out.println("[!]" + e.toString());
         }
 
         try {
             SensorHumedad s7 = estacionMeteo.addSensorHumedad(5.0, UdsMedidaHum.PORCENTAJE);
-            s7.setFechaInstalacion(LocalDate.parse("2024-09-01"));
-            s7.leerValor(70.0);
-        } catch (SensorYaInstalado | CambioBruscoLectura | SensorSinCalibrar e) {
+            estacionMeteo.setFechaInstalacionSensor(s7, LocalDate.parse("2024-09-01"));
+            System.out.println("Calibrado: " + estacionMeteo.comprobarCalibracion(s7));
+            estacionMeteo.lecturaPuntual(s7, 70.0);
+            estacionMeteo.lecturaPuntual(s7, 170.0);
+            System.out.println("Calibrado: " + estacionMeteo.comprobarCalibracion(s7));
+            estacionMeteo.imprimirEstacion();
+
+            estacionMeteo.calibrarSensor(s7.getId(), 2);
+            System.out.println("Calibrado: " + estacionMeteo.comprobarCalibracion(s7));
+            estacionMeteo.imprimirEstacion();
+        } catch (SensorYaInstalado e) {
             System.out.println("[!]" + e.toString());
         }
-
-        estacionMeteo.imprimirEstacion();
     }
 }
