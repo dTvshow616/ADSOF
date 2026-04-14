@@ -5,6 +5,8 @@ import sensor.Sensor;
 public class SensorYaInstalado extends Exception {
     /** El sensor de la excepción */
     private final Sensor sensor;
+    /** El sensor ya instalado de la excepción */
+    private final Sensor sensorInstalado;
 
     /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
 
@@ -12,8 +14,9 @@ public class SensorYaInstalado extends Exception {
      * Constructor para esta excepción
      * @param sensor el sensor
      */
-    public SensorYaInstalado(Sensor sensor) {
+    public SensorYaInstalado(Sensor sensor, Sensor sensorInstalado) {
         this.sensor = sensor;
+        this.sensorInstalado = sensorInstalado;
     }
 
     /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/
@@ -24,6 +27,7 @@ public class SensorYaInstalado extends Exception {
      */
     @Override
     public String toString() {
-        return "Un sensor con el ID: " + this.sensor.getId() + "ya se encuentra instalado";
+        return "Un sensor con el ID: " + this.sensor.getId() + "ya se encuentra instalado, el sensor instalado es:" +
+               sensorInstalado;
     }
 }

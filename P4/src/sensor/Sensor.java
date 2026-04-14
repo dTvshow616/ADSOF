@@ -145,14 +145,13 @@ public abstract class Sensor {
         this.valorUltimaLectura = valorReal;
         this.cantidadLecturas = this.cantidadLecturas + 1;
         this.sumaValores = this.sumaValores + this.valorUltimaLectura;
+        this.fechaUltimaLectura = LocalDateTime.now();
+        this.procesadorDeDatos.addregistro(this.fechaUltimaLectura, this.valorUltimaLectura);
 
         double anteriorLectura = this.procesadorDeDatos.getUltimoRegistro();
-
         if ((Math.abs(valorReal - anteriorLectura) / anteriorLectura) * 100 >= porcentajeCambioMax) {
             throw new CambioBruscoLectura(this, anteriorLectura);
         }
-
-        this.fechaUltimaLectura = LocalDateTime.now();
     }
 
     /**

@@ -34,7 +34,7 @@ public class EstacionMeteorologica {
     /** El conjunto de sensores de temperatura de la estación */
     private HashMap<String, SensorTemperatura> sensoresTemperatura = new HashMap<>();
     /** Histórico de alertas de la estación */
-    private HashMap<String, Sensor> alertas = new HashMap<>();
+    private HashMap<Exception, Sensor> alertas = new HashMap<>();
     /** Fecha en la que se realizó la última lectura */
     private LocalDateTime fechaUtimaLectura = LocalDateTime.now();
     /** Periodicidad de las lecturas periódicas */
@@ -72,10 +72,10 @@ public class EstacionMeteorologica {
                 } catch (SensorSinCalibrar e1) {
                     System.out.println(e1.getMessage());
                     this.sensoresExcluidos.add(sensor);
-                    this.alertas.put(e1.getMessage(), sensor);
+                    this.alertas.put(e1, sensor);
                 } catch (CambioBruscoLectura e2) {
                     System.out.println(e2.getMessage());
-                    this.alertas.put(e2.getMessage(), sensor);
+                    this.alertas.put(e2, sensor);
                 }
             }
         }
@@ -91,7 +91,7 @@ public class EstacionMeteorologica {
 
         sensor.setOffset(nuevoOffset);
         sensor.setCalibrado(true);
-        for (String alerta : this.alertas.keySet()) {
+        for (Exception alerta : this.alertas.keySet()) {
             if (alertas.get(alerta) == sensor) {
                 alertas.remove(alerta);
             }
@@ -106,6 +106,7 @@ public class EstacionMeteorologica {
     public void lecturaPeriodica() {
         if ((this.numLecturas < this.numMaxLecturas) &&
             (this.fechaUtimaLectura.plus(this.periodicidadLecturas).isBefore(LocalDateTime.now()))) {
+            this.fechaUtimaLectura = LocalDateTime.now();
             lecturaSimultanea();
             this.numLecturas++;
         }
@@ -122,10 +123,11 @@ public class EstacionMeteorologica {
 
         SensorHumedad sensorHumedad = new SensorHumedad(offset, medida, procesadorDeDatos);
         if (!this.sensoresHumedad.containsKey(sensorHumedad.getId())) {
+            this.sensores.put(sensorHumedad.getId(), sensorHumedad);
             this.sensoresHumedad.put(sensorHumedad.getId(), sensorHumedad);
             this.procesadores.put(sensorHumedad, sensorHumedad.getProcesadorDeDatos());
         } else {
-            throw new SensorYaInstalado(sensorHumedad);
+            throw new SensorYaInstalado(sensorHumedad, this.sensoresHumedad.get(sensorHumedad.getId()));
         }
     }
 
@@ -134,19 +136,21 @@ public class EstacionMeteorologica {
      * @param offset el offset del sensor
      * @param medida las unidades de medida del sensor
      */
-    public void addSensorHumedad(double offset, UdsMedidaHum medida, Conversores conversor) throws SensorYaInstalado, ConversorNoValido {
-        if(conversor.getMedidaOrigen() != medida){
+    public void addSensorHumedad(double offset, UdsMedidaHum medida, Conversores conversor)
+            throws SensorYaInstalado, ConversorNoValido {
+        if (conversor.getMedidaOrigen() != medida) {
             throw new ConversorNoValido();
         }
 
-        ProcesadorDatos procesadorDeDatos = new ProcesadorDatos(conversor); 
+        ProcesadorDatos procesadorDeDatos = new ProcesadorDatos(conversor);
 
         SensorHumedad sensorHumedad = new SensorHumedad(offset, medida, procesadorDeDatos);
         if (!this.sensoresHumedad.containsKey(sensorHumedad.getId())) {
+            this.sensores.put(sensorHumedad.getId(), sensorHumedad);
             this.sensoresHumedad.put(sensorHumedad.getId(), sensorHumedad);
             this.procesadores.put(sensorHumedad, sensorHumedad.getProcesadorDeDatos());
         } else {
-            throw new SensorYaInstalado(sensorHumedad);
+            throw new SensorYaInstalado(sensorHumedad, this.sensoresHumedad.get(sensorHumedad.getId()));
         }
     }
 
@@ -161,10 +165,11 @@ public class EstacionMeteorologica {
 
         SensorPresion sensorPresion = new SensorPresion(offset, medida, procesadorDeDatos);
         if (!this.sensoresPresion.containsKey(sensorPresion.getId())) {
+            this.sensores.put(sensorPresion.getId(), sensorPresion);
             this.sensoresPresion.put(sensorPresion.getId(), sensorPresion);
             this.procesadores.put(sensorPresion, sensorPresion.getProcesadorDeDatos());
         } else {
-            throw new SensorYaInstalado(sensorPresion);
+            throw new SensorYaInstalado(sensorPresion, this.sensoresPresion.get(sensorPresion.getId()));
         }
     }
 
@@ -173,19 +178,21 @@ public class EstacionMeteorologica {
      * @param offset el offset del sensor
      * @param medida las unidades de medida del sensor
      */
-    public void addSensorPresion(double offset, UdsMedidaPres medida, Conversores conversor) throws SensorYaInstalado, ConversorNoValido {
-        if(conversor.getMedidaOrigen() != medida){
+    public void addSensorPresion(double offset, UdsMedidaPres medida, Conversores conversor)
+            throws SensorYaInstalado, ConversorNoValido {
+        if (conversor.getMedidaOrigen() != medida) {
             throw new ConversorNoValido();
         }
 
-        ProcesadorDatos procesadorDeDatos = new ProcesadorDatos(conversor); 
+        ProcesadorDatos procesadorDeDatos = new ProcesadorDatos(conversor);
 
         SensorPresion sensorPresion = new SensorPresion(offset, medida, procesadorDeDatos);
         if (!this.sensoresPresion.containsKey(sensorPresion.getId())) {
+            this.sensores.put(sensorPresion.getId(), sensorPresion);
             this.sensoresPresion.put(sensorPresion.getId(), sensorPresion);
             this.procesadores.put(sensorPresion, sensorPresion.getProcesadorDeDatos());
         } else {
-            throw new SensorYaInstalado(sensorPresion);
+            throw new SensorYaInstalado(sensorPresion, this.sensoresPresion.get(sensorPresion.getId()));
         }
     }
 
@@ -201,10 +208,11 @@ public class EstacionMeteorologica {
 
         SensorTemperatura sensorTemperatura = new SensorTemperatura(offset, medida, procesadorDeDatos);
         if (!this.sensoresTemperatura.containsKey(sensorTemperatura.getId())) {
+            this.sensores.put(sensorTemperatura.getId(), sensorTemperatura);
             this.sensoresTemperatura.put(sensorTemperatura.getId(), sensorTemperatura);
             this.procesadores.put(sensorTemperatura, sensorTemperatura.getProcesadorDeDatos());
         } else {
-            throw new SensorYaInstalado(sensorTemperatura);
+            throw new SensorYaInstalado(sensorTemperatura, this.sensoresTemperatura.get(sensorTemperatura.getId()));
         }
     }
 
@@ -214,19 +222,21 @@ public class EstacionMeteorologica {
      * @param offset el offset del sensor
      * @param medida las unidades de medida del sensor
      */
-    public void addSensorTemperatura(double offset, UdsMedidaTemp medida, Conversores conversor) throws SensorYaInstalado, ConversorNoValido {
-        if(conversor.getMedidaOrigen() != medida){
+    public void addSensorTemperatura(double offset, UdsMedidaTemp medida, Conversores conversor)
+            throws SensorYaInstalado, ConversorNoValido {
+        if (conversor.getMedidaOrigen() != medida) {
             throw new ConversorNoValido();
         }
 
-        ProcesadorDatos procesadorDeDatos = new ProcesadorDatos(conversor); 
+        ProcesadorDatos procesadorDeDatos = new ProcesadorDatos(conversor);
 
         SensorTemperatura sensorTemperatura = new SensorTemperatura(offset, medida, procesadorDeDatos);
         if (!this.sensoresTemperatura.containsKey(sensorTemperatura.getId())) {
+            this.sensores.put(sensorTemperatura.getId(), sensorTemperatura);
             this.sensoresTemperatura.put(sensorTemperatura.getId(), sensorTemperatura);
             this.procesadores.put(sensorTemperatura, sensorTemperatura.getProcesadorDeDatos());
         } else {
-            throw new SensorYaInstalado(sensorTemperatura);
+            throw new SensorYaInstalado(sensorTemperatura, this.sensoresTemperatura.get(sensorTemperatura.getId()));
         }
     }
 
@@ -252,8 +262,8 @@ public class EstacionMeteorologica {
 
         System.out.println("\n");
 
-        for (String alerta : this.alertas.keySet()) {
-            System.out.println(alerta);
+        for (Exception alerta : this.alertas.keySet()) {
+            System.out.println(alerta.toString());
         }
     }
 
