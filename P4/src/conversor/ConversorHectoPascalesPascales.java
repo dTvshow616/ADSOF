@@ -16,7 +16,7 @@ public class ConversorHectoPascalesPascales implements Conversores{
 
     @Override
     public UdsMedida getMedidaDestino(){
-        return UdsMedidaPres.HECTOPASCALES;
+        return UdsMedidaPres.PASCALES;
     }
 
 }

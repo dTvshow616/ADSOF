@@ -8,7 +8,9 @@ package sensor;
  */
 public enum UdsMedidaPres implements UdsMedida {
     /** La presión se mide en Hectopascales */
-    HECTOPASCALES("hPa", 300, 1100);
+    HECTOPASCALES("hPa", 300, 1100),
+    /** La presión se mide en Hectopascales */
+    PASCALES("Pa",30000,110000);
     /** Símbolo que representa a la medida */
     private final String simbolo;
     /** Valor mínimo del rango de valores aceptados */
