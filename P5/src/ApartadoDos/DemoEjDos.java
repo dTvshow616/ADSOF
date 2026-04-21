@@ -3,6 +3,11 @@ package ApartadoDos;
 import ApartadoUno.Dataset;
 import ApartadoUno.Person;
 
+/**
+ * Demo for Ejercicio 2
+ * @author Alvaro G.S. and Ana O.R.
+ * @version 1.0
+ */
 public class DemoEjDos {
     /*----------------------------------------------------- MISC -----------------------------------------------------*/
     public static void main(String[] args) {
@@ -19,12 +24,10 @@ public class DemoEjDos {
 
         dt.node("root") // nodo raíz, al ser el primero que se añade
           // Creo que el lambda entrega true/false como segundo parámetro
-          .withCondition("male", p -> p.isMale())
-          .otherwise("female");
-        dt.node("male") // como el nodo ya existe, se añaden condiciones sobre el
+          .withCondition("male", p -> p.isMale()).otherwise("female");
+        dt.node("male") // como el nodo ya existe, se añaden condiciones sobre él
           .withCondition("old male", p -> p.getAge() > 65)
-          .withCondition("middle male", p -> p.getAge() <= 65 && p.getAge() > 34)
-          .otherwise("young male");
+          .withCondition("middle male", p -> p.getAge() <= 65 && p.getAge() > 34).otherwise("young male");
 
         return dt;
     }

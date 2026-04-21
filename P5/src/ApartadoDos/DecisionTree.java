@@ -1,19 +1,21 @@
 package ApartadoDos;
 
 import ApartadoUno.Dataset;
+import ApartadoUno.Featurizer;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.function.Predicate;
+import java.util.*;
 
 /**
- * Implementa el árbol de decisiones
+ * Implements the decision tree
  * @author Alvaro G.S. and Ana O.R.
- * @version 1.1
+ * @version 1.2
  */
 public class DecisionTree<G> {
-    private List<Node> nodes;
-    private HashMap<String, G> labeledData = new HashMap<>();
+    private Node<G> rootNode = null;
+    private HashMap<String, Node<G>> nodes = new HashMap<>(); // No es final
+    private List<Node<G>> leafNodes = new ArrayList<>();
+    private HashMap<String, G> labeledData = new HashMap<>(); // No es final
+    private Featurizer<G> featurizer = new Featurizer<>();
 
     /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
 
@@ -24,12 +26,21 @@ public class DecisionTree<G> {
 
     }
 
+    /*----------------------------------------------------- MISC -----------------------------------------------------*/
+
     /**
      * Ejecuta el árbol de decisión a partir de un Dataset, proporcionando la etiqueta resultado de la entrada
      * @return la etiqueta resultado de la entrada
      */
     public String predict(Dataset<G> dataset) {
-        return "DUE"; // DUE
+        // DUE: meter el dataset en root
+        this.rootNode.filterData();
+
+        StringBuilder prediction = new StringBuilder();
+        for (Node<G> node : this.leafNodes) {
+            prediction.append(node.data.toString());
+        }
+        return prediction.toString();
     }
 
     /**
@@ -38,23 +49,30 @@ public class DecisionTree<G> {
      * @return la etiqueta resultado de la entrada
      */
     public String predict(G... objects) { // DUE: Revisar argumentos
-        return "DUE"; // DUE
+        Dataset<G> dataset = new Dataset<>();
+        //DUE:dataset.addAll(objects);
+        return predict(dataset);
     }
 
     /**
-     * Gets a subtree of this one whose root is the desired node
-     * @param nodeName the name of the desired node
-     * @return a subtree of this one whose root is the desired node
+     * It gets the tree's node with a certain label
+     * @param label the desired node's label
+     * @return the tree's node with a certain label
      */
-    public DecisionTree<G> node(String nodeName) {
-        return null; //DUE
+    public Node<G> node(String label) {
+        if (nodes.isEmpty()) { // Si el árbol no tiene nodos se inicializa la raíz
+            Node<G> node = new Node<>(this, label);
+            this.rootNode = node;
+            this.nodes.put(label, node);
+        }
+        return this.nodes.get(label);
     }
 
-    public DecisionTree<G> withCondition(String nodeName, Predicate<G> condition) { //DUE: Parámetros de entrada
-        return null; // DUE
-    }
-
-    public DecisionTree<G> otherwise(String nodeName) {
-        return null; // DUE
+    /**
+     * It adds a node to the tree
+     * @param node the desired node
+     */
+    public void addNode(Node<G> node) {
+        this.nodes.put(node.label, node);
     }
 }
