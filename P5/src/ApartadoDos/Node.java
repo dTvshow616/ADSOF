@@ -1,6 +1,8 @@
 package ApartadoDos;
 
-import java.util.*;
+import ApartadoUno.Dataset;
+
+import java.util.HashMap;
 import java.util.function.Predicate;
 
 /**
@@ -11,7 +13,7 @@ import java.util.function.Predicate;
 public class Node<G> {
     DecisionTree<G> tree;
     String label;
-    List<G> data = new ArrayList<>();
+    Dataset<G> data = new Dataset<>(this.tree.getFeaturizer());
     HashMap<Predicate<G>, Node<G>> nextNodes = new HashMap<>();
     Node<G> otherwiseNode = null; // Si es null, este nodo es nodo hoja
 
@@ -65,9 +67,49 @@ public class Node<G> {
         return this;
     }
 
+    public void addData(G object) {
+        this.data.addData(object);
+    }
+
+    /**
+     * It filters this node's nada to its children, if it's a leaf it will register itself as such
+     */
     public void filterData() {
-        //DUE
+        // DUE Creo que esto funciona :3
+        for (G object : this.data.getData()) {
+            boolean alreadyAssigned = false;
+            for (Predicate<G> predicate : this.nextNodes.keySet()) {
+                if (predicate.test(object)) {
+                    this.nextNodes.get(predicate).addData(object);
+                    alreadyAssigned = true;
+                }
+            }
+            if (!alreadyAssigned) {
+                this.otherwiseNode.addData(object);
+            }
+        }
+        // Una vez que se filtre la info llamda a los hijos
+        for (Node<G> node : this.nextNodes.values()) {
+            node.filterData();
+        }
     }
 
     /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
+    public void setData(Dataset<G> newData) {
+        this.data = newData;
+    }
+
+    /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/
+    public String toString() {
+        StringBuilder prediction = new StringBuilder();
+        prediction.append(label).append("=");
+
+        prediction.append("[");
+
+        for (G object : this.data.getData()) {
+            prediction.append(object.toString());
+        }
+        prediction.append("]");
+        return prediction.toString();
+    }
 }

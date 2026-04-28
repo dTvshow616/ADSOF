@@ -1,4 +1,4 @@
 package ApartadoUno;
 
-public class PersonFeaturizer {
+public class PersonFeaturizer<T> extends Featurizer<T> {
 }

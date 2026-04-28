@@ -22,8 +22,8 @@ public class DecisionTree<G> {
     /**
      * Constructor del árbol de decisiones
      */
-    public DecisionTree() { // DUE: Ver qué meter aquí
-
+    public DecisionTree() {
+        // Creo que aquí no va nada º-º
     }
 
     /*----------------------------------------------------- MISC -----------------------------------------------------*/
@@ -33,13 +33,22 @@ public class DecisionTree<G> {
      * @return la etiqueta resultado de la entrada
      */
     public String predict(Dataset<G> dataset) {
-        // DUE: meter el dataset en root
+        this.rootNode.setData(dataset);
         this.rootNode.filterData();
 
         StringBuilder prediction = new StringBuilder();
+        prediction.append("{");
+        boolean first = true;
         for (Node<G> node : this.leafNodes) {
+            if (!first) {
+                prediction.append(", ");
+            } else {
+                first = false;
+            }
+
             prediction.append(node.data.toString());
         }
+        prediction.append("}");
         return prediction.toString();
     }
 
@@ -49,8 +58,8 @@ public class DecisionTree<G> {
      * @return la etiqueta resultado de la entrada
      */
     public String predict(G... objects) { // DUE: Revisar argumentos
-        Dataset<G> dataset = new Dataset<>();
-        //DUE:dataset.addAll(objects);
+        Dataset<G> dataset = new Dataset<>(this.featurizer);
+        dataset.addAll(objects);
         return predict(dataset);
     }
 
@@ -74,5 +83,25 @@ public class DecisionTree<G> {
      */
     public void addNode(Node<G> node) {
         this.nodes.put(node.label, node);
+    }
+
+    public Featurizer<G> getFeaturizer() {
+        return featurizer;
+    }
+
+    public HashMap<String, G> getLabeledData() {
+        return labeledData;
+    }
+
+    public List<Node<G>> getLeafNodes() {
+        return leafNodes;
+    }
+
+    public HashMap<String, Node<G>> getNodes() {
+        return nodes;
+    }
+
+    public Node<G> getRootNode() {
+        return rootNode;
     }
 }
