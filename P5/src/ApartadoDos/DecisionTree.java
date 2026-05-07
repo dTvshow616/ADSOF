@@ -4,6 +4,7 @@ import ApartadoUno.Dataset;
 import ApartadoUno.Featurizer;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * Implements the decision tree
@@ -99,6 +100,11 @@ public class DecisionTree<G> {
 
     public HashMap<String, Node<G>> getNodes() {
         return nodes;
+    }
+
+    public Predicate<G> getPredicate(String label) {
+        // Búsqueda en profundidad por las labels del árbol
+        return null;//DUE
     }
 
     public Node<G> getRootNode() {
