@@ -72,10 +72,6 @@ public class Dataset<T> {
         return this.featurizer;
     }
 
-    // -----------------------------------------------------------------------
-    // Introspection
-    // -----------------------------------------------------------------------
-
     /** Returns an unmodifiable view of the objects in this dataset. */
     public List<T> getObjects() {
         return Collections.unmodifiableList(objects);
@@ -88,7 +84,6 @@ public class Dataset<T> {
 
     @Override
     public String toString() {
-        // Print each feature as name=[values]
         return featurizer.featureNames().stream()
                 .map(name -> name + "=" + feature(name).getValues())
                 .collect(Collectors.joining(", ", "dataset{", "}"));
