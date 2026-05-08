@@ -31,7 +31,6 @@ public class GreedyTreeLearner<DATA extends Comparable<DATA>, LABEL> {
     }
 
     public Node<DATA> buildTree(LabeledDataset<DATA, LABEL> dataset, List<String> availableFeatures) {
-        DecisionTree<DATA> tree = new DecisionTree<>();
         HashMap<Object, List<DATA>> splitData = new HashMap<>();
 
         /* If all labels are the same return single node with that label */
