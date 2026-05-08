@@ -6,7 +6,7 @@ import ApartadoUno.Feature;
 import java.util.List;
 import java.util.Random;
 
-public class GreedyTreeLearner<DATA, LABEL> {
+public class GreedyTreeLearner<DATA extends Comparable<DATA>, LABEL> {
     /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
     GreedyTreeLearner() {
     }
@@ -34,11 +34,13 @@ public class GreedyTreeLearner<DATA, LABEL> {
         /* For-each subset do: build subtree recursively */
         for (LABEL label : dataset.getLabeledData().keySet()) {
             List<DATA> data = dataset.getLabeledData().get(label);
-            buildTree()
-        } dataset.getLabeledData().forEach((LABEL, LIST_DATA) -> {
-            LABEL == feat ? buildTree()
+            //buildTree();
+        }
+        dataset.getLabeledData().forEach((LABEL, LIST_DATA) -> {
+            //LABEL == feat ? buildTree();
         });
         // añadir la condition "feat==value" y llamada recursiva con el subconjunto de data { x in data | x.feat ==
         // value }
+        return null;
     }
 }
