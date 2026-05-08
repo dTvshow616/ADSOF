@@ -48,7 +48,7 @@ public class Dataset<T> {
     // Feature access
     // -----------------------------------------------------------------------
 
-    
+
     public <F extends Comparable<F>> Feature<F> feature(String featureName) {
         Feature<F> f = new Feature<>(featureName);
         for (T obj : objects) {
@@ -62,6 +62,14 @@ public class Dataset<T> {
      */
     public List<String> featureNames() {
         return featurizer.featureNames();
+    }
+
+    /**
+     * It gets the dataset's featurizer
+     * @return the dataset's featurizer
+     */
+    public Featurizer<T> getFeaturizer() {
+        return this.featurizer;
     }
 
     // -----------------------------------------------------------------------

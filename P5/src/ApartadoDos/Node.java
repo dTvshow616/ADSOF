@@ -1,6 +1,7 @@
 package ApartadoDos;
 
 import ApartadoUno.Dataset;
+
 import java.util.HashMap;
 import java.util.function.Predicate;
 
@@ -12,7 +13,7 @@ import java.util.function.Predicate;
 public class Node<G> {
     DecisionTree<G> tree;
     String label;
-    Dataset<G> data = new Dataset<>(this.tree.getFeaturizer());
+    Dataset<G> data;
     HashMap<Predicate<G>, Node<G>> nextNodes = new HashMap<>();
     Node<G> otherwiseNode = null; // Si es null, este nodo es nodo hoja
 
@@ -67,6 +68,9 @@ public class Node<G> {
     }
 
     public void addData(G object) {
+        if (this.data == null) {
+            this.data = new Dataset<>(this.tree.getFeaturizer());
+        }
         this.data.add(object);
     }
 
@@ -74,36 +78,47 @@ public class Node<G> {
      * It filters this node's nada to its children, if it's a leaf it will register itself as such
      */
     public void filterData() {
-        // DUE Creo que esto funciona :3
-        for (G object : this.data.getObjects()) {
-            boolean alreadyAssigned = false;
-            for (Predicate<G> predicate : this.nextNodes.keySet()) {
-                if (predicate.test(object)) {
-                    this.nextNodes.get(predicate).addData(object);
-                    alreadyAssigned = true;
+        //System.out.println("Filtering data for node: " + this.label);
+        if (this.nextNodes.isEmpty() && this.otherwiseNode == null && this.data != null) {
+            this.tree.addLeafNode(this);
+        } else if (this.data != null) {
+            for (G object : this.data.getObjects()) {
+                boolean alreadyAssigned = false;
+                for (Predicate<G> predicate : this.nextNodes.keySet()) {
+                    if (predicate.test(object)) {
+                        this.nextNodes.get(predicate).addData(object);
+                        alreadyAssigned = true;
+                    }
+                }
+                if (!alreadyAssigned && this.otherwiseNode != null) {
+                    this.otherwiseNode.addData(object);
                 }
             }
-            if (!alreadyAssigned) {
-                this.otherwiseNode.addData(object);
+            // Una vez que se filtre la info llamda a los hijos
+            for (Node<G> node : this.nextNodes.values()) {
+                node.filterData();
+            }
+            if (this.otherwiseNode != null) {
+                this.otherwiseNode.filterData();
             }
         }
-        // Una vez que se filtre la info llamda a los hijos
-        for (Node<G> node : this.nextNodes.values()) {
-            node.filterData();
-        }
+    }
+
+    public void clearData() {
+        this.data = null;
     }
 
     /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
-    public void setData(Dataset<G> newData) {
-        this.data = newData;
-    }
-
     public String getLabel() {
         return this.label;
     }
 
-    public Node<G> getOtherwiseNode(){
+    public Node<G> getOtherwiseNode() {
         return this.otherwiseNode;
+    }
+
+    public void setData(Dataset<G> newData) {
+        this.data = newData;
     }
 
     /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/
@@ -114,9 +129,14 @@ public class Node<G> {
         prediction.append("[");
 
         for (G object : this.data.getObjects()) {
-            prediction.append(object.toString());
+            prediction.append(this.tree.getFeaturizer().importantFeatureValues(object));
+            if (object != this.data.getObjects().get(this.data.getObjects().size() - 1)) {
+                prediction.append(", ");
+            }
         }
+
         prediction.append("]");
+
         return prediction.toString();
     }
 }
