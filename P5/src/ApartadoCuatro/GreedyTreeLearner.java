@@ -1,10 +1,9 @@
 package ApartadoCuatro;
 
 import ApartadoDos.DecisionTree;
-import ApartadoUno.Feature;
+import ApartadoUno.Dataset;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class GreedyTreeLearner<DATA extends Comparable<DATA>, LABEL> {
     /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
@@ -13,27 +12,37 @@ public class GreedyTreeLearner<DATA extends Comparable<DATA>, LABEL> {
 
     /*----------------------------------------------------- MISC -----------------------------------------------------*/
     public DecisionTree<DATA> learn(LabeledDataset<DATA, LABEL> dataSet) {
-        return null; //DUE
+        return buildTree(dataSet, dataSet.getFeaturizer().featureNames());
     }
 
-    public DecisionTree<DATA> buildTree(LabeledDataset<DATA, LABEL> dataset, List<Feature<DATA>> availableFeatures) {
+    public DecisionTree<DATA> buildTree(LabeledDataset<DATA, LABEL> dataset, List<String> availableFeatures) {
         DecisionTree<DATA> tree = new DecisionTree<>();
+        HashMap<Object, List<DATA>> splitData = new HashMap<>();
+
         /* If all labels are the same return single node with that label */
         if (dataset.getLabeledData().size() == 1) {
             tree.node(dataset.getLabeledData().keySet().stream().toList().get(0).toString());
             return tree;
         }
 
-        Feature<DATA> feat = availableFeatures.get(
-                new Random().nextInt(availableFeatures.size())); // elegir la "mejor" feature -> de
-        // momento aleatoria
-        availableFeatures.remove(feat); // se borra el feat de la lista de features disponible
-        /* Split data into subsets based on feat */
-        dataset.labelData(dataset);
+        /* Choose best feature to split on */
+        String feat = availableFeatures.get(new Random().nextInt(availableFeatures.size()));
+        /* Remove feature from the available features' list */
+        availableFeatures.remove(feat);
+
+        /* Split data into subsets based on feature */
+        for (DATA object : dataset.getObjects()) {
+            Object splitResult = dataset.getFeaturizer().featureValue(object, feat);
+            List<DATA> splitDataList = splitData.get(splitResult);
+            splitDataList.add(object);
+            splitData.put(splitResult, splitDataList);
+        }
 
         /* For-each subset do: build subtree recursively */
-        for (LABEL label : dataset.getLabeledData().keySet()) {
-            List<DATA> data = dataset.getLabeledData().get(label);
+        for (Object splitResult : splitData.keySet()) {
+            Dataset<DATA> splitDataSet = new Dataset<>(dataset.getFeaturizer());
+            splitDataSet.addAll((DATA[]) splitData.get(splitResult).toArray());
+            DecisionTree<DATA> splitTree = new DecisionTree<>();
             //buildTree();
         }
         dataset.getLabeledData().forEach((LABEL, LIST_DATA) -> {

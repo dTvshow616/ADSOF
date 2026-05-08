@@ -15,11 +15,6 @@ public class WeatherFeaturizer implements Featurizer<Weather> {
     }
 
     @Override
-    public Object importantFeatureValues(Weather object) {
-        return "(weatherCondition: " + object.getWeatherCondition() + "temperature: " + object.getTemperature() + ")";
-    }
-
-    @Override
     public Object featureValue(Weather object, String featureName) {
         return switch (featureName) {
             case "weatherCondition" -> object.getWeatherCondition();

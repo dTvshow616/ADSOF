@@ -73,7 +73,7 @@ public class DecisionTree<G> {
      * @return la etiqueta resultado de la entrada
      */
     public String predict(G... objects) {
-        Dataset<G> dataset = new Dataset<>(this.featurizer); // DUE: Ver de dónde sacar el featurizer
+        Dataset<G> dataset = new Dataset<>(this.featurizer);
         dataset.addAll(objects);
 
         return predict(dataset);

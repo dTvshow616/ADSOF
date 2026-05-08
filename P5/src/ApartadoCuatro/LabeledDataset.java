@@ -26,6 +26,13 @@ public class LabeledDataset<DATA, LABEL> extends Dataset<DATA> {
         }
     }
 
+    @Override
+    public void addAll(DATA[] array) {
+        Dataset<DATA> aux = new Dataset<>(this.getFeaturizer());
+        aux.addAll(array);
+        labelData((aux));
+    }
+
     public LabelProvider<DATA, LABEL> getLabelProvider() {
         return labelProvider;
     }

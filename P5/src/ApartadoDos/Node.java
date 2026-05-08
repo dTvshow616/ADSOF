@@ -1,6 +1,7 @@
 package ApartadoDos;
 
 import ApartadoUno.Dataset;
+
 import java.util.HashMap;
 import java.util.function.Predicate;
 
@@ -139,16 +140,16 @@ public class Node<G> {
         return this.label;
     }
 
+    public HashMap<Predicate<G>, Node<G>> getNextNodes() {
+        return this.nextNodes;
+    }
+
     /**
      * It gets this node's otherwise node
      * @return the otherwise node
      */
     public Node<G> getOtherwiseNode() {
         return this.otherwiseNode;
-    }
-
-    public HashMap<Predicate<G>, Node<G>> getNextNodes(){
-        return this.nextNodes;
     }
 
     /**
@@ -169,7 +170,7 @@ public class Node<G> {
         prediction.append("[");
 
         for (G object : this.data.getObjects()) {
-            prediction.append(this.tree.getFeaturizer().importantFeatureValues(object));
+            prediction.append(object);
             if (object != this.data.getObjects().get(this.data.getObjects().size() - 1)) {
                 prediction.append(", ");
             }

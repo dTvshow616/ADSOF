@@ -78,8 +78,12 @@ public class Person {
      * Gets the person's gender
      * @return the person's gender
      */
-    public String getGender() { 
-        return male ? "MALE" : "FEMALE"; 
+    public String getGender() {
+        return male ? "MALE" : "FEMALE";
     }
 
+    @Override
+    public String toString() {
+        return this.name + "(age: " + this.age + ", " + this.getGender().toLowerCase() + ")";
+    }
 }
