@@ -74,6 +74,10 @@ public class Person {
         return weight;
     }
 
+    /**
+     * Gets the person's gender
+     * @return the person's gender
+     */
     public String getGender() { 
         return male ? "MALE" : "FEMALE"; 
     }

@@ -1,5 +1,10 @@
 package ApartadoUno;
 
+/**
+ * Demo for Ejercicio 1
+ * @author Alvaro G.S. and Ana O.R.
+ * @version 1.0
+ */
 public class DemoEjUno {
     /*----------------------------------------------------- MISC -----------------------------------------------------*/
     public static void main(String[] args) {
