@@ -2,7 +2,6 @@ package ApartadoCuatro;
 
 import ApartadoDos.DecisionTree;
 import ApartadoDos.Node;
-
 import java.util.*;
 import java.util.function.Predicate;
 
