@@ -1,7 +1,7 @@
 package ApartadoDos;
 
 import ApartadoUno.Dataset;
-import ApartadoUno.Featurizer;
+
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -15,7 +15,6 @@ public class DecisionTree<G> {
     private HashMap<String, Node<G>> nodes = new HashMap<>();
     private List<Node<G>> leafNodes = new ArrayList<>();
     private HashMap<String, G> labeledData = new HashMap<>();
-    private Featurizer<G> featurizer;
 
     /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
 
@@ -43,9 +42,8 @@ public class DecisionTree<G> {
         this.leafNodes.clear();
 
         /* Filter the dataset */
-        this.featurizer = dataset.getFeaturizer();
         //System.out.println("Setting data for node: " + this.rootNode.getLabel());
-        this.rootNode.setData(dataset);
+        this.rootNode.setData(dataset.getObjects());
         this.rootNode.filterData();
 
         /* Create the label */
@@ -73,10 +71,34 @@ public class DecisionTree<G> {
      * @return la etiqueta resultado de la entrada
      */
     public String predict(G... objects) {
-        Dataset<G> dataset = new Dataset<>(this.featurizer);
-        dataset.addAll(objects);
+        /* Clear tree's data */
+        for (Node<G> node : nodes.values()) {
+            node.clearData();
+        }
+        this.leafNodes.clear();
 
-        return predict(dataset);
+        /* Filter the dataset */
+        //System.out.println("Setting data for node: " + this.rootNode.getLabel());
+        this.rootNode.setData(List.of(objects));
+        this.rootNode.filterData();
+
+        /* Create the label */
+        StringBuilder prediction = new StringBuilder();
+        prediction.append("{");
+
+        boolean first = true;
+        for (Node<G> node : this.leafNodes) {
+            if (!first) {
+                prediction.append(", ");
+            } else {
+                first = false;
+            }
+            prediction.append(node.toString());
+        }
+
+        prediction.append("}");
+
+        return prediction.toString();
     }
 
     /**
@@ -160,14 +182,6 @@ public class DecisionTree<G> {
 
     public void accept(Visitor<G> visitor) {
         rootNode.accept(visitor);
-    }
-
-    /**
-     * It gets this tree's featurizer
-     * @return this tree's featurizer
-     */
-    public Featurizer<G> getFeaturizer() {
-        return featurizer;
     }
 
     /**

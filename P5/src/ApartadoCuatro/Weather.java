@@ -3,6 +3,7 @@ package ApartadoCuatro;
 public class Weather implements Comparable<Weather> {
     private final WeatherCondition weatherCondition;
     private final Temperature temperature;
+
     /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
     public Weather(WeatherCondition weatherCondition, Temperature temperature) {
         this.weatherCondition = weatherCondition;
@@ -21,5 +22,11 @@ public class Weather implements Comparable<Weather> {
 
     public WeatherCondition getWeatherCondition() {
         return weatherCondition;
+    }
+
+    /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/
+    @Override
+    public String toString() {
+        return "Weather{" + "weatherCondition=" + weatherCondition + ", temperature=" + temperature + '}';
     }
 }

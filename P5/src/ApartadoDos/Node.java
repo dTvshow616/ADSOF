@@ -1,8 +1,6 @@
 package ApartadoDos;
 
-import ApartadoUno.Dataset;
-
-import java.util.HashMap;
+import java.util.*;
 import java.util.function.Predicate;
 
 /**
@@ -17,7 +15,7 @@ public class Node<G> {
     /** This node's label */
     String label;
     /** This node's data */
-    Dataset<G> data;
+    List<G> data;
     /** This node's children (except for the otherwise node) */
     HashMap<Predicate<G>, Node<G>> nextNodes = new HashMap<>();
     /** This node's otherwise node */
@@ -80,7 +78,7 @@ public class Node<G> {
      */
     public void addData(G object) {
         if (this.data == null) {
-            this.data = new Dataset<>(this.tree.getFeaturizer());
+            this.data = new ArrayList<>();
         }
         this.data.add(object);
     }
@@ -96,7 +94,7 @@ public class Node<G> {
 
         } else if (this.data != null) {
             /* Filter this node's data onto its kids */
-            for (G object : this.data.getObjects()) {
+            for (G object : this.data) {
                 boolean alreadyAssigned = false;
                 for (Predicate<G> predicate : this.nextNodes.keySet()) {
                     if (evaluateCondition(predicate, object)) {
@@ -156,7 +154,7 @@ public class Node<G> {
      * It sets this node's data
      * @param newData the new data
      */
-    public void setData(Dataset<G> newData) {
+    public void setData(List<G> newData) {
         this.data = newData;
     }
 
@@ -169,9 +167,9 @@ public class Node<G> {
 
         prediction.append("[");
 
-        for (G object : this.data.getObjects()) {
+        for (G object : this.data) {
             prediction.append(object);
-            if (object != this.data.getObjects().get(this.data.getObjects().size() - 1)) {
+            if (object != this.data.get(this.data.size() - 1)) {
                 prediction.append(", ");
             }
         }
