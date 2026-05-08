@@ -4,6 +4,11 @@ import ApartadoUno.Dataset;
 import ApartadoUno.Person;
 import ApartadoUno.PersonFeaturizer;
 
+/**
+ * Demo for Ejercicio 6
+ * @author Alvaro G.S. and Ana O.R.
+ * @version 1.0
+ */
 public class DemoEjSeis {
             /*----------------------------------------------------- MISC -----------------------------------------------------*/
     public static void main(String[] args) {
