@@ -99,6 +99,14 @@ public class Node<G> {
         this.data = newData;
     }
 
+    public String getLabel() {
+        return this.label;
+    }
+
+    public Node<G> getOtherwiseNode(){
+        return this.otherwiseNode;
+    }
+
     /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/
     public String toString() {
         StringBuilder prediction = new StringBuilder();

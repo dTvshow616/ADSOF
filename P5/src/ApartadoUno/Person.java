@@ -1,5 +1,7 @@
 package ApartadoUno;
 
+
+
 /**
  * Implements the person class
  * @author Alvaro G.S. and Ana O.R.
@@ -71,4 +73,9 @@ public class Person {
     public int getWeight() {
         return weight;
     }
+
+    public String getGender() { 
+        return male ? "MALE" : "FEMALE"; 
+    }
+
 }
