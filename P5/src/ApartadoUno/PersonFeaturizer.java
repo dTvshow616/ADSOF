@@ -5,11 +5,12 @@ import java.util.List;
 
 public class PersonFeaturizer implements Featurizer<Person> {
  
-        private static final List<String> FEATURES =
-                Arrays.asList("age", "weight", "height", "gender");
+        private static final List<String> FEATURES = Arrays.asList("age", "weight", "height", "gender");
  
         @Override
-        public List<String> featureNames() { return FEATURES; }
+        public List<String> featureNames() { 
+                return FEATURES; 
+        }
  
         @Override
         public Object featureValue(Person person, String featureName) {

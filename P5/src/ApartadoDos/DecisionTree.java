@@ -103,8 +103,28 @@ public class DecisionTree<G> {
     }
 
     public Predicate<G> getPredicate(String label) {
-        // Búsqueda en profundidad por las labels del árbol
-        return null;//DUE
+        return dfs(rootNode, label, p -> true);
+    }
+
+    private Predicate<G> dfs(Node<G> current, String targetLabel, Predicate<G> accumulated) {
+        if (current.getLabel().equals(targetLabel)) {
+            return accumulated;
+        }
+
+        for (Map.Entry<Predicate<G>, Node<G>> entry : current.nextNodes.entrySet()) {
+            Predicate<G> newPath = accumulated.and(entry.getKey());
+            Predicate<G> result = dfs(entry.getValue(), targetLabel, newPath);
+            if (result != null) return result;
+        }
+
+        if (current.getOtherwiseNode() != null) {
+            Predicate<G> result = dfs(current.otherwiseNode, targetLabel, accumulated);
+            if (result != null){
+                return result;
+            } 
+        }
+
+        return null; 
     }
 
     public Node<G> getRootNode() {

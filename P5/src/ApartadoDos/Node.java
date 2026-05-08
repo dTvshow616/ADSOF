@@ -1,7 +1,6 @@
 package ApartadoDos;
 
 import ApartadoUno.Dataset;
-
 import java.util.HashMap;
 import java.util.function.Predicate;
 
@@ -68,7 +67,7 @@ public class Node<G> {
     }
 
     public void addData(G object) {
-        this.data.addData(object);
+        this.data.add(object);
     }
 
     /**
@@ -76,7 +75,7 @@ public class Node<G> {
      */
     public void filterData() {
         // DUE Creo que esto funciona :3
-        for (G object : this.data.getData()) {
+        for (G object : this.data.getObjects()) {
             boolean alreadyAssigned = false;
             for (Predicate<G> predicate : this.nextNodes.keySet()) {
                 if (predicate.test(object)) {
@@ -114,7 +113,7 @@ public class Node<G> {
 
         prediction.append("[");
 
-        for (G object : this.data.getData()) {
+        for (G object : this.data.getObjects()) {
             prediction.append(object.toString());
         }
         prediction.append("]");
