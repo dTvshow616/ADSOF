@@ -23,7 +23,7 @@ public class PersonFeaturizer implements Featurizer<Person> {
 
     /**
      * Extracts the value of a named feature from the given object.
-     * @param person the object where we are searching the feature
+     * @param person      the object where we are searching the feature
      * @param featureName the name of the feature we are searching
      * @return the raw value (String, Integer, Boolean, etc.)
      */
