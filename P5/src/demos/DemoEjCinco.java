@@ -27,7 +27,8 @@ public class DemoEjCinco {
         System.out.println(dt1);
         System.out.println(dt2);
         Dataset<Weather> dataset = buildAnotherDataset();
-        dt1.predict(dataset);
+        System.out.println(dt1.predict(dataset));
+        System.out.println(dt2.predict(dataset));
     }
 
     /**
