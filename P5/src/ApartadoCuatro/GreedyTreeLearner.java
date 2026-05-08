@@ -2,12 +2,18 @@ package ApartadoCuatro;
 
 import ApartadoDos.DecisionTree;
 import ApartadoUno.Dataset;
-
 import java.util.*;
 
 public class GreedyTreeLearner<DATA extends Comparable<DATA>, LABEL> {
+    private FeatureSelectionStrategy<DATA> strategy;
+
     /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
     GreedyTreeLearner() {
+        this.strategy = null;
+    }
+
+    GreedyTreeLearner(FeatureSelectionStrategy<DATA> strategy) {
+        this.strategy = strategy;
     }
 
     /*----------------------------------------------------- MISC -----------------------------------------------------*/
@@ -27,6 +33,11 @@ public class GreedyTreeLearner<DATA extends Comparable<DATA>, LABEL> {
 
         /* Choose best feature to split on */
         String feat = availableFeatures.get(new Random().nextInt(availableFeatures.size()));
+
+        if(this.strategy != null){
+            feat = strategy.execute(dataset);
+        } 
+
         /* Remove feature from the available features' list */
         availableFeatures.remove(feat);
 
@@ -51,5 +62,9 @@ public class GreedyTreeLearner<DATA extends Comparable<DATA>, LABEL> {
         // añadir la condition "feat==value" y llamada recursiva con el subconjunto de data { x in data | x.feat ==
         // value }
         return null;
+    }
+
+    public void setStrategy(FeatureSelectionStrategy<DATA> strategy) {
+        this.strategy = strategy;
     }
 }
