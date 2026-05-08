@@ -127,12 +127,6 @@ public class Node<G> {
 
     public void accept(Visitor<G> visitor) {
         visitor.visit(this);
-        for (Node<G> child : nextNodes.values()) {
-            child.accept(visitor);
-        }
-        if (otherwiseNode != null) {
-            otherwiseNode.accept(visitor);
-        }
     }
 
     /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
@@ -154,7 +148,7 @@ public class Node<G> {
     }
 
     public HashMap<Predicate<G>, Node<G>> getNextNodes(){
-        return this.getNextNodes();
+        return this.nextNodes;
     }
 
     /**

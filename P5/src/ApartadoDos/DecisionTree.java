@@ -2,7 +2,6 @@ package ApartadoDos;
 
 import ApartadoUno.Dataset;
 import ApartadoUno.Featurizer;
-
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -159,6 +158,10 @@ public class DecisionTree<G> {
         this.leafNodes.add(node);
     }
 
+    public void accept(Visitor<G> visitor) {
+        rootNode.accept(visitor);
+    }
+
     /**
      * It gets this tree's featurizer
      * @return this tree's featurizer
@@ -167,10 +170,18 @@ public class DecisionTree<G> {
         return featurizer;
     }
 
+    /**
+     * It gets the labeled data
+     * @return the labeled data
+     */
     public HashMap<String, G> getLabeledData() {
         return labeledData;
     }
 
+    /**
+     * It gets the leaf nodes
+     * @return the leaf nodes
+     */
     public List<Node<G>> getLeafNodes() {
         return leafNodes;
     }
