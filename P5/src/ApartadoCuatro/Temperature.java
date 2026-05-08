@@ -1,6 +1,8 @@
 package ApartadoCuatro;
 
 public enum Temperature {
+    EXTREMELY_HOT,
+    HOT,
     COLD,
-    HOT
+    EXTREMELY_COLD
 }
