@@ -7,11 +7,11 @@ import java.util.*;
 
 public class MisclassificationStrategy<DATA> implements FeatureSelectionStrategy<DATA> {
     @Override
-    public String execute(LabeledDataset<DATA, ?> dataset) {
+    public <LABEL> String execute(LabeledDataset<DATA, LABEL> dataset, List<String> availableFeatures){
         String bestFeature = null;
         int lowestScore = Integer.MAX_VALUE;
 
-        for (String featureName : dataset.featureNames()) {
+        for (String featureName : availableFeatures) {
             
             Map<Object, List<Object>> labelsByGroup = new LinkedHashMap<>();
             for (DATA obj : dataset.getObjects()) {

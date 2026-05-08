@@ -8,8 +8,7 @@ import java.util.Random;
 
 public class RandomStrategy<DATA> implements FeatureSelectionStrategy<DATA> {
     @Override
-    public String execute(LabeledDataset<DATA, ?> dataset) {
-        List<String> features = dataset.featureNames();
-        return features.get(new Random().nextInt(features.size()));
+    public <LABEL> String execute(LabeledDataset<DATA, LABEL> dataset, List<String> availableFeatures){
+        return availableFeatures.get(new Random().nextInt(availableFeatures.size()));
     }
 }

@@ -1,6 +1,7 @@
 package ApartadoCuatro;
 
+import java.util.List;
 
 public interface FeatureSelectionStrategy<DATA> {
-    String execute(LabeledDataset<DATA, ?> dataset);
+    <LABEL> String execute(LabeledDataset<DATA, LABEL> dataset, List<String> availableFeatures);
 }

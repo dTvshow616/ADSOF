@@ -35,7 +35,7 @@ public class GreedyTreeLearner<DATA extends Comparable<DATA>, LABEL> {
         String feat = availableFeatures.get(new Random().nextInt(availableFeatures.size()));
 
         if(this.strategy != null){
-            feat = strategy.execute(dataset);
+            feat = strategy.execute(dataset,availableFeatures);
         } 
 
         /* Remove feature from the available features' list */
