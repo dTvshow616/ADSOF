@@ -9,7 +9,7 @@ public class DemoEjCuatro {
         DecisionTree<Weather> dt = learnTree();
         System.out.println(dt);
         Dataset<Weather> dataset = buildAnotherDataset();
-        dt.predict(dataset);
+        System.out.println(dt.predict(dataset));
     }
 
     public static DecisionTree<Weather> learnTree() {

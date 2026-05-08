@@ -2,8 +2,8 @@ package ApartadoCuatro;
 
 import ApartadoUno.Dataset;
 import ApartadoUno.Featurizer;
-import java.util.HashMap;
-import java.util.List;
+
+import java.util.*;
 
 public class LabeledDataset<DATA, LABEL> extends Dataset<DATA> {
     private final LabelProvider<DATA, LABEL> labelProvider;
@@ -20,6 +20,9 @@ public class LabeledDataset<DATA, LABEL> extends Dataset<DATA> {
         for (DATA object : dataset.getObjects()) {
             LABEL label = labelProvider.provideLabel(object);
             List<DATA> data = labeledData.get(label);
+            if (data == null) {
+                data = new ArrayList<>();
+            }
             data.add(object);
             this.labeledData.put(label, data);
         }
@@ -27,9 +30,12 @@ public class LabeledDataset<DATA, LABEL> extends Dataset<DATA> {
 
     @Override
     public void addAll(DATA[] array) {
+        if (array == null) {
+            System.out.println("FUCK");
+        }
         Dataset<DATA> aux = new Dataset<>(this.getFeaturizer());
         aux.addAll(array);
-        labelData((aux));
+        labelData(aux);
     }
 
     public LabelProvider<DATA, LABEL> getLabelProvider() {

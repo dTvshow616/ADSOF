@@ -11,6 +11,7 @@ import java.util.function.Predicate;
  * @version 1.5
  */
 public class DecisionTree<G> {
+    private final String rootName = "root";
     private Node<G> rootNode = null;
     private HashMap<String, Node<G>> nodes = new HashMap<>();
     private List<Node<G>> leafNodes = new ArrayList<>();
@@ -22,6 +23,7 @@ public class DecisionTree<G> {
      * DecisionTree's constructor
      */
     public DecisionTree() {
+        rootNode = new Node<>(this, rootName);
     }
 
     /*----------------------------------------------------- MISC -----------------------------------------------------*/
@@ -111,12 +113,8 @@ public class DecisionTree<G> {
             throw new IllegalArgumentException("Label cannot be null");
         }
 
-        /* If the tree is empty the root is initialized */
-        if (nodes.isEmpty()) {
-            Node<G> node = new Node<>(this, label);
-            this.rootNode = node;
-            this.nodes.put(label, node);
-            return node;
+        if (label.equals(rootName)) {
+            return rootNode;
         }
 
         return this.nodes.get(label);

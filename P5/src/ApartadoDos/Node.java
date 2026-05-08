@@ -28,7 +28,7 @@ public class Node<G> {
      * @param tree  the tree this node is part of
      * @param label the node's name
      */
-    Node(DecisionTree<G> tree, String label) {
+    public Node(DecisionTree<G> tree, String label) {
         this.tree = tree;
         this.label = label;
     }

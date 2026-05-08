@@ -1,10 +1,13 @@
 package ApartadoCuatro;
 
 import ApartadoDos.DecisionTree;
-import ApartadoUno.Dataset;
+import ApartadoDos.Node;
+
 import java.util.*;
+import java.util.function.Predicate;
 
 public class GreedyTreeLearner<DATA extends Comparable<DATA>, LABEL> {
+    DecisionTree<DATA> tree = new DecisionTree<>();
     private FeatureSelectionStrategy<DATA> strategy;
 
     /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
@@ -18,28 +21,49 @@ public class GreedyTreeLearner<DATA extends Comparable<DATA>, LABEL> {
 
     /*----------------------------------------------------- MISC -----------------------------------------------------*/
     public DecisionTree<DATA> learn(LabeledDataset<DATA, LABEL> dataSet) {
-        return buildTree(dataSet, dataSet.getFeaturizer().featureNames());
+        List<String> availableFeatures = new ArrayList<>(dataSet.getFeaturizer().featureNames());
+
+        Node<DATA> learnedRoot = buildTree(dataSet, availableFeatures);
+
+        tree.getRootNode().getNextNodes().put(x -> true, learnedRoot);
+
+        return tree;
     }
 
-    public DecisionTree<DATA> buildTree(LabeledDataset<DATA, LABEL> dataset, List<String> availableFeatures) {
+    public Node<DATA> buildTree(LabeledDataset<DATA, LABEL> dataset, List<String> availableFeatures) {
         DecisionTree<DATA> tree = new DecisionTree<>();
         HashMap<Object, List<DATA>> splitData = new HashMap<>();
 
         /* If all labels are the same return single node with that label */
         if (dataset.getLabeledData().size() == 1) {
-            tree.node(dataset.getLabeledData().keySet().stream().toList().get(0).toString());
-            return tree;
+            String label = dataset.getLabeledData().keySet().stream().toList().get(0).toString();
+            Node<DATA> node = new Node<>(tree, label);
+            tree.addNode(node);
+            return node;
+        }
+
+        /* In case of draw, choose most common feature */
+        if (availableFeatures.isEmpty()) {
+            String commonLabel = getMostCommonLabel(dataset);
+            Node<DATA> node = new Node<>(tree, commonLabel);
+            tree.addNode(node);
+            return node;
         }
 
         /* Choose best feature to split on */
         String feat = availableFeatures.get(new Random().nextInt(availableFeatures.size()));
 
-        if(this.strategy != null){
-            feat = strategy.execute(dataset,availableFeatures);
-        } 
+        if (this.strategy != null) {
+            feat = strategy.execute(dataset, availableFeatures);
+        }
 
         /* Remove feature from the available features' list */
-        availableFeatures.remove(feat);
+        List<String> remainingFeatures = new ArrayList<>(availableFeatures);
+        remainingFeatures.remove(feat);
+
+        /* Current node for this feature*/
+        Node<DATA> currentNode = new Node<>(tree, feat);
+        tree.addNode(currentNode);
 
         /* Split data into subsets based on feature */
         for (DATA object : dataset.getObjects()) {
@@ -49,19 +73,38 @@ public class GreedyTreeLearner<DATA extends Comparable<DATA>, LABEL> {
             splitData.put(splitResult, splitDataList);
         }
 
-        /* For-each subset do: build subtree recursively */
-        for (Object splitResult : splitData.keySet()) {
-            Dataset<DATA> splitDataSet = new Dataset<>(dataset.getFeaturizer());
-            splitDataSet.addAll((DATA[]) splitData.get(splitResult).toArray());
-            DecisionTree<DATA> splitTree = new DecisionTree<>();
-            //buildTree();
+        /* For each subset do */
+        for (Map.Entry<Object, List<DATA>> entry : splitData.entrySet()) {
+            Object value = entry.getKey();
+            List<DATA> entryObjects = entry.getValue();
+            LabeledDataset<DATA, LABEL> entryDataset =
+                    new LabeledDataset<>(dataset.getFeaturizer(), dataset.getLabelProvider());
+            entryDataset.addAll((DATA[]) entryObjects.toArray());
+
+            /* Add "feat==value" condition */
+            String finalFeat = feat;
+            Predicate<DATA> condition = x -> dataset.getFeaturizer().featureValue(x, finalFeat).equals(value);
+
+            /* Build subtree recursively */
+            Node<DATA> childNode = buildTree(entryDataset, remainingFeatures);
+
+            /* Add node to current node */
+            currentNode.getNextNodes().put(condition, childNode);
         }
-        dataset.getLabeledData().forEach((LABEL, LIST_DATA) -> {
-            //LABEL == feat ? buildTree();
-        });
-        // añadir la condition "feat==value" y llamada recursiva con el subconjunto de data { x in data | x.feat ==
-        // value }
-        return null;
+
+        return currentNode;
+    }
+
+    private String getMostCommonLabel(LabeledDataset<DATA, LABEL> dataset) {
+        String majorityLabel = "";
+        int maxCount = -1;
+        for (Map.Entry<LABEL, List<DATA>> entry : dataset.getLabeledData().entrySet()) {
+            if (entry.getValue().size() > maxCount) {
+                maxCount = entry.getValue().size();
+                majorityLabel = entry.getKey().toString();
+            }
+        }
+        return majorityLabel;
     }
 
     public void setStrategy(FeatureSelectionStrategy<DATA> strategy) {
