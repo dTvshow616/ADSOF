@@ -1,4 +1,4 @@
-package ApartadoTres;
+package ApartadoCuatro;
 
 public class Weather {
     /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/

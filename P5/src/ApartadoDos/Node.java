@@ -7,15 +7,21 @@ import java.util.function.Predicate;
 
 /**
  * Implements the nodes
+ * @param <G> the type parameter
  * @author Alvaro G.S. and Ana O.R.
- * @version 1.0
+ * @version 1.3
  */
 public class Node<G> {
+    /** The tree this node belongs to */
     DecisionTree<G> tree;
+    /** This node's label */
     String label;
+    /** This node's data */
     Dataset<G> data;
+    /** This node's children (except for the otherwise node) */
     HashMap<Predicate<G>, Node<G>> nextNodes = new HashMap<>();
-    Node<G> otherwiseNode = null; // Si es null, este nodo es nodo hoja
+    /** This node's otherwise node */
+    Node<G> otherwiseNode = null;
 
     /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
 
@@ -42,7 +48,7 @@ public class Node<G> {
     }
 
     /**
-     * Adds a children node from this one following a certain condition
+     * It adds a children node from this one following a certain condition and returns this same node
      * @param label     the children node's label
      * @param condition the children node's condition
      * @return this node
@@ -57,7 +63,8 @@ public class Node<G> {
     }
 
     /**
-     * Adds a children node from this one when none of the other conditions were met
+     * It sets this node's otherwise node and returns this same node
+     * @param nodeName the otherwise node's name
      * @return this node
      */
     public Node<G> otherwise(String nodeName) {
@@ -67,6 +74,10 @@ public class Node<G> {
         return this;
     }
 
+    /**
+     * It adds an object to this node's dataset
+     * @param object the desired object
+     */
     public void addData(G object) {
         if (this.data == null) {
             this.data = new Dataset<>(this.tree.getFeaturizer());
@@ -79,13 +90,16 @@ public class Node<G> {
      */
     public void filterData() {
         //System.out.println("Filtering data for node: " + this.label);
+        /* If this is a leaf node add it to the tree's list of leaf nodes and skip the filtering */
         if (this.nextNodes.isEmpty() && this.otherwiseNode == null && this.data != null) {
             this.tree.addLeafNode(this);
+
         } else if (this.data != null) {
+            /* Filter this node's data onto its kids */
             for (G object : this.data.getObjects()) {
                 boolean alreadyAssigned = false;
                 for (Predicate<G> predicate : this.nextNodes.keySet()) {
-                    if (predicate.test(object)) {
+                    if (evaluateCondition(predicate, object)) {
                         this.nextNodes.get(predicate).addData(object);
                         alreadyAssigned = true;
                     }
@@ -94,7 +108,8 @@ public class Node<G> {
                     this.otherwiseNode.addData(object);
                 }
             }
-            // Una vez que se filtre la info llamda a los hijos
+
+            /* Filter kid's data */
             for (Node<G> node : this.nextNodes.values()) {
                 node.filterData();
             }
@@ -104,24 +119,42 @@ public class Node<G> {
         }
     }
 
+    /**
+     * It clears this node's data
+     */
     public void clearData() {
         this.data = null;
     }
 
     /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
+
+    /**
+     * It gets this node's label
+     * @return the label
+     */
     public String getLabel() {
         return this.label;
     }
 
+    /**
+     * It gets this node's otherwise node
+     * @return the otherwise node
+     */
     public Node<G> getOtherwiseNode() {
         return this.otherwiseNode;
     }
 
+    /**
+     * It sets this node's data
+     * @param newData the new data
+     */
     public void setData(Dataset<G> newData) {
         this.data = newData;
     }
 
     /*--------------------------------------------------- TOSTRING ---------------------------------------------------*/
+
+    @Override
     public String toString() {
         StringBuilder prediction = new StringBuilder();
         prediction.append(label).append("=");
