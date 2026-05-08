@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
  */
 public class Dataset<T> {
 
-    private final List<T> objects;
-    private final Featurizer<T> featurizer;
+    protected  final List<T> objects;
+    protected  final Featurizer<T> featurizer;
 
     /**
      * A Dataset's constructor
