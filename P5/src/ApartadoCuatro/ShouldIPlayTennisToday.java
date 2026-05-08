@@ -1,4 +1,4 @@
 package ApartadoCuatro;
 
-public class ShouldIPlayTennisToday implements LabelProvider {
+public class ShouldIPlayTennisToday implements LabelProvider<Boolean> {
 }

@@ -1,8 +1,12 @@
 package ApartadoCuatro;
 
-public class LabeledDataset<G, U> {
+import ApartadoUno.Dataset;
+import ApartadoUno.Featurizer;
+
+public class LabeledDataset<G, U> extends Dataset<G> {
     /*------------------------------------------------- CONSTRUCTOR --------------------------------------------------*/
-    LabeledDataset(G featurizer, U labelProvider) {
+    LabeledDataset(Featurizer<G> featurizer, LabelProvider<U> labelProvider) {
+        super(featurizer);
         //DUE
     }
 }

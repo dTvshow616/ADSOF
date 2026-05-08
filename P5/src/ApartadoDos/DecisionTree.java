@@ -152,6 +152,10 @@ public class DecisionTree<G> {
      * @param node the desired node
      */
     public void addLeafNode(Node<G> node) {
+        if (node == null) {
+            throw new IllegalArgumentException("Node cannot be null");
+        }
+
         this.leafNodes.add(node);
     }
 

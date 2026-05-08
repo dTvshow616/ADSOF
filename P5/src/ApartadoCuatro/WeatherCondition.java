@@ -1,5 +1,7 @@
 package ApartadoCuatro;
 
 public enum WeatherCondition {
-    RAINY
+    RAINY,
+    SUNNY,
+    CLOUDY
 }
