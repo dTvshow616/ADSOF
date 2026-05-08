@@ -1,7 +1,6 @@
 package ApartadoDos;
 
 import ApartadoUno.Dataset;
-
 import java.util.HashMap;
 import java.util.function.Predicate;
 
@@ -126,6 +125,16 @@ public class Node<G> {
         this.data = null;
     }
 
+    public void accept(Visitor<G> visitor) {
+        visitor.visit(this);
+        for (Node<G> child : nextNodes.values()) {
+            child.accept(visitor);
+        }
+        if (otherwiseNode != null) {
+            otherwiseNode.accept(visitor);
+        }
+    }
+
     /*----------------------------------------------- GETTERS & SETTERS ----------------------------------------------*/
 
     /**
@@ -142,6 +151,10 @@ public class Node<G> {
      */
     public Node<G> getOtherwiseNode() {
         return this.otherwiseNode;
+    }
+
+    public HashMap<Predicate<G>, Node<G>> getNextNodes(){
+        return this.getNextNodes();
     }
 
     /**
