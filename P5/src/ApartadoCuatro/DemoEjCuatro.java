@@ -1,9 +1,17 @@
 package ApartadoCuatro;
 
 import ApartadoDos.DecisionTree;
+import ApartadoUno.Dataset;
 
 public class DemoEjCuatro {
     /*----------------------------------------------------- MISC -----------------------------------------------------*/
+    public static void main(String[] args) {
+        DecisionTree<Weather> dt = learnTree();
+        System.out.println(dt);
+        Dataset<Weather> dataset = buildAnotherDataset();
+        dt.predict(dataset);
+    }
+
     public static DecisionTree<Weather> learnTree() {
         LabeledDataset<Weather, Boolean> dataSet = buildDataSet();
         GreedyTreeLearner<Weather, Boolean> learner = new GreedyTreeLearner<>();
@@ -23,4 +31,18 @@ public class DemoEjCuatro {
         ds.addAll(conditions);
         return ds;
     }
+
+    private static Dataset<Weather> buildAnotherDataset() {
+        Weather[] conditions = {new Weather(WeatherCondition.CLOUDY, Temperature.COLD),
+                                new Weather(WeatherCondition.RAINY, Temperature.HOT),
+                                new Weather(WeatherCondition.SUNNY, Temperature.HOT),
+                                new Weather(WeatherCondition.SUNNY, Temperature.COLD),
+                                new Weather(WeatherCondition.CLOUDY, Temperature.COLD)};
+
+        Dataset<Weather> dataSet = new Dataset<>(new WeatherFeaturizer());
+        dataSet.addAll(conditions);
+        return dataSet;
+    }
+
+    ;
 }
